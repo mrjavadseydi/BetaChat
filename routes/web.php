@@ -17,3 +17,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::any('/telegram',[TelegramController::class,'init']);
+Route::get('test',function(){
+    \Illuminate\Support\Facades\Artisan::call('migrate:fresh');
+$app= \Illuminate\Support\Facades\Cache::get('app');
+dd($app);
+}
+);

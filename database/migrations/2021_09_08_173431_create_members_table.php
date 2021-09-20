@@ -20,6 +20,7 @@ class CreateMembersTable extends Migration
             $table->string('state')->nullable();
             $table->string('profile')->nullable();
             $table->string('name')->nullable();
+            $table->string('username')->nullable();
             $table->string('bio')->nullable();
             $table->enum('gender',['male','female',null]);
             $table->foreignId('province_id')->constrained('provinces')->onDelete('cascade');

@@ -9,81 +9,27 @@ if (!function_exists('backButton')) {
         return Keyboard::make(['keyboard' => $btn, 'resize_keyboard' => true, 'one_time_keyboard' => true]);
     }
 }
-if (!function_exists('ConfirmAndBackButton')) {
-    function ConfirmAndBackButton()
-    {
-        $btn = Keyboard::button([['بازگشت ↪️', '✅تایید']]);
-        return Keyboard::make(['keyboard' => $btn, 'resize_keyboard' => true, 'one_time_keyboard' => true]);
-    }
-}
-
 if (!function_exists('menuButton')) {
     function menuButton()
     {
         $btn = Keyboard::button(
             [
-                ['💰 فروش به ما', '💳 خرید از ما'],
-                ['💸 خرید/فروش های من', '📄 نرخ ارزها'],
-                ['⁉️ سوالات متداول', '💡 راهنما'],
-                ['📞 تماس با ما', '👮 قوانین و مقررات'],
-                ['👤 پروفایل کاربری']
+                ['🔱 به یه ناشناس وصلم کن'],
+                ['💎پروفایل من💎', '💰سکه💰'],
+                ['❔راهنما❕', '🆘پشتیبانی🆘'],
+                ['⚜️قوانین⚜️'],
             ]
         );
         return Keyboard::make(['keyboard' => $btn, 'resize_keyboard' => true, 'one_time_keyboard' => true]);
     }
 }
-if (!function_exists('adminButton')) {
-    function adminButton()
+if (!function_exists('onChatButton')) {
+    function onChatButton()
     {
         $btn = Keyboard::button(
             [
-                ['تنظیم متن', 'تنظیم گروه'],
-                ['تنظیم قیمت', 'تنظیم کانال'],
-                ['ارسال همگانی'],
-                ['بازگشت ↪️']
-            ]
-        );
-        return Keyboard::make(['keyboard' => $btn, 'resize_keyboard' => true, 'one_time_keyboard' => true]);
-    }
-}
-if (!function_exists('setTextButton')) {
-    function setTextButton()
-    {
-        $btn = Keyboard::button(
-            [
-                ['تماس با ما'],
-                ['سوالات متداول'],
-                ['راهنما'],
-                ['قوانین'],
-                ['عضویت در کانال'],
-                ['بازگشت ↪️']
-            ]
-        );
-        return Keyboard::make(['keyboard' => $btn, 'resize_keyboard' => true, 'one_time_keyboard' => true]);
-    }
-}
-if (!function_exists('setGroupButton')) {
-    function setGroupButton()
-    {
-        $btn = Keyboard::button(
-            [
-                ['گروه خرید'],
-                ['گروه فروش'],
-                ['گروه احراز هویت'],
-                ['بازگشت ↪️']
-            ]
-        );
-        return Keyboard::make(['keyboard' => $btn, 'resize_keyboard' => true, 'one_time_keyboard' => true]);
-    }
-}
-
-if (!function_exists('activationButton')) {
-    function activationButton()
-    {
-        $btn = Keyboard::button(
-            [
-                ['🟢 احراز هویت 🟢'],
-                ['بازگشت ↪️']
+                ['🔦مشاهده پروفایل🔦'],
+                ['❌قطع ارتباط❌'],
             ]
 
         );
@@ -105,21 +51,81 @@ if (!function_exists('joinKey')) {
         ]);
     }
 }
-if (!function_exists('sendPhone')) {
-    function sendPhoneButton()
+if (!function_exists('mediaKey')) {
+    function mediaKey($id)
     {
-        $btn = Keyboard::button(
-            [
+        return keyboard::make([
+            'inline_keyboard' => [
                 [
-                    ['text' => "📞 ارسال شماره تلفن ☎️", 'request_contact' => true]]
-                ,
-                [
-                    ['text' => 'بازگشت ↪️']
+                    [
+                        'text' => "🔐مشاهده🔐",
+                        'callback_data' => "media-$id"
+                    ]
                 ]
-            ]
-
-        );
-        return Keyboard::make(['keyboard' => $btn, 'resize_keyboard' => true, 'one_time_keyboard' => true]);
+            ],
+        ]);
+    }
+}
+if (!function_exists('connectButton')) {
+    function connectButton($male,$female,$gender,$province,$city,$location)
+    {
+        return keyboard::make([
+            'inline_keyboard' => [
+                [
+                    [
+                        'text' => "⛓اتصال",
+                        'callback_data' => "connect-connect"
+                    ],
+                    [
+                        [
+                            'text'=>$male,
+                            'callback_data'=>'connect-male'
+                        ],
+                        [
+                            'text'=>$female,
+                            'callback_data'=>'connect-female'
+                        ],
+                        [
+                            'text'=>$gender,
+                            'callback_data'=>'connect-gender'
+                        ]
+                    ],
+                    [
+                        [
+                            'text'=>$province,
+                            'callback_data'=>'connect-province'
+                        ],
+                        [
+                            'text'=>$city,
+                            'callback_data'=>'connect-city'
+                        ],
+                        [
+                            'text'=>$location,
+                            'callback_data'=>'connect-location'
+                        ]
+                    ]
+                ]
+            ],
+        ]);
+    }
+}
+if (!function_exists('disconnectButton')) {
+    function disconnectButton()
+    {
+        return keyboard::make([
+            'inline_keyboard' => [
+                [
+                    [
+                        'text' => "❌قطع ارتباط❌",
+                        'callback_data' => "disconnect-true"
+                    ],
+                    [
+                        'text' => "✅ادامه",
+                        'callback_data' => "disconnect-delete"
+                    ]
+                ]
+            ],
+        ]);
     }
 }
 if (!function_exists('activateUser')) {
@@ -154,7 +160,7 @@ if (!function_exists('payUrlButton')) {
                 [
                     [
                         'text' => "پرداخت",
-                        'url' => route('gateway.init', $id)
+                        'url' => url('/')
                     ]
 
                 ]
@@ -162,56 +168,28 @@ if (!function_exists('payUrlButton')) {
         ]);
     }
 }
-if (!function_exists('acceptPay')) {
-    function acceptPay($chat_id, $id)
+if (!function_exists('coinButton')) {
+    function coinButton()
     {
         return keyboard::make([
             'inline_keyboard' => [
                 [
                     [
-                        'text' => "تایید",
-                        'callback_data' => "pay-$id-$chat_id"
+                        'text' => "🥉بسته برنزی ۴۰ سکه💰۱۰ هزار تومان(۱۰٪ تخفیف)",
+                        'callback_data' => "pay-20"
                     ],
                     [
-                        'text' => "رد",
-                        'callback_data' => "notPay-$id-$chat_id"
+                        'text' => "🥈بسته نقره ای ۱۰۰ سکه💰۲۰ هزار تومان(۱۵٪تخفیف)",
+                        'callback_data' => "pay-100"
                     ],
                     [
-                        'text' => "بلاک",
-                        'callback_data' => "block-$id-$chat_id"
+                        'text' => "🥇بسته طلایی ۲۰۰ سکه💰۳۵ هزار تومان(۱۷٪تخفیف)",
+                        'callback_data' => "pay-200"
                     ],
-
-                ]
-            ],
-        ]);
-    }
-}
-if (!function_exists('paidButton')) {
-    function paidButton($chat_id, $id)
-    {
-        return keyboard::make([
-            'inline_keyboard' => [
-                [
                     [
-                        'text' => "واریز شد!",
-                        'callback_data' => "paid-$id-$chat_id"
-                    ]
-
-                ]
-            ],
-        ]);
-    }
-}
-if (!function_exists('WalletKey')) {
-    function WalletKey()
-    {
-        return keyboard::make([
-            'inline_keyboard' => [
-                [
-                    [
-                        'text' => "💵 موجودی حساب 💵",
-                        'callback_data' => "mojodi"
-                    ]
+                        'text' => "💎بسته الماس ۵۰۰ سکه 💰 ۶۰ هزار تومان(۲۱٪تخفیف)",
+                        'callback_data' => "pay-500"
+                    ],
                 ]
             ],
         ]);
