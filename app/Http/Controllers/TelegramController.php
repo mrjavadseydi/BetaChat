@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\traits\ConnectTrait;
 use App\Http\Controllers\traits\InlineQuery;
+use App\Http\Controllers\traits\OnChatTrait;
 use App\Http\Controllers\traits\ProfileTrait;
 use App\Http\Controllers\traits\TextTrait;
 use App\Models\Connect;
@@ -20,7 +21,7 @@ class TelegramController extends Controller
     public $chat_id;
     public $from_id;
     public $user = null;
-    use ProfileTrait,InlineQuery,TextTrait,ConnectTrait;
+    use ProfileTrait,InlineQuery,TextTrait,ConnectTrait,OnChatTrait;
     public function init(Request $request){
         $req = $request->toArray();
         devLog($req);
@@ -83,6 +84,10 @@ class TelegramController extends Controller
             case "ProfilePhoto":
                 $this->SetProfilePhoto($req);
                 break;
+            case "onChat":
+                return  $this->ManageOnChat($req);
+                break;
+
         }
         switch ($this->text){
             case "💎پروفایل من💎":

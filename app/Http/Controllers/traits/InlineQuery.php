@@ -48,6 +48,15 @@ trait InlineQuery
                 ]);
                 $this->insertConnect( $req['callback_query']['from']['id']);
                 break;
+            case "disconnect":
+                deleteMessage([
+                    'chat_id' => $req['callback_query']['from']['id'],
+                    'message_id' => $req['callback_query']['message']['message_id']
+                ]);
+                if ($ex[1]=="true"){
+                    $this->DisconnectChat( $req['callback_query']['from']['id']);
+                }
+                break;
         }
     }
 }
