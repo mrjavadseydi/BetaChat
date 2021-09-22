@@ -16,11 +16,14 @@ class CreateConnectsTable extends Migration
         Schema::create('connects', function (Blueprint $table) {
             $table->id();
             $table->string('chat_id');
-            $table->integer('statue')->default(-1);
+            $table->integer('status')->default(-1);
             $table->string('gender')->default('any');
             $table->string('province')->default('any');
             $table->string('city')->default('any');
             $table->string('connected_to')->default(0);
+            $table->string('user_gender')->nullable();
+            $table->integer('user_city')->nullable();
+            $table->integer('province_id')->nullable();
             $table->timestamps();
         });
     }

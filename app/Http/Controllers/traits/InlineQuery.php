@@ -39,11 +39,14 @@ trait InlineQuery
                 }
                 break;
             case "connect":
+                $this->SetFilter($req['callback_query']['from']['id'],$ex[1],$req['callback_query']['message']['message_id']);
+                break;
+            case "initConnect":
                 deleteMessage([
                     'chat_id' => $req['callback_query']['from']['id'],
                     'message_id' => $req['callback_query']['message']['message_id']
                 ]);
-                $this->SetFilter($req['callback_query']['from']['id'],$ex[1]);
+                $this->insertConnect( $req['callback_query']['from']['id']);
                 break;
         }
     }

@@ -7,6 +7,7 @@ use App\Http\Controllers\traits\ConnectTrait;
 use App\Http\Controllers\traits\InlineQuery;
 use App\Http\Controllers\traits\ProfileTrait;
 use App\Http\Controllers\traits\TextTrait;
+use App\Models\Connect;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -40,19 +41,24 @@ class TelegramController extends Controller
         $this->from_id = $req['message']['from']['id'] ?? "";
         if ($req['message']['chat']['type'] == "private") {
             if (!($user = Member::where('chat_id', $this->chat_id)->first())) {
-                $profile = Telegram::getUserProfilePhotos(['user_id'=>$this->chat_id]);
-                if($profile->total_count>0){
-                    $profile = end($profile->photos[0])['file_id'];
-                }else{
+                try{
+                    $profile = Telegram::getUserProfilePhotos(['user_id'=>$this->chat_id]);
+                    if($profile->total_count>0){
+                        $profile = end($profile->photos[0])['file_id'];
+                    }else{
+                        $profile = null;
+                    }
+                }catch (\Exception $e){
                     $profile = null;
                 }
+
                 $user = Member::create([
                     'chat_id' => $this->chat_id,
                     'name'=>$req['message']['from']['first_name'],
                     'username'=>$req['message']['from']['username']??null,
                     'profile'=>$profile,
                     'uniq'=>uniqid(),
-                    'gender'=>null
+                    'gender'=>'null'
                 ]);
             } else {
                 $user = Member::where('chat_id', $this->chat_id)->first();
@@ -64,6 +70,9 @@ class TelegramController extends Controller
 
         if ($this->text=="/start"||$this->text=="بازگشت ↪️"&&$user->state!="onChat"){
             nullState($this->chat_id);
+            Connect::where([['chat_id',$this->chat_id],['status',0]])->update([
+                'status'=>-2
+            ]);
             return $this->start();
         }
 //        devLog($user->state);
