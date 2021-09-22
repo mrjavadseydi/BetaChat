@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\traits\InlineQuery;
 use App\Http\Controllers\traits\ProfileTrait;
+use App\Http\Controllers\traits\TextTrait;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -17,7 +18,7 @@ class TelegramController extends Controller
     public $chat_id;
     public $from_id;
     public $user = null;
-    use ProfileTrait,InlineQuery;
+    use ProfileTrait,InlineQuery,TextTrait;
     public function init(Request $request){
         $req = $request->toArray();
         devLog($req);
@@ -77,7 +78,18 @@ class TelegramController extends Controller
             case "💎پروفایل من💎":
                 $this->sendProfile();
                 break;
-
+            case "⚜️قوانین⚜️":
+                $this->getRole();
+                break;
+            case "🆘پشتیبانی🆘":
+                $this->getSupport();
+                break;
+            case "❔راهنما❕":
+                $this->getHelp();
+                break;
+            case "💰سکه💰":
+                $this->getCoin();
+                break;
             default :
                 break;
         }

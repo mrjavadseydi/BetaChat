@@ -56,7 +56,6 @@ trait ProfileTrait
     public  function SetProfileName(){
         if($this->message_type=="message"){
             nullState($this->chat_id);
-
             sendMessage([
                 'chat_id'=>$this->chat_id,
                 'text'=>'نام شما تغییر کرد',

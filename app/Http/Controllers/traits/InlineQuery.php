@@ -37,6 +37,7 @@ trait InlineQuery
                         $this->SetProfileCity($req['callback_query']['from']['id'],$ex[2]);
                         break;
                 }
+                break;
         }
     }
 }
