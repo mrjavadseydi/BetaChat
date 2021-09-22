@@ -22,7 +22,7 @@ class CreateMembersTable extends Migration
             $table->string('name')->nullable();
             $table->string('username')->nullable();
             $table->string('bio')->nullable();
-            $table->enum('gender',['male','female',null]);
+            $table->enum('gender',['male','female',null])->default(null);
             $table->foreignId('province_id')->constrained('provinces')->onDelete('cascade');
             $table->foreignId('city_id')->constrained('cities')->onDelete('cascade');
             $table->integer('wallet')->default(5);

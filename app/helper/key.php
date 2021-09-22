@@ -66,8 +66,56 @@ if (!function_exists('mediaKey')) {
         ]);
     }
 }
+if (!function_exists('genderSelect')) {
+    function genderSelect()
+    {
+        return keyboard::make([
+            'inline_keyboard' => [
+                [
+                    [
+                        'text' => "🙍🏻‍♀️ خانوم",
+                        'callback_data' => "profile-gender-female"
+                    ], [
+                    'text' => "🙎🏻‍♂️آقا",
+                    'callback_data' => "profile-gender-male"
+                ],
+
+                ]
+            ],
+        ]);
+    }
+}
+if (!function_exists('changeProfile')) {
+    function changeProfile()
+    {
+        return keyboard::make([
+            'inline_keyboard' => [
+                [
+                    [
+                        'text' => "تغییر نام",
+                        'callback_data' => "profile-changeName"
+                    ],
+                    [
+                        'text' => "تغییر عکس پروفایل",
+                        'callback_data' => "profile-profile"
+                    ]
+                ],
+                [
+                    [
+                        'text' => "تغییر جنسیت",
+                        'callback_data' => "profile-selectGender"
+                    ],
+                    [
+                        'text' => "تغییر استان و شهرستان",
+                        'callback_data' => "profile-place"
+                    ]
+                ]
+            ],
+        ]);
+    }
+}
 if (!function_exists('connectButton')) {
-    function connectButton($male,$female,$gender,$province,$city,$location)
+    function connectButton($male, $female, $gender, $province, $city, $location)
     {
         return keyboard::make([
             'inline_keyboard' => [
@@ -78,30 +126,30 @@ if (!function_exists('connectButton')) {
                     ],
                     [
                         [
-                            'text'=>$male,
-                            'callback_data'=>'connect-male'
+                            'text' => $male,
+                            'callback_data' => 'connect-male'
                         ],
                         [
-                            'text'=>$female,
-                            'callback_data'=>'connect-female'
+                            'text' => $female,
+                            'callback_data' => 'connect-female'
                         ],
                         [
-                            'text'=>$gender,
-                            'callback_data'=>'connect-gender'
+                            'text' => $gender,
+                            'callback_data' => 'connect-gender'
                         ]
                     ],
                     [
                         [
-                            'text'=>$province,
-                            'callback_data'=>'connect-province'
+                            'text' => $province,
+                            'callback_data' => 'connect-province'
                         ],
                         [
-                            'text'=>$city,
-                            'callback_data'=>'connect-city'
+                            'text' => $city,
+                            'callback_data' => 'connect-city'
                         ],
                         [
-                            'text'=>$location,
-                            'callback_data'=>'connect-location'
+                            'text' => $location,
+                            'callback_data' => 'connect-location'
                         ]
                     ]
                 ]
@@ -192,6 +240,51 @@ if (!function_exists('coinButton')) {
                     ],
                 ]
             ],
+        ]);
+    }
+}
+if (!function_exists('provinceButton')) {
+    function provinceButton()
+    {
+        $provinces = \App\Models\Province::get();
+        $main = [];
+
+        for($i=0;$i<count($provinces);$i++){
+
+            $temp[] = [
+                'text'=>$provinces[$i]['title'],
+                'callback_data'=>"profile-setProvince-".$provinces[$i]['id']
+            ];
+            if($i%3==0&&$i!=0){
+                $main[] = $temp;
+                $temp = [];
+            }
+        }
+        return keyboard::make([
+            'inline_keyboard' =>
+                $main,
+        ]);
+    }
+}
+if (!function_exists('cityButton')) {
+    function cityButton($id)
+    {
+        $provinces = \App\Models\City::where('province_id',$id)->get();
+        $main = [];
+        for($i=0;$i<count($provinces);$i++){
+
+            $temp[] = [
+                'text'=>$provinces[$i]['title'],
+                'callback_data'=>"profile-setCity-".$provinces[$i]['id']
+            ];
+            if($i%3==0&&$i!=0){
+                $main[] = $temp;
+                $temp = [];
+            }
+        }
+        return keyboard::make([
+            'inline_keyboard' =>
+                $main,
         ]);
     }
 }

@@ -18,8 +18,24 @@ Route::get('/', function () {
 });
 Route::any('/telegram',[TelegramController::class,'init']);
 Route::get('test',function(){
-    \Illuminate\Support\Facades\Artisan::call('migrate:fresh');
-$app= \Illuminate\Support\Facades\Cache::get('app');
-dd($app);
+////    \Illuminate\Support\Facades\Artisan::call('migrate:fresh');
+//$app= \Illuminate\Support\Facades\Cache::get('newReq');
+//dd($app);
+
+//    dd($main);
+    $provinces = \App\Models\City::where('province_id',10)->get();
+    $main = [];
+    for($i=0;$i<count($provinces);$i++){
+
+        $temp[] = [
+            'text'=>$provinces[$i]['title'],
+            'callback_data'=>"profile-setCity-".$provinces[$i]['id']
+        ];
+        if($i%3==0&&$i!=0){
+            $main[] = $temp;
+            $temp = [];
+        }
+    }
+    dd($main);
 }
 );
