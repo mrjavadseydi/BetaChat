@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\Controllers\traits\ConnectTrait;
 use App\Http\Controllers\traits\InlineQuery;
 use App\Http\Controllers\traits\ProfileTrait;
 use App\Http\Controllers\traits\TextTrait;
@@ -18,7 +19,7 @@ class TelegramController extends Controller
     public $chat_id;
     public $from_id;
     public $user = null;
-    use ProfileTrait,InlineQuery,TextTrait;
+    use ProfileTrait,InlineQuery,TextTrait,ConnectTrait;
     public function init(Request $request){
         $req = $request->toArray();
         devLog($req);
@@ -89,6 +90,9 @@ class TelegramController extends Controller
                 break;
             case "💰سکه💰":
                 $this->getCoin();
+                break;
+            case "🔱 به یه ناشناس وصلم کن":
+                $this->initToConnect();
                 break;
             default :
                 break;

@@ -119,40 +119,42 @@ if (!function_exists('connectButton')) {
     {
         return keyboard::make([
             'inline_keyboard' => [
+
                 [
                     [
                         'text' => "⛓اتصال",
-                        'callback_data' => "connect-connect"
+                        'callback_data' => "initConnect-connect"
+                    ]
+                ],
+                [
+                    [
+                        'text' => $male,
+                        'callback_data' => 'connect-male'
                     ],
                     [
-                        [
-                            'text' => $male,
-                            'callback_data' => 'connect-male'
-                        ],
-                        [
-                            'text' => $female,
-                            'callback_data' => 'connect-female'
-                        ],
-                        [
-                            'text' => $gender,
-                            'callback_data' => 'connect-gender'
-                        ]
+                        'text' => $female,
+                        'callback_data' => 'connect-female'
                     ],
                     [
-                        [
-                            'text' => $province,
-                            'callback_data' => 'connect-province'
-                        ],
-                        [
-                            'text' => $city,
-                            'callback_data' => 'connect-city'
-                        ],
-                        [
-                            'text' => $location,
-                            'callback_data' => 'connect-location'
-                        ]
+                        'text' => $gender,
+                        'callback_data' => 'connect-gender'
+                    ]
+                ],
+                [
+                    [
+                        'text' => $province,
+                        'callback_data' => 'connect-province'
+                    ],
+                    [
+                        'text' => $city,
+                        'callback_data' => 'connect-city'
+                    ],
+                    [
+                        'text' => $location,
+                        'callback_data' => 'connect-location'
                     ]
                 ]
+                
             ],
         ]);
     }
@@ -255,13 +257,13 @@ if (!function_exists('provinceButton')) {
         $provinces = \App\Models\Province::get();
         $main = [];
 
-        for($i=0;$i<count($provinces);$i++){
+        for ($i = 0; $i < count($provinces); $i++) {
 
             $temp[] = [
-                'text'=>$provinces[$i]['title'],
-                'callback_data'=>"profile-setProvince-".$provinces[$i]['id']
+                'text' => $provinces[$i]['title'],
+                'callback_data' => "profile-setProvince-" . $provinces[$i]['id']
             ];
-            if($i%3==0&&$i!=0){
+            if ($i % 3 == 0 && $i != 0) {
                 $main[] = $temp;
                 $temp = [];
             }
@@ -275,15 +277,15 @@ if (!function_exists('provinceButton')) {
 if (!function_exists('cityButton')) {
     function cityButton($id)
     {
-        $provinces = \App\Models\City::where('province_id',$id)->get();
+        $provinces = \App\Models\City::where('province_id', $id)->get();
         $main = [];
-        for($i=0;$i<count($provinces);$i++){
+        for ($i = 0; $i < count($provinces); $i++) {
 
             $temp[] = [
-                'text'=>$provinces[$i]['title'],
-                'callback_data'=>"profile-setCity-".$provinces[$i]['id']
+                'text' => $provinces[$i]['title'],
+                'callback_data' => "profile-setCity-" . $provinces[$i]['id']
             ];
-            if($i%3==0&&$i!=0){
+            if ($i % 3 == 0 && $i != 0) {
                 $main[] = $temp;
                 $temp = [];
             }

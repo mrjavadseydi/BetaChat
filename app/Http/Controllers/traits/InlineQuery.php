@@ -38,6 +38,13 @@ trait InlineQuery
                         break;
                 }
                 break;
+            case "connect":
+                deleteMessage([
+                    'chat_id' => $req['callback_query']['from']['id'],
+                    'message_id' => $req['callback_query']['message']['message_id']
+                ]);
+                $this->SetFilter($req['callback_query']['from']['id'],$ex[1]);
+                break;
         }
     }
 }

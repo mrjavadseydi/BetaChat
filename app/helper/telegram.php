@@ -93,3 +93,30 @@ function devLog($update){
         'text'=>print_r($update,true)
     ]);
 }
+
+function makeConnectButton($filter){
+    $male = "🙎🏻‍♂️آقا فقط";
+    $female = "🙍🏻‍♀️خانوم فقط";
+    $gender = "🤷🏻فرقی نداره🤷🏻‍♀️";
+    $province = "📍هم استانی ";
+    $city = "📍هم شهری";
+    $location = "🗞فرقی نداره";
+    if ($filter['gender']=="any"){
+        $gender = "✅".$gender;
+    }elseif ($filter['gender']=="male"){
+        $male= "✅".$male;
+    }elseif ($filter['gender']=="female"){
+        $female = "✅".$female;
+    }
+    if ($filter['city']!='any'){
+        $city = "✅".$city;
+    }
+    if($filter['province']!="any"){
+        $province = "✅".$province;
+    }
+    if ($filter['province']=="any" && $filter['city']=="any"){
+        $location="✅".$location;
+    }
+    return connectButton($male,$female,$gender,$province,$city,$location);
+
+}
