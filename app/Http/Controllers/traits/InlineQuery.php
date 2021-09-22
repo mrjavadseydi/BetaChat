@@ -57,6 +57,9 @@ trait InlineQuery
                     $this->DisconnectChat( $req['callback_query']['from']['id']);
                 }
                 break;
+            case "media":
+                $this->sendMediaFromData($req['callback_query']['from']['id'],$ex[1]);
+                break;
         }
     }
 }

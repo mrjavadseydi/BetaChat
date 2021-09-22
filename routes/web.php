@@ -152,6 +152,51 @@ Route::get('test',function(){
                 $p2 =  \App\Models\Member::where('chat_id',$peer->chat_id)->first();
                 connectUsersConfig($p1,$p2,$search,$peer);
             }
+        }elseif ($search->gender=="any"&$search->city!="any"&$search->province!="any"){
+            $peer = \App\Models\Connect::query()->
+            Where([['gender','any'],['city','any'],['province','any'],['status',0],['chat_id','!=',$search->chat_id],['user_province',$search->province],['user_city',$search->city]])
+                ->orWhere([['gender','any'],['city',$search->user_city],['province','any'],['status',0],['chat_id','!=',$search->chat_id],['user_province',$search->province],['user_city',$search->city]])
+                ->orWhere([['gender','any'],['city',"any"],['province',$search->user_province],['status',0],['chat_id','!=',$search->chat_id],['user_province',$search->province],['user_city',$search->city]])
+                ->orWhere([['gender','any'],['city',$search->user_city],['province',$search->user_province],['status',0],['chat_id','!=',$search->chat_id],['user_province',$search->province],['user_city',$search->city]])
+                ->orWhere([['gender',$search->user_gender],['city',$search->user_city],['province','any'],['status',0],['chat_id','!=',$search->chat_id],['user_province',$search->province],['user_city',$search->city]])
+                ->orWhere([['gender',$search->user_gender],['city',"any"],['province',$search->user_province],['status',0],['chat_id','!=',$search->chat_id],['user_province',$search->province],['user_city',$search->city]])
+                ->orWhere([['gender',$search->user_gender],['city',$search->user_city],['province',$search->user_province],['status',0],['chat_id','!=',$search->chat_id],['user_province',$search->province],['user_city',$search->city]])
+                ->first();
+            if($peer){
+                $p1 = \App\Models\Member::where('chat_id',$search->chat_id)->first();
+                $p2 =  \App\Models\Member::where('chat_id',$peer->chat_id)->first();
+                connectUsersConfig($p1,$p2,$search,$peer);
+            }
+        }elseif ($search->gender=="any"&$search->city=="any"&$search->province!="any"){
+            $peer = \App\Models\Connect::query()->
+            Where([['gender','any'],['city','any'],['province','any'],['status',0],['chat_id','!=',$search->chat_id],['user_province',$search->province]])
+                ->orWhere([['gender','any'],['city',$search->user_city],['province','any'],['status',0],['chat_id','!=',$search->chat_id],['user_province',$search->province]])
+                ->orWhere([['gender','any'],['city',"any"],['province',$search->user_province],['status',0],['chat_id','!=',$search->chat_id],['user_province',$search->province]])
+                ->orWhere([['gender','any'],['city',$search->user_city],['province',$search->user_province],['status',0],['chat_id','!=',$search->chat_id],['user_province',$search->province]])
+                ->orWhere([['gender',$search->user_gender],['city',$search->user_city],['province','any'],['status',0],['chat_id','!=',$search->chat_id],['user_province',$search->province]])
+                ->orWhere([['gender',$search->user_gender],['city',"any"],['province',$search->user_province],['status',0],['chat_id','!=',$search->chat_id],['user_province',$search->province]])
+                ->orWhere([['gender',$search->user_gender],['city',$search->user_city],['province',$search->user_province],['status',0],['chat_id','!=',$search->chat_id],['user_province',$search->province]])
+                ->first();
+            if($peer){
+                $p1 = \App\Models\Member::where('chat_id',$search->chat_id)->first();
+                $p2 =  \App\Models\Member::where('chat_id',$peer->chat_id)->first();
+                connectUsersConfig($p1,$p2,$search,$peer);
+            }
+        }elseif ($search->gender=="any"&$search->city!="any"&$search->province=="any"){
+            $peer = \App\Models\Connect::query()->
+            Where([['gender','any'],['city','any'],['province','any'],['status',0],['chat_id','!=',$search->chat_id],['user_city',$search->city]])
+                ->orWhere([['gender','any'],['city',$search->user_city],['province','any'],['status',0],['chat_id','!=',$search->chat_id],['user_city',$search->city]])
+                ->orWhere([['gender','any'],['city',"any"],['province',$search->user_province],['status',0],['chat_id','!=',$search->chat_id],['user_city',$search->city]])
+                ->orWhere([['gender','any'],['city',$search->user_city],['province',$search->user_province],['status',0],['chat_id','!=',$search->chat_id],['user_city',$search->city]])
+                ->orWhere([['gender',$search->user_gender],['city',$search->user_city],['province','any'],['status',0],['chat_id','!=',$search->chat_id],['user_city',$search->city]])
+                ->orWhere([['gender',$search->user_gender],['city',"any"],['province',$search->user_province],['status',0],['chat_id','!=',$search->chat_id],['user_city',$search->city]])
+                ->orWhere([['gender',$search->user_gender],['city',$search->user_city],['province',$search->user_province],['status',0],['chat_id','!=',$search->chat_id],['user_city',$search->city]])
+                ->first();
+            if($peer){
+                $p1 = \App\Models\Member::where('chat_id',$search->chat_id)->first();
+                $p2 =  \App\Models\Member::where('chat_id',$peer->chat_id)->first();
+                connectUsersConfig($p1,$p2,$search,$peer);
+            }
         }
     }
 }

@@ -53,6 +53,42 @@ if (!function_exists('sendPhoto')){
         }
     }
 }
+if (!function_exists('sendAnimation')){
+    function sendAnimation($arr){
+        try{
+            return Telegram::sendAnimation($arr);
+        }catch (Exception $e){
+
+        }
+    }
+}
+if (!function_exists('sendDocument')){
+    function sendDocument($arr){
+        try{
+            return Telegram::sendDocument($arr);
+        }catch (Exception $e){
+
+        }
+    }
+}
+if (!function_exists('sendVideo')){
+    function sendVideo($arr){
+        try{
+            return Telegram::sendVideo($arr);
+        }catch (Exception $e){
+
+        }
+    }
+}
+if (!function_exists('sendVoice')){
+    function sendVoice($arr){
+        try{
+            return Telegram::sendVoice($arr);
+        }catch (Exception $e){
+
+        }
+    }
+}
 if (!function_exists('deleteMessage')){
     function deleteMessage($arr){
         try{
@@ -72,10 +108,14 @@ if(!function_exists('messageType')) {
             return 'photo';
         } elseif (isset($arr['message']['audio'])) {
             return 'audio';
-        } elseif (isset($arr['message']['document'])) {
+        } elseif (isset($arr['message']['animation'])) {
+            return 'animation';
+        }  elseif (isset($arr['message']['document'])) {
             return 'document';
         } elseif (isset($arr['message']['video'])) {
             return 'video';
+        } elseif (isset($arr['message']['voice'])) {
+            return 'voice';
         } elseif (isset($arr['callback_query'])) {
             return 'callback_query';
         } elseif (isset($arr['message']['contact'])) {
@@ -121,6 +161,7 @@ function makeConnectButton($filter){
 
 }
 function connectUsersConfig($p1,$p2,$search,$peer){
+    $uniq = uniqid();
     $p1->update([
         'wallet'=>$p1->wallet -$search->cost,
     ]);
@@ -128,7 +169,7 @@ function connectUsersConfig($p1,$p2,$search,$peer){
         'wallet'=>$p2->wallet -$peer->cost,
     ]);
     \App\Models\ConnectLog::create([
-        'uniq'=>uniqid(),
+        'uniq'=>$uniq,
         'user_1'=>$p1->chat_id,
         'user_2'=>$p2->chat_id,
     ]);
@@ -150,6 +191,8 @@ function connectUsersConfig($p1,$p2,$search,$peer){
         'text'=>"😃به یکی وصل شدی ! سلام کن",
         'reply_markup'=>onChatButton()
     ]);
+    Cache::put($peer->chat_id.'onChat',$uniq);
+    Cache::put($search->chat_id.'onChat',$uniq);
     setState($peer->chat_id,'onChat');
     setState($search->chat_id,'onChat');
 }
