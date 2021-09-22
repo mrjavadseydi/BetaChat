@@ -108,7 +108,8 @@ trait ConnectTrait
                 'connected_to'=>"0",
                 'user_gender'=>$me->gender,
                 'user_city'=>$me->city_id,
-                'user_province'=>$me->province_id
+                'user_province'=>$me->province_id,
+                'cost'=>$init
             ]);
             sendMessage([
                 'chat_id'=>$chat_id,

@@ -120,3 +120,36 @@ function makeConnectButton($filter){
     return connectButton($male,$female,$gender,$province,$city,$location);
 
 }
+function connectUsersConfig($p1,$p2,$search,$peer){
+    $p1->update([
+        'wallet'=>$p1->wallet -$search->cost,
+    ]);
+    $p2->update([
+        'wallet'=>$p2->wallet -$peer->cost,
+    ]);
+    \App\Models\ConnectLog::create([
+        'uniq'=>uniqid(),
+        'user_1'=>$p1->chat_id,
+        'user_2'=>$p2->chat_id,
+    ]);
+    $search->update([
+        'status'=>1,
+        'connected_to'=>$peer->chat_id,
+    ]);
+    $peer->update([
+        'status'=>1,
+        'connected_to'=>$search->chat_id,
+    ]);
+    sendMessage([
+        'chat_id'=>$peer->chat_id,
+        'text'=>"😃به یکی وصل شدی ! سلام کن",
+        'reply_markup'=>onChatButton()
+    ]);
+    sendMessage([
+        'chat_id'=>$search->chat_id,
+        'text'=>"😃به یکی وصل شدی ! سلام کن",
+        'reply_markup'=>onChatButton()
+    ]);
+    setState($peer->chat_id,'onChat');
+    setState($search->chat_id,'onChat');
+}

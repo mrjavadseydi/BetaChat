@@ -24,6 +24,7 @@ class CreateConnectsTable extends Migration
             $table->string('user_gender')->nullable();
             $table->integer('user_city')->nullable();
             $table->integer('province_id')->nullable();
+            $table->integer('cost')->nullable();
             $table->timestamps();
         });
     }
