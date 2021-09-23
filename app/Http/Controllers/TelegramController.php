@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\traits\ConnectTrait;
 use App\Http\Controllers\traits\InlineQuery;
 use App\Http\Controllers\traits\OnChatTrait;
+use App\Http\Controllers\traits\PaymentTrait;
 use App\Http\Controllers\traits\ProfileTrait;
 use App\Http\Controllers\traits\TextTrait;
 use App\Models\Connect;
@@ -21,21 +22,13 @@ class TelegramController extends Controller
     public $chat_id;
     public $from_id;
     public $user = null;
-    use ProfileTrait,InlineQuery,TextTrait,ConnectTrait,OnChatTrait;
+    use ProfileTrait,InlineQuery,TextTrait,ConnectTrait,OnChatTrait,PaymentTrait;
     public function init(Request $request){
         $req = $request->toArray();
-        devLog($req);
         Cache::put('newReq',$req);
-//        if (Cache::has($req['update_id'])) {
-//            die();
-//        } else {
-//            Cache::put($req['update_id'], 60, 60);
-//        }
         $this->message_type = messageType($req);
         if ($this->message_type == "callback_query") {
-//            devLog($req);
-            $this->initCallBack($req);
-            exit();
+            return $this->initCallBack($req);
         }
         $this->text = $req['message']['text'] ?? "//**";
         $this->chat_id = $req['message']['chat']['id'] ?? "";
@@ -60,6 +53,11 @@ class TelegramController extends Controller
                     'profile'=>$profile,
                     'uniq'=>uniqid(),
                     'gender'=>'null'
+                ]);
+                return sendMessage([
+                    'chat_id'=>$this->chat_id,
+                    'text'=>getOption('start'),
+                    'reply_markup'=>menuButton()
                 ]);
             } else {
                 $user = Member::where('chat_id', $this->chat_id)->first();

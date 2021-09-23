@@ -201,3 +201,40 @@ Route::get('test',function(){
     }
 }
 );
+Route::get('payment',function (\Illuminate\Http\Request $request){
+    $authority = $request->Authority;
+    $status = $request->Status;
+    $order = \App\Models\Payment::where([['token',$authority],['status',0]])->first();
+    if($order){
+        $response = zarinpal()
+            ->amount($order->price)
+            ->verification()
+            ->authority($authority)
+            ->send();
+
+        if (!$response->success()) {
+            echo "خطا ! ".$response->error()->message();
+            echo "</br> در صورت نیاز از طریق پشتیبانی میتوانید پیگیری کنید!";
+            echo "</br> کد پیگیری $order->order_id";
+            return  "</br>عملیات نا موفق!";
+        }
+        $user = \App\Models\Member::where('chat_id',$order->chat_id)->first();
+        sendMessage([
+            'chat_id'=>$order->chat_id,
+            'text'=> "تراکنش موفق ! کد پیگیری شما !".$response->referenceId()."\n مقدار $order->count سکه به حساب شما افزوده شد !"
+        ]);
+        $user->update([
+            'wallet'=>$user->wallet+$order->count
+        ]);
+        $order->update([
+            'status'=>1,
+            'order_id'=>$response->referenceId()
+        ]);
+        return  "تراکنش موفق ! کد پیگیری شما !".$response->referenceId()."<br> مقدار $order->count سکه به حساب شما افزوده شد !";
+
+    }else{
+        return "این تراکنش پیدا نشد !";
+    }
+
+})->name('pay');
+

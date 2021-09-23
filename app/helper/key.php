@@ -154,7 +154,7 @@ if (!function_exists('connectButton')) {
                         'callback_data' => 'connect-location'
                     ]
                 ]
-                
+
             ],
         ]);
     }
@@ -203,14 +203,14 @@ if (!function_exists('activateUser')) {
     }
 }
 if (!function_exists('payUrlButton')) {
-    function payUrlButton($id)
+    function payUrlButton($url)
     {
         return keyboard::make([
             'inline_keyboard' => [
                 [
                     [
                         'text' => "پرداخت",
-                        'url' => url('/')
+                        'url' => $url
                     ]
 
                 ]
@@ -226,25 +226,25 @@ if (!function_exists('coinButton')) {
                 [
                     [
                         'text' => "🥉بسته برنزی ۴۰ سکه💰۱۰ هزار تومان(۱۰٪ تخفیف)",
-                        'callback_data' => "pay-20"
+                        'callback_data' => "pay-10000-40"
                     ]
                 ],
                 [
                     [
                         'text' => "🥈بسته نقره ای ۱۰۰ سکه💰۲۰ هزار تومان(۱۵٪تخفیف)",
-                        'callback_data' => "pay-100"
+                        'callback_data' => "pay-20000-100"
                     ]
                 ],
                 [
                     [
                         'text' => "🥇بسته طلایی ۲۰۰ سکه💰۳۵ هزار تومان(۱۷٪تخفیف)",
-                        'callback_data' => "pay-200"
+                        'callback_data' => "pay-35000-500"
                     ]
                 ],
                 [
                     [
                         'text' => "💎بسته الماس ۵۰۰ سکه 💰 ۶۰ هزار تومان(۲۱٪تخفیف)",
-                        'callback_data' => "pay-500"
+                        'callback_data' => "pay-60000-500"
                     ],
                 ]
             ],

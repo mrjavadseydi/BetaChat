@@ -20,7 +20,7 @@ class CreatePaymentsTable extends Migration
             $table->integer('count');
             $table->text('token');
             $table->string('order_id');
-            $table->integer('statue')->default(-1);
+            $table->integer('status')->default(-1);
             $table->timestamps();
         });
     }

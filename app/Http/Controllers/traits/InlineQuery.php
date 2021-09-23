@@ -60,6 +60,13 @@ trait InlineQuery
             case "media":
                 $this->sendMediaFromData($req['callback_query']['from']['id'],$ex[1]);
                 break;
+            case "pay":
+                deleteMessage([
+                    'chat_id' => $req['callback_query']['from']['id'],
+                    'message_id' => $req['callback_query']['message']['message_id']
+                ]);
+                $this->initPayment($req['callback_query']['from']['id'],$ex[1],$ex[2]);
+                break;
         }
     }
 }
