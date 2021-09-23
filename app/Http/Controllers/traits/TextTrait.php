@@ -60,6 +60,8 @@ trait TextTrait
             $gender = "🙎🏻‍♂️آقا";
         }elseif($gender == "female"){
             $gender = "🙍🏻‍♀️ خانوم";
+        }else{
+            $gender = "ثبت نشده";
         }
         $province =  'ثبت نشده ';
         if($user->province_id!=null){

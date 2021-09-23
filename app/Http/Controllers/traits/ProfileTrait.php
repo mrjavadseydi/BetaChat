@@ -15,6 +15,8 @@ trait ProfileTrait
             $gender = "🙎🏻‍♂️آقا";
         }elseif($gender == "female"){
             $gender = "🙍🏻‍♀️ خانوم";
+        }else{
+            $gender = "ثبت نشده";
         }
         $province =  'ثبت نشده ';
         if($this->user->province_id!=null){

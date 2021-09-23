@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\Controllers\traits\ConnectToUser;
 use App\Http\Controllers\traits\ConnectTrait;
 use App\Http\Controllers\traits\InlineQuery;
 use App\Http\Controllers\traits\OnChatTrait;
@@ -22,7 +23,7 @@ class TelegramController extends Controller
     public $chat_id;
     public $from_id;
     public $user = null;
-    use ProfileTrait,InlineQuery,TextTrait,ConnectTrait,OnChatTrait,PaymentTrait;
+    use ProfileTrait,InlineQuery,TextTrait,ConnectTrait,OnChatTrait,PaymentTrait,ConnectToUser;
     public function init(Request $request){
         $req = $request->toArray();
         Cache::put('newReq',$req);
@@ -105,6 +106,9 @@ class TelegramController extends Controller
                 break;
             case "🔱 به یه ناشناس وصلم کن":
                 $this->initToConnect();
+                break;
+            case strpos($this->text,"/user_")!==false:
+                $this->getUserProfileViaId();
                 break;
             default :
                 break;

@@ -178,6 +178,61 @@ if (!function_exists('disconnectButton')) {
         ]);
     }
 }
+if (!function_exists('sendConnectRequest')) {
+    function sendConnectRequest($id)
+    {
+        return keyboard::make([
+            'inline_keyboard' => [
+                [
+                    [
+                        'text' => "✅ارسال درخواست",
+                        'callback_data' => "sendConnect-$id"
+                    ],
+                ], [
+                    [
+                        'text' => "❌منصرف شدم ",
+                        'callback_data' => "disconnect-false"
+                    ]
+                ]
+            ],
+        ]);
+    }
+}
+if (!function_exists('profileConnect')) {
+    function profileConnect($id)
+    {
+        return keyboard::make([
+            'inline_keyboard' => [
+                [
+                    [
+                        'text' => "✉️دعوت به چت",
+                        'callback_data' => "RequestSendConnect-$id"
+                    ],
+                ]
+            ],
+        ]);
+    }
+}
+if (!function_exists('ConnectRequest')) {
+    function ConnectRequest($id)
+    {
+        return keyboard::make([
+            'inline_keyboard' => [
+                [
+                    [
+                        'text' => "✅وصلم کن",
+                        'callback_data' => "customConnect-$id"
+                    ],
+                ], [
+                    [
+                        'text' => "❌تمایلی ندارم ",
+                        'callback_data' => "disconnect-false"
+                    ]
+                ]
+            ],
+        ]);
+    }
+}
 if (!function_exists('activateUser')) {
     function activateUser($id, $chat_id)
     {

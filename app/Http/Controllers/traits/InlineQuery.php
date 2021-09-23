@@ -67,6 +67,20 @@ trait InlineQuery
                 ]);
                 $this->initPayment($req['callback_query']['from']['id'],$ex[1],$ex[2]);
                 break;
+            case "RequestSendConnect":
+                deleteMessage([
+                    'chat_id' => $req['callback_query']['from']['id'],
+                    'message_id' => $req['callback_query']['message']['message_id']
+                ]);
+                $this->confirmRequestToPeer($req['callback_query']['from']['id'],$ex[1]);
+                break;
+            case "sendConnect":
+                deleteMessage([
+                    'chat_id' => $req['callback_query']['from']['id'],
+                    'message_id' => $req['callback_query']['message']['message_id']
+                ]);
+                $this->sendRequestToPeer($req['callback_query']['from']['id'],$ex[1]);
+                break;
         }
     }
 }
