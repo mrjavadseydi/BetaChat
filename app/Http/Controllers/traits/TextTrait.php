@@ -6,6 +6,7 @@ use App\Models\City;
 use App\Models\Connect;
 use App\Models\Member;
 use App\Models\Province;
+use Telegram\Bot\FileUpload\InputFile;
 
 trait TextTrait
 {
@@ -54,7 +55,7 @@ trait TextTrait
     public function getOnChatProfile(){
         $peer_id = Connect::where([['chat_id',$this->chat_id],['status',1]])->first()->connected_to;
         $user = Member::where('chat_id',$peer_id)->first();
-        $profile = $user->profile ?? "AgACAgQAAxkBAAMFYU3GTTQF1x2DyXyFlKHIOVIhjD4AAje1MRsJdHFS6e2fEqnrmIwBAAMCAAN5AAMhBA";
+        $profile = $user->profile ?? InputFile::create(public_path('noprof.jpg'),'noprof.jpg');
         $gender = $user->gender ?? 'ثبت نشده ';
 
         if($gender == "male"){

@@ -7,13 +7,15 @@ use App\Models\Connect;
 use App\Models\Member;
 
 use App\Models\Province;
+use Telegram\Bot\FileUpload\InputFile;
+
 trait ConnectToUser
 {
     public function getUserProfileViaId(){
         $peer_id = str_replace('/user_',"",$this->text);
         $peer = Member::where('uniq',$peer_id)->first();
         if($peer){
-            $profile = $peer->profile ?? "AgACAgQAAxkBAAMFYU3GTTQF1x2DyXyFlKHIOVIhjD4AAje1MRsJdHFS6e2fEqnrmIwBAAMCAAN5AAMhBA";
+            $profile = $peer->profile ?? InputFile::create(public_path('noprof.jpg'),'noprof.jpg');
             $gender = $peer->gender ?? 'ثبت نشده ';
 
             if($gender == "male"){

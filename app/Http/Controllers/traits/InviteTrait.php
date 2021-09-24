@@ -4,6 +4,7 @@ namespace App\Http\Controllers\traits;
 
 use App\Models\Member;
 use Illuminate\Support\Facades\Cache;
+use Telegram\Bot\FileUpload\InputFile;
 
 trait InviteTrait
 {
@@ -18,7 +19,7 @@ trait InviteTrait
                 $in = Member::where('uniq', $uniq)->first();
                 if ($in) {
                     $in->update([
-                        'wallet' => $in->wallet + 4
+                        'wallet' => $in->wallet + intval(getOption('inviteCoin'))
                     ]);
                     sendMessage([
                         'chat_id' => $in->chat_id,
@@ -33,12 +34,12 @@ trait InviteTrait
     {
         $me = Member::where('chat_id', $chat_id)->first();
         $link = "t.me/BetaChatRobot?start=inv_" . $me->uniq;
-        $photo = "AgACAgQAAxkBAAO8YU3d8qQGeAVv2rq9HyLi7ViT5p8AAkq1MRsJdHFSzHkBK4W8-iwBAAMCAAN4AAMhBA";
         $text = str_replace('%link', $link, getOption('inviteLink'));
         sendMessage([
             'chat_id' => $chat_id,
             'text' => $text
         ]);
+        $photo = InputFile::create(public_path("banner.jpg"),'banner.jpg');
         sendPhoto([
             'chat_id'=>$chat_id,
             'caption'=>str_replace('%link', $link, getOption('banner')),

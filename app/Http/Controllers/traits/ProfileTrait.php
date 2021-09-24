@@ -4,11 +4,12 @@ namespace App\Http\Controllers\traits;
 use App\Models\City;
 use App\Models\Member;
 use App\Models\Province;
+use Telegram\Bot\FileUpload\InputFile;
 
 trait ProfileTrait
 {
     public function sendProfile(){
-        $profile = $this->user->profile ?? "AgACAgQAAxkBAAMFYU3GTTQF1x2DyXyFlKHIOVIhjD4AAje1MRsJdHFS6e2fEqnrmIwBAAMCAAN5AAMhBA";
+        $profile = $this->user->profile ?? InputFile::create(public_path('noprof.jpg'),'noprof.jpg');
         $gender = $this->user->gender ?? 'ثبت نشده ';
 
         if($gender == "male"){
