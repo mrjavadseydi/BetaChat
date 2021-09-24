@@ -44,7 +44,7 @@ if (!function_exists('joinKey')) {
                 [
                     [
                         'text' => "عضویت در کانال",
-                        'url' => "https://t.me/" . getConfig('channel_id')
+                        'url' => "https://t.me/" . getOption('channel_id')
                     ]
                 ]
             ],

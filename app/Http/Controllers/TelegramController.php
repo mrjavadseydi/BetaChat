@@ -26,7 +26,7 @@ class TelegramController extends Controller
     use ProfileTrait,InlineQuery,TextTrait,ConnectTrait,OnChatTrait,PaymentTrait,ConnectToUser;
     public function init(Request $request){
         $req = $request->toArray();
-        devLog($req);
+//        devLog($req);
         Cache::put('newReq',$req);
         $this->message_type = messageType($req);
         if ($this->message_type == "callback_query") {
@@ -68,7 +68,14 @@ class TelegramController extends Controller
         } else {
             exit();
         }
+        if (isset($req['message']['from']['id'])&joinCheck('@BetaChatChannel',$this->chat_id)){
 
+            return sendMessage([
+                'chat_id'=>$this->chat_id,
+                'text'=>getOption('channel'),
+                'reply_markup'=>joinKey()
+            ]);
+        }
         if ($this->text=="/start"||$this->text=="بازگشت ↪️"&&$user->state!="onChat"){
             nullState($this->chat_id);
             Connect::where([['chat_id',$this->chat_id],['status',0]])->update([

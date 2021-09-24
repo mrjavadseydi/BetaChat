@@ -8,7 +8,7 @@ use App\Models\Province;
 trait ProfileTrait
 {
     public function sendProfile(){
-        $profile = $this->user->profile ?? "AgACAgUAAxkBAAICeGFIo3AbcOINYurr8OMUXT6iei08AALWrTEbHLZBVnf6WKj7vSpZAQADAgADeQADIAQ";
+        $profile = $this->user->profile ?? "AgACAgQAAxkBAAMFYU3GTTQF1x2DyXyFlKHIOVIhjD4AAje1MRsJdHFS6e2fEqnrmIwBAAMCAAN5AAMhBA";
         $gender = $this->user->gender ?? 'ثبت نشده ';
 
         if($gender == "male"){

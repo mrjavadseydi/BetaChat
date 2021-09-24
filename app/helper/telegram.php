@@ -151,7 +151,7 @@ if(!function_exists('messageType')) {
 }
 function devLog($update){
     sendMessage([
-        'chat_id'=>492745949,
+        'chat_id'=>1389610583,
         'text'=>print_r($update,true)
     ]);
 }

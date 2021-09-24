@@ -13,7 +13,7 @@ trait ConnectToUser
         $peer_id = str_replace('/user_',"",$this->text);
         $peer = Member::where('uniq',$peer_id)->first();
         if($peer){
-            $profile = $peer->profile ?? "AgACAgUAAxkBAAICeGFIo3AbcOINYurr8OMUXT6iei08AALWrTEbHLZBVnf6WKj7vSpZAQADAgADeQADIAQ";
+            $profile = $peer->profile ?? "AgACAgQAAxkBAAMFYU3GTTQF1x2DyXyFlKHIOVIhjD4AAje1MRsJdHFS6e2fEqnrmIwBAAMCAAN5AAMhBA";
             $gender = $peer->gender ?? 'ثبت نشده ';
 
             if($gender == "male"){
@@ -91,6 +91,18 @@ trait ConnectToUser
     }
     public function acceptRequest($chat_id,$peer_id,$msg_id){
         $me = Member::where('chat_id',$chat_id)->first();
+        if($me->wallet>0){
+            $me->update([
+                'wallet'=>$me->wallet-1
+            ]);
+
+        }else{
+            return sendMessage([
+                'chat_id'=>$chat_id,
+                'text'=>getOption('nocoin'),
+                'reply_markup'=>coinButton()
+            ]);
+        }
         $peer = Member::where('chat_id',$peer_id)->first();
         if($me->state!="onChat"||$me->state!="search"||$peer->state!="onChat"||$peer->state!="search"){
             deleteMessage([

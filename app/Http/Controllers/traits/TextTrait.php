@@ -53,7 +53,7 @@ trait TextTrait
     public function getOnChatProfile(){
         $peer_id = Connect::where([['chat_id',$this->chat_id],['status',1]])->first()->connected_to;
         $user = Member::where('chat_id',$peer_id)->first();
-        $profile = $user->profile ?? "AgACAgUAAxkBAAICeGFIo3AbcOINYurr8OMUXT6iei08AALWrTEbHLZBVnf6WKj7vSpZAQADAgADeQADIAQ";
+        $profile = $user->profile ?? "AgACAgQAAxkBAAMFYU3GTTQF1x2DyXyFlKHIOVIhjD4AAje1MRsJdHFS6e2fEqnrmIwBAAMCAAN5AAMhBA";
         $gender = $user->gender ?? 'ثبت نشده ';
 
         if($gender == "male"){

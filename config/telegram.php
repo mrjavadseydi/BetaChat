@@ -33,8 +33,8 @@ return [
     */
     'bots'                         => [
         'mybot' => [
-            'username'            => 'selfservicepythonbot',
-            'token'               => env('TELEGRAM_BOT_TOKEN', '960144906:AAGGHomUod7aeXOpuT10VvIMsj0aKjEiKXQ'),
+            'username'            => 'BetaChatRobot',
+            'token'               => env('TELEGRAM_BOT_TOKEN', '1799815865:AAE1963zra2pye2nmSkBbT8subbpkFPquDg'),
             'certificate_path'    => env('TELEGRAM_CERTIFICATE_PATH', 'YOUR-CERTIFICATE-PATH'),
             'webhook_url'         => env('TELEGRAM_WEBHOOK_URL', 'YOUR-BOT-WEBHOOK-URL'),
             'commands'            => [
