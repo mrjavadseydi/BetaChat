@@ -84,6 +84,9 @@ trait InlineQuery
             case "customConnect":
                 $this->acceptRequest($req['callback_query']['from']['id'],$ex[1],$req['callback_query']['message']['message_id']);
                 break;
+            case "generateLink":
+                $this->inviteLinkGenerate($req['callback_query']['from']['id']);
+                break;
         }
     }
 }

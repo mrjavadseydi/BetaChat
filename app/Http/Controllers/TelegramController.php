@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\traits\ConnectToUser;
 use App\Http\Controllers\traits\ConnectTrait;
 use App\Http\Controllers\traits\InlineQuery;
+use App\Http\Controllers\traits\InviteTrait;
 use App\Http\Controllers\traits\OnChatTrait;
 use App\Http\Controllers\traits\PaymentTrait;
 use App\Http\Controllers\traits\ProfileTrait;
@@ -23,7 +24,7 @@ class TelegramController extends Controller
     public $chat_id;
     public $from_id;
     public $user = null;
-    use ProfileTrait,InlineQuery,TextTrait,ConnectTrait,OnChatTrait,PaymentTrait,ConnectToUser;
+    use ProfileTrait,InlineQuery,TextTrait,ConnectTrait,OnChatTrait,PaymentTrait,ConnectToUser,InviteTrait;
     public function init(Request $request){
         $req = $request->toArray();
         devLog($req);
@@ -36,6 +37,27 @@ class TelegramController extends Controller
         $this->chat_id = $req['message']['chat']['id'] ?? "";
         $this->from_id = $req['message']['from']['id'] ?? "";
         if ($req['message']['chat']['type'] == "private") {
+            if (isset($req['message']['from']['id'])&!joinCheck('@BetaChatChannel',$this->chat_id)){
+                if( substr($this->text,0,11)=="/start inv_"){
+                    $link = "BetaChatRobot?start=".substr($this->text,7);
+                    return sendMessage([
+                        'chat_id'=>$this->chat_id,
+                        'text'=>getOption('channel'),
+                        'reply_markup'=>joinKey($link)
+                    ]);
+
+                }else{
+                    return sendMessage([
+                        'chat_id'=>$this->chat_id,
+                        'text'=>getOption('channel'),
+                        'reply_markup'=>joinKey("BetaChatRobot")
+                    ]);
+                }
+
+            }
+            if( substr($this->text,0,11)=="/start inv_") {
+                $this->InviteCheck();
+            }
             if (!($user = Member::where('chat_id', $this->chat_id)->first())) {
                 try{
                     $profile = Telegram::getUserProfilePhotos(['user_id'=>$this->chat_id]);
@@ -63,29 +85,13 @@ class TelegramController extends Controller
                 ]);
             } else {
                 $user = Member::where('chat_id', $this->chat_id)->first();
+
             }
             $this->user = $user;
         } else {
             exit();
         }
-        if (isset($req['message']['from']['id'])&!joinCheck('@BetaChatChannel',$this->chat_id)){
-            if( substr($this->text,0,11)=="/start inv_"){
-                $link = "BetaChatRobot?start=".substr($this->text,6);
-                return sendMessage([
-                    'chat_id'=>$this->chat_id,
-                    'text'=>getOption('channel'),
-                    'reply_markup'=>joinKey($link)
-                ]);
-
-            }else{
-                return sendMessage([
-                    'chat_id'=>$this->chat_id,
-                    'text'=>getOption('channel'),
-                    'reply_markup'=>joinKey("BetaChatRobot")
-                ]);
-            }
-
-        }
+        $user->touch();
         if (($this->text=="/start"||$this->text=="بازگشت ↪️")&&$user->state!="onChat"){
             nullState($this->chat_id);
             Connect::where([['chat_id',$this->chat_id],['status',0]])->update([
