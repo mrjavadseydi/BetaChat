@@ -11,6 +11,7 @@ trait ProfileTrait
     public function sendProfile(){
         $profile = $this->user->profile ?? InputFile::create(public_path('noprof.jpg'),'noprof.jpg');
         $gender = $this->user->gender ?? 'ثبت نشده ';
+        $age = $this->user->age ?? 'ثبت نشده ';
 
         if($gender == "male"){
             $gender = "🙎🏻‍♂️آقا";
@@ -32,6 +33,8 @@ trait ProfileTrait
 💠نام : ".$this->user->name."
 
 🚻جنسیت : ".$gender."
+
+🌀سن : ".$age."
 
 🔅استان : ".$province. "
 
@@ -71,6 +74,33 @@ trait ProfileTrait
             sendMessage([
                 'chat_id'=>$this->chat_id,
                 'text'=>'متوجه نشدم لطفا نام خود را وارد کنید',
+                'reply_markup'=>backButton()
+            ]);
+        }
+    }
+    public  function ProfileAge($chat_id){
+        setState($chat_id,'ProfileAge');
+        sendMessage([
+            'chat_id'=>$chat_id,
+            'text'=>'لطفا سن خود را با اعداد لاتین وارد کنید',
+            'reply_markup'=>backButton()
+        ]);
+    }
+    public  function SetProfileAge(){
+        if($this->message_type=="message"&&is_numeric($this->text)){
+            nullState($this->chat_id);
+            sendMessage([
+                'chat_id'=>$this->chat_id,
+                'text'=>'سن شما تغییر کرد',
+                'reply_markup'=>menuButton()
+            ]);
+            Member::where('chat_id',$this->chat_id)->update([
+                'age'=>intval($this->text)
+            ]);
+        }else{
+            sendMessage([
+                'chat_id'=>$this->chat_id,
+                'text'=>'متوجه نشدم لطفا سن خود را با اعداد لاتین وارد کنید',
                 'reply_markup'=>backButton()
             ]);
         }

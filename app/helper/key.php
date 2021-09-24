@@ -99,22 +99,28 @@ if (!function_exists('changeProfile')) {
             'inline_keyboard' => [
                 [
                     [
-                        'text' => "تغییر نام",
+                        'text' => "♻️تغییر نام",
                         'callback_data' => "profile-changeName"
                     ],
                     [
-                        'text' => "تغییر عکس پروفایل",
+                        'text' => "♻️تغییر عکس پروفایل",
                         'callback_data' => "profile-profile"
                     ]
                 ],
                 [
                     [
-                        'text' => "تغییر جنسیت",
+                        'text' => "♻️تغییر جنسیت",
                         'callback_data' => "profile-selectGender"
                     ],
                     [
-                        'text' => "تغییر استان و شهرستان",
+                        'text' => "♻️تغییر استان و شهرستان",
                         'callback_data' => "profile-place"
+                    ]
+                ],
+                [
+                    [
+                        'text' => "♻️تغییر سن",
+                        'callback_data' => "profile-age"
                     ]
                 ]
             ],

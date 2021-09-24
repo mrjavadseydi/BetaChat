@@ -110,6 +110,9 @@ class TelegramController extends Controller
             case "ProfileName":
                 $this->SetProfileName();
                 break;
+            case "ProfileAge":
+                $this->SetProfileAge();
+                break;
             case "ProfilePhoto":
                 $this->SetProfilePhoto($req);
                 break;

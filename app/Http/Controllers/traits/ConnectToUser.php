@@ -17,7 +17,7 @@ trait ConnectToUser
         if($peer){
             $profile = $peer->profile ?? InputFile::create(public_path('noprof.jpg'),'noprof.jpg');
             $gender = $peer->gender ?? 'ثبت نشده ';
-
+            $age = $peer->age ?? 'ثبت نشده ';
             if($gender == "male"){
                 $gender = "🙎🏻‍♂️آقا";
             }elseif($gender == "female"){
@@ -38,6 +38,8 @@ trait ConnectToUser
 💠نام : ".$peer->name."
 
 🚻جنسیت : ".$gender."
+
+🌀سن : ".$age."
 
 🔅استان : ".$province. "
 

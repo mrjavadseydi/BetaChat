@@ -57,7 +57,7 @@ trait TextTrait
         $user = Member::where('chat_id',$peer_id)->first();
         $profile = $user->profile ?? InputFile::create(public_path('noprof.jpg'),'noprof.jpg');
         $gender = $user->gender ?? 'ثبت نشده ';
-
+        $age = $user->age ?? 'ثبت نشده ';
         if($gender == "male"){
             $gender = "🙎🏻‍♂️آقا";
         }elseif($gender == "female"){
@@ -78,6 +78,8 @@ trait TextTrait
 💠نام : ".$user->name."
 
 🚻جنسیت : ".$gender."
+
+🌀سن : ".$age."
 
 🔅استان : ".$province. "
 

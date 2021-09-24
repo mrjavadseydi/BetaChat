@@ -26,6 +26,7 @@ class CreateMembersTable extends Migration
             $table->foreignId('province_id')->constrained('provinces')->onDelete('cascade');
             $table->foreignId('city_id')->constrained('cities')->onDelete('cascade');
             $table->integer('wallet')->default(5);
+            $table->integer('age')->nullable();
             $table->timestamps();
         });
     }

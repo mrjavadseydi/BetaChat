@@ -27,6 +27,9 @@ trait InlineQuery
                     case "gender":
                         $this->SetProfileGender($req['callback_query']['from']['id'], $ex[2]);
                         break;
+                    case "age":
+                        $this->ProfileAge($req['callback_query']['from']['id']);
+                        break;
                     case "place":
                         $this->ProfileProvince($req['callback_query']['from']['id']);
                         break;
