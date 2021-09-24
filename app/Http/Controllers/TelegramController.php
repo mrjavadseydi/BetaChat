@@ -26,7 +26,7 @@ class TelegramController extends Controller
     use ProfileTrait,InlineQuery,TextTrait,ConnectTrait,OnChatTrait,PaymentTrait,ConnectToUser;
     public function init(Request $request){
         $req = $request->toArray();
-//        devLog($req);
+        devLog($req);
         Cache::put('newReq',$req);
         $this->message_type = messageType($req);
         if ($this->message_type == "callback_query") {
@@ -68,20 +68,36 @@ class TelegramController extends Controller
         } else {
             exit();
         }
-        if (isset($req['message']['from']['id'])&joinCheck('@BetaChatChannel',$this->chat_id)){
+        if (isset($req['message']['from']['id'])&!joinCheck('@BetaChatChannel',$this->chat_id)){
+            if( substr($this->text,0,11)=="/start inv_"){
+                $link = "BetaChatRobot?start=".substr($this->text,6);
+                return sendMessage([
+                    'chat_id'=>$this->chat_id,
+                    'text'=>getOption('channel'),
+                    'reply_markup'=>joinKey($link)
+                ]);
 
-            return sendMessage([
-                'chat_id'=>$this->chat_id,
-                'text'=>getOption('channel'),
-                'reply_markup'=>joinKey()
-            ]);
+            }else{
+                return sendMessage([
+                    'chat_id'=>$this->chat_id,
+                    'text'=>getOption('channel'),
+                    'reply_markup'=>joinKey("BetaChatRobot")
+                ]);
+            }
+
         }
-        if ($this->text=="/start"||$this->text=="بازگشت ↪️"&&$user->state!="onChat"){
+        if (($this->text=="/start"||$this->text=="بازگشت ↪️")&&$user->state!="onChat"){
             nullState($this->chat_id);
             Connect::where([['chat_id',$this->chat_id],['status',0]])->update([
                 'status'=>-2
             ]);
             return $this->start();
+        }elseif($this->text=="/start"&&$user->state=="onChat"){
+            return sendMessage([
+                'chat_id'=>$this->chat_id,
+                'text'=>"شما در حال چت هستید برای پایان گفت و گو از دکمه قطع ارتباط استفاده کن! ",
+                'reply_markup'=>onChatButton()
+            ]);
         }
 //        devLog($user->state);
         switch ($user->state){

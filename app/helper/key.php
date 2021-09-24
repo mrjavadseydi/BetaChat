@@ -37,7 +37,7 @@ if (!function_exists('onChatButton')) {
     }
 }
 if (!function_exists('joinKey')) {
-    function joinKey()
+    function joinKey($link)
     {
         return keyboard::make([
             'inline_keyboard' => [
@@ -46,7 +46,14 @@ if (!function_exists('joinKey')) {
                         'text' => "عضویت در کانال",
                         'url' => "https://t.me/" . getOption('channel_id')
                     ]
-                ]
+                ],
+                [
+                    [
+                        'text' => "✅جوین شدم ",
+                        'url' => "https://t.me/$link"
+                    ]
+                ],
+
             ],
         ]);
     }

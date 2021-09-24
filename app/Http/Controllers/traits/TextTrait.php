@@ -37,6 +37,7 @@ trait TextTrait
 
     public function getCoin(){
         $coin = getOption('coin');
+        $coin = str_replace('%coin',$this->user->wallet,$coin);
         sendMessage([
             'chat_id'=>$this->chat_id,
             'text'=>$coin,

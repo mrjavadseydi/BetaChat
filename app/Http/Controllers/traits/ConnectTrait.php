@@ -124,6 +124,6 @@ trait ConnectTrait
                 'reply_markup'=>coinButton()
             ]);
         }
-
+        doConnects();
     }
 }

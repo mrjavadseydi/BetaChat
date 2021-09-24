@@ -26,7 +26,7 @@ if(!function_exists('joinCheck')){
                 'user_id'=>$user_id,
                 'chat_id'=>$chat_id
             ]);
-            if($data['ok']==false || $data['result']['status'] == "left" || $data['result']['status']== "kicked"){
+            if( $data['status'] == "left" || $data['status']== "kicked"){
                 return  false;
             }
             return true;
