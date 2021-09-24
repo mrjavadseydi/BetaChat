@@ -26,6 +26,7 @@ class TelegramController extends Controller
     use ProfileTrait,InlineQuery,TextTrait,ConnectTrait,OnChatTrait,PaymentTrait,ConnectToUser;
     public function init(Request $request){
         $req = $request->toArray();
+        devLog($req);
         Cache::put('newReq',$req);
         $this->message_type = messageType($req);
         if ($this->message_type == "callback_query") {

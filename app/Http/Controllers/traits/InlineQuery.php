@@ -81,6 +81,9 @@ trait InlineQuery
                 ]);
                 $this->sendRequestToPeer($req['callback_query']['from']['id'],$ex[1]);
                 break;
+            case "customConnect":
+                $this->acceptRequest($req['callback_query']['from']['id'],$ex[1],$req['callback_query']['message']['message_id']);
+                break;
         }
     }
 }

@@ -22,10 +22,14 @@ trait OnChatTrait
             case "animation":
                 $this->sendAnimationToPeer($req);
                 break;
+            case "sticker":
+                $this->sendStickerToPeer($req);
+                break;
             case "photo":
             case "video":
             case "document":
             case "voice":
+
                 $this->addToMedia($req);
                 break;
             default :
@@ -110,6 +114,25 @@ trait OnChatTrait
              'type'=>'animation',
              'caption'=>" ",
              'file_id'=>$animation
+         ]);
+
+     }
+     public function sendStickerToPeer($req){
+         $peer = Connect::where([['chat_id', $this->chat_id], ['status', 1]])->first();
+         $sticker = $req['message']['sticker']['file_id'];
+         sendSticker([
+             'chat_id' => $peer->connected_to,
+             'sticker' => $sticker,
+             'reply_markup' => onChatButton()
+         ]);
+         $uniq = Cache::get($this->chat_id."onChat");
+         ChatLog::create([
+             'log_id'=>ConnectLog::where('uniq',$uniq)->first()->id,
+             'sender'=>$this->chat_id,
+             'receiver'=>$peer->connected_to,
+             'type'=>'sticker',
+             'caption'=>" ",
+             'file_id'=>$sticker
          ]);
 
      }

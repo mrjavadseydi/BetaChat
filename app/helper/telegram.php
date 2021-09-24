@@ -89,6 +89,24 @@ if (!function_exists('sendVoice')){
         }
     }
 }
+if (!function_exists('sendSticker')){
+    function sendSticker($arr){
+        try{
+            return Telegram::sendSticker($arr);
+        }catch (Exception $e){
+
+        }
+    }
+}
+if (!function_exists('sendVideoNote')){
+    function sendVideoNote($arr){
+        try{
+            return Telegram::sendVideoNote($arr);
+        }catch (Exception $e){
+
+        }
+    }
+}
 if (!function_exists('deleteMessage')){
     function deleteMessage($arr){
         try{
@@ -112,8 +130,12 @@ if(!function_exists('messageType')) {
             return 'animation';
         }  elseif (isset($arr['message']['document'])) {
             return 'document';
+        }   elseif (isset($arr['message']['sticker'])) {
+            return 'sticker';
         } elseif (isset($arr['message']['video'])) {
             return 'video';
+        } elseif (isset($arr['message']['video_note'])) {
+            return 'VideoNote';
         } elseif (isset($arr['message']['voice'])) {
             return 'voice';
         } elseif (isset($arr['callback_query'])) {
@@ -189,6 +211,36 @@ function connectUsersConfig($p1,$p2,$search,$peer){
     sendMessage([
         'chat_id'=>$search->chat_id,
         'text'=>"😃به یکی وصل شدی ! سلام کن",
+        'reply_markup'=>onChatButton()
+    ]);
+    Cache::put($peer->chat_id.'onChat',$uniq);
+    Cache::put($search->chat_id.'onChat',$uniq);
+    setState($peer->chat_id,'onChat');
+    setState($search->chat_id,'onChat');
+}
+function connectUsersConfigNoCost($p1,$p2,$search,$peer){
+    $uniq = uniqid();
+    \App\Models\ConnectLog::create([
+        'uniq'=>$uniq,
+        'user_1'=>$p1->chat_id,
+        'user_2'=>$p2->chat_id,
+    ]);
+    $search->update([
+        'status'=>1,
+        'connected_to'=>$peer->chat_id,
+    ]);
+    $peer->update([
+        'status'=>1,
+        'connected_to'=>$search->chat_id,
+    ]);
+    sendMessage([
+        'chat_id'=>$peer->chat_id,
+        'text'=>"😃وصل شدی ! سلام کن",
+        'reply_markup'=>onChatButton()
+    ]);
+    sendMessage([
+        'chat_id'=>$search->chat_id,
+        'text'=>"😃 وصل شدی ! سلام کن",
         'reply_markup'=>onChatButton()
     ]);
     Cache::put($peer->chat_id.'onChat',$uniq);

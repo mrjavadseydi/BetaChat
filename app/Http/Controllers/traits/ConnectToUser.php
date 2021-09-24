@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\traits;
 
 use App\Models\City;
+use App\Models\Connect;
 use App\Models\Member;
 
 use App\Models\Province;
@@ -88,11 +89,39 @@ trait ConnectToUser
         }
 
     }
-    public function acceptRequest($chat_id,$peer_id){
+    public function acceptRequest($chat_id,$peer_id,$msg_id){
         $me = Member::where('chat_id',$chat_id)->first();
         $peer = Member::where('chat_id',$peer_id)->first();
         if($me->state!="onChat"||$me->state!="search"||$peer->state!="onChat"||$peer->state!="search"){
-
+            deleteMessage([
+                'chat_id' => $chat_id,
+                'message_id' => $msg_id
+            ]);
+            $meConnect = Connect::create([
+                'chat_id'=>$chat_id,
+                'status'=>1,
+                'gender'=>"request",
+                'province'=>"request",
+                'city'=>"request",
+                'connected_to'=>$peer_id,
+                'user_gender'=>$me->gender,
+                'user_city'=>$me->city_id,
+                'user_province'=>$me->province_id,
+                'cost'=>1
+            ]);
+            $peerConnect = Connect::create([
+                'chat_id'=>$peer_id,
+                'status'=>1,
+                'gender'=>"request",
+                'province'=>"request",
+                'city'=>"request",
+                'connected_to'=>$chat_id,
+                'user_gender'=>$peer->gender,
+                'user_city'=>$peer->city_id,
+                'user_province'=>$peer->province_id,
+                'cost'=>1
+            ]);
+            connectUsersConfigNoCost($me,$peer,$meConnect,$peerConnect);
         }else{
             sendMessage([
                 'chat_id'=>$chat_id,
