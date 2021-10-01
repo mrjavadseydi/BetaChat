@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 use \App\Http\Controllers\TelegramController;
 Route::get('/', function () {
+
     return view('welcome');
 });
 Route::any('/telegram',[TelegramController::class,'init']);
@@ -26,6 +27,9 @@ Route::get('test',function(){
     }
 }
 );
+Route::get('/cache',function (){
+    dd(Cache::get('prof'));
+});
 Route::get('payment',function (\Illuminate\Http\Request $request){
     $authority = $request->Authority;
     $status = $request->Status;

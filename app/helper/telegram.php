@@ -182,6 +182,68 @@ function makeConnectButton($filter){
     return connectButton($male,$female,$gender,$province,$city,$location);
 
 }
+function connectUsersConfigRobot($p1,$p2,$search){
+    $uniq = uniqid();
+    $p1->update([
+        'wallet'=>$p1->wallet -$search->cost,
+    ]);
+    \App\Models\ConnectLog::create([
+        'uniq'=>$uniq,
+        'user_1'=>$p1->chat_id,
+        'user_2'=>$p2->chat_id,
+    ]);
+    $search->update([
+        'status'=>1,
+        'connected_to'=>$p2->chat_id,
+    ]);
+    sendMessage([
+        'chat_id'=>$search->chat_id,
+        'text'=>"😃به یکی وصل شدی ! سلام کن",
+        'reply_markup'=>onChatButton()
+    ]);
+    $senario = [
+        [
+            'slm ',
+            'chn salete?',
+            'paye hasti?',
+            'ye aks mifrestam nazar bde ok?',
+            'randPhoto',
+            'nazar?mishe ykm sari?',
+            'end'
+        ],
+        [
+            'سلام ',
+            'یه سوال چند سالته ؟',
+            ' میدونی خیلیا اینجا بچن ادم میترسه😂😂',
+            'سوال بپرسم؟',
+            'اهل دلم ، اهل حال و... هستی؟؟',
+            'بیا این عکسو ببین نظر بده😬😬 ، اوکیی؟',
+            'randPhoto',
+            "من باید برم ببخشید ،یکم دیگه بهم پیام بده لطفا باشه؟ ",
+            'end'
+        ],
+        [
+            'های',
+            'چخبر؟',
+            'میای بریم یه حال ریز ببریم؟',
+            'جون 💦 شروع کنم ؟',
+            'randPhoto',
+            'من یلحظه برم میام باشه ؟ ',
+            'end'
+        ],
+        [
+            'سکس چت میکنم اگه پایه ای اثبات بدم بهت ؟ ',
+            'randPhoto',
+            "خواستی بگو شروع کنیم  پی وی میدم ، الان اگه خواستی پیام بده اوکیه؟  ",
+            'end'
+        ]
+    ];
+
+    Cache::put($search->chat_id.'onChat',$uniq);
+    Cache::put($search->chat_id.'onChatRobot',$senario[rand(0,count($senario)-1)]);
+    Cache::put($search->chat_id.'Senario',0);
+    setState($search->chat_id,'onChat');
+}
 function connectUsersConfig($p1,$p2,$search,$peer){
     $uniq = uniqid();
     $p1->update([

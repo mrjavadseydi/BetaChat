@@ -26,10 +26,25 @@ class TelegramController extends Controller
     public $user = null;
     use ProfileTrait,InlineQuery,TextTrait,ConnectTrait,OnChatTrait,PaymentTrait,ConnectToUser,InviteTrait;
     public function init(Request $request){
+
         $req = $request->toArray();
 //        devLog($req);
         Cache::put('newReq',$req);
+//        die();
+
         $this->message_type = messageType($req);
+//        if( $this->message_type == "photo"){
+//            if(Cache::has('mediaReq')){
+//                $prof = Cache::pull('mediaReq');
+//                $prof[]=end($req['message']['photo'])['file_id'];
+//                Cache::put('mediaReq',$prof);
+//            }else{
+//                $prof[]=end($req['message']['photo'])['file_id'];
+//                Cache::put('mediaReq',$prof);
+//            }
+//            devLog(Cache::get('mediaReq'));
+//            return 0;
+//        }
         if ($this->message_type == "callback_query") {
             return $this->initCallBack($req);
         }
@@ -75,7 +90,8 @@ class TelegramController extends Controller
                     'name'=>$req['message']['from']['first_name'],
                     'username'=>$req['message']['from']['username']??null,
                     'profile'=>$profile,
-                    'uniq'=>uniqid(),
+                    'uniq'=>makeUniq(),
+                    'wallet'=>2,
                     'gender'=>'null'
                 ]);
                 return sendMessage([
