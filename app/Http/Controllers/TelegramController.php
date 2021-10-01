@@ -159,6 +159,8 @@ class TelegramController extends Controller
             case strpos($this->text,"/user_")!==false:
                 $this->getUserProfileViaId();
                 break;
+            case "🔍جستوجو پیشرفته🔎":
+                $this->initToConnectSearch();
             default :
                 break;
         }

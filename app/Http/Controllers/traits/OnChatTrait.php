@@ -260,7 +260,7 @@ trait OnChatTrait
         if (Cache::has($this->chat_id . 'onChatRobot')) {
 
             $this->ChatToBot();
-        } else {
+        } else if ($peer){
             sendMessage([
                 'chat_id' => $peer->connected_to,
                 'text' => $this->text,
@@ -274,6 +274,17 @@ trait OnChatTrait
                 'caption' => $this->text,
                 'file_id' => null
             ]);
+        }else{
+            try{
+                sendMessage([
+                    'chat_id' => $this->chat_id,
+                    'text' => "خطایی داشتیم ! اتصال شما را ناچارا قطع میکنیم ",
+                ]);
+                $this->DisconnectChat($this->chat_id);
+            }catch (\Exception $e){
+
+            }
+
         }
 
 

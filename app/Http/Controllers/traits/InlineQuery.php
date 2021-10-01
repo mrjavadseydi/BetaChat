@@ -51,6 +51,13 @@ trait InlineQuery
                 ]);
                 $this->insertConnect( $req['callback_query']['from']['id']);
                 break;
+                case "FastConnect":
+                deleteMessage([
+                    'chat_id' => $req['callback_query']['from']['id'],
+                    'message_id' => $req['callback_query']['message']['message_id']
+                ]);
+                $this->insertFastConnect( $req['callback_query']['from']['id'],$ex[1]);
+                break;
             case "disconnect":
                 deleteMessage([
                     'chat_id' => $req['callback_query']['from']['id'],

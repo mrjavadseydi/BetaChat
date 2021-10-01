@@ -15,7 +15,7 @@ if (!function_exists('menuButton')) {
         $btn = Keyboard::button(
             [
                 ['🔱 به یه ناشناس وصلم کن'],
-                ['💎پروفایل من💎', '💰سکه💰'],
+                ['💎پروفایل من💎', "🔍جستوجو پیشرفته🔎",'💰سکه💰'],
                 ['❔راهنما❕', '🆘پشتیبانی🆘'],
                 ['⚜️قوانین⚜️'],
             ]
@@ -135,7 +135,7 @@ if (!function_exists('connectButton')) {
 
                 [
                     [
-                        'text' => "⛓اتصال",
+                        'text' => "🔎اتصال",
                         'callback_data' => "initConnect-connect"
                     ]
                 ],
@@ -166,6 +166,40 @@ if (!function_exists('connectButton')) {
                         'text' => $location,
                         'callback_data' => 'connect-location'
                     ]
+                ]
+
+            ],
+        ]);
+    }
+}
+if (!function_exists('connectButton2')) {
+    function connectButton2()
+    {
+        return keyboard::make([
+            'inline_keyboard' => [
+
+                [
+                    [
+                        'text' => "⛓جستجو رندوم ",
+                        'callback_data' => "FastConnect-connect"
+                    ]
+                ],
+                [
+                    [
+                        'text' => "🙍🏻‍♀جستجو دختر ",
+                        'callback_data' => 'FastConnect-female'
+                    ],
+                    [
+                        'text' => "🙎🏻‍♂️ جستجو پسر",
+                        'callback_data' => 'FastConnect-male'
+                    ]
+                ],
+                [
+                    [
+                        'text' => "📍جستجو اطراف",
+                        'callback_data' => 'FastConnect-location'
+                    ],
+
                 ]
 
             ],
