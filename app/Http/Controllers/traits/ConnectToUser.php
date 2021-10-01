@@ -108,7 +108,7 @@ trait ConnectToUser
             ]);
         }
         $peer = Member::where('chat_id',$peer_id)->first();
-        if($me->state!="onChat"||$me->state!="search"||$peer->state!="onChat"||$peer->state!="search"){
+        if($me->state!="onChat"&&$me->state!="search"&&$peer->state!="onChat"&&$peer->state!="search"){
             deleteMessage([
                 'chat_id' => $chat_id,
                 'message_id' => $msg_id

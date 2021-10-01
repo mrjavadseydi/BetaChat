@@ -87,7 +87,7 @@ trait ConnectTrait
         }else{
             $filter = Cache::pull($chat_id . "-connect");
         }
-        $init=1;
+        $init=0;
         if ($filter['gender']!="any"){
             $init++;
         }
