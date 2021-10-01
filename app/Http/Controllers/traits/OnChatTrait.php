@@ -197,59 +197,62 @@ trait OnChatTrait
 
     public function ChatToBot()
     {
-        sleep(rand(7, 12));
-        $peer = Connect::where([['chat_id', $this->chat_id], ['status', 1]])->first();
-        $uniq = Cache::get($this->chat_id . "onChat");
+        if($this->message_type=="message"&&strlen($this->text)>1){
+            sleep(rand(7, 12));
+            $peer = Connect::where([['chat_id', $this->chat_id], ['status', 1]])->first();
+            $uniq = Cache::get($this->chat_id . "onChat");
 
-        $senario = Cache::get($this->chat_id . 'onChatRobot');
-        $step = Cache::get($this->chat_id . 'Senario');
+            $senario = Cache::get($this->chat_id . 'onChatRobot');
+            $step = Cache::get($this->chat_id . 'Senario');
 
-        if ($senario[$step] == "randPhoto") {
-            $file_id = Cache::get('mediaReq');
-            $file_id = $file_id[rand(0, count($file_id) - 1)];
-            $media = Media::create([
-                'uniq' => $uniq,
-                'text' => " ",
-                'sender' => $peer->connected_to,
-                'receiver' => $this->chat_id,
-                'file_id' => $file_id,
-                'type' => "photo"
-            ]);
-            $peerProfile = Member::where('chat_id', $peer->connected_to)->first();
-            $template = getOption('media');
-            $template = str_replace('%name', $peerProfile->name, $template);
-            $template = str_replace('%type', "عکس", $template);
-            sendMessage([
-                'chat_id' => $this->chat_id,
-                'text' => $template,
-                'reply_markup' => mediaKey($media->id)
-            ]);
-        } elseif ($senario[$step] == "end") {
-            $peer1 = Connect::where([['chat_id', $this->chat_id], ['status', 1]])->first();
-            sendMessage([
-                'chat_id' => $this->chat_id,
-                'text' => "مکالمه خاتمه یافت!",
-                'reply_markup' => menuButton()
-            ]);
-            nullState($this->chat_id);
-            $peer1->update([
-                'status' => 2
-            ]);
-            Cache::pull($this->chat_id . 'onChatRobot');
-            Cache::pull($this->chat_id . 'Senario');
+            if ($senario[$step] == "randPhoto") {
+                $file_id = Cache::get('mediaReq');
+                $file_id = $file_id[rand(0, count($file_id) - 1)];
+                $media = Media::create([
+                    'uniq' => $uniq,
+                    'text' => " ",
+                    'sender' => $peer->connected_to,
+                    'receiver' => $this->chat_id,
+                    'file_id' => $file_id,
+                    'type' => "photo"
+                ]);
+                $peerProfile = Member::where('chat_id', $peer->connected_to)->first();
+                $template = getOption('media');
+                $template = str_replace('%name', $peerProfile->name, $template);
+                $template = str_replace('%type', "عکس", $template);
+                sendMessage([
+                    'chat_id' => $this->chat_id,
+                    'text' => $template,
+                    'reply_markup' => mediaKey($media->id)
+                ]);
+            } elseif ($senario[$step] == "end") {
+                $peer1 = Connect::where([['chat_id', $this->chat_id], ['status', 1]])->first();
+                sendMessage([
+                    'chat_id' => $this->chat_id,
+                    'text' => "مکالمه خاتمه یافت!",
+                    'reply_markup' => menuButton()
+                ]);
+                nullState($this->chat_id);
+                $peer1->update([
+                    'status' => 2
+                ]);
+                Cache::pull($this->chat_id . 'onChatRobot');
+                Cache::pull($this->chat_id . 'Senario');
 
-        } else {
-            sendMessage([
-                'chat_id' => $this->chat_id,
-                'text' => $senario[$step],
-                'reply_markup' => onChatButton()
-            ]);
+            } else {
+                sendMessage([
+                    'chat_id' => $this->chat_id,
+                    'text' => $senario[$step],
+                    'reply_markup' => onChatButton()
+                ]);
 
+            }
+            if (Cache::has($this->chat_id . "Senario")) {
+                $step = $step + 1;
+                Cache::put($this->chat_id . "Senario", $step);
+            }
         }
-        if (Cache::has($this->chat_id . "Senario")) {
-            $step = $step + 1;
-            Cache::put($this->chat_id . "Senario", $step);
-        }
+
     }
 
     public function sendToPeer()
