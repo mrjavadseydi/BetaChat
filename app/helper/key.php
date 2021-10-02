@@ -72,6 +72,20 @@ if (!function_exists('mediaKey')) {
             ],
         ]);
     }
+}if (!function_exists('adButton')) {
+    function adButton()
+    {
+        return keyboard::make([
+            'inline_keyboard' => [
+                [
+                    [
+                        'text' => "شروع چت 🙈",
+                        'url' => "http://t.me/BetaChatRobot?start=inv_614c160860d5e"
+                    ]
+                ]
+            ],
+        ]);
+    }
 }
 if (!function_exists('genderSelect')) {
     function genderSelect()

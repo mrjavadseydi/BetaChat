@@ -200,13 +200,48 @@ trait OnChatTrait
         if ($this->message_type == "message" && strlen($this->text) < 1) {
             return 0;
         }
+        if ($this->message_type == "message" && ($this->text=="na"||$this->text=="نه"||$this->text=="نمیخوام"||$this->text=="نخیر")) {
+            return 0;
+        }
         sleep(rand(7, 12));
+
+        if ($this->message_type == "message" && is_numeric($this->text)) {
+            $idk =
+                [
+                    'چی میگی ؟',
+                    "???",
+                    "ها؟",
+                    "wtf?",
+                    'این چیه؟'
+                ] ;
+            sendMessage([
+                'chat_id' => $this->chat_id,
+                'text' =>$idk[rand(0,count($idk)-1)],
+                'reply_markup' => onChatButton()
+            ]);
+            return 0;
+        }
         $peer = Connect::where([['chat_id', $this->chat_id], ['status', 1]])->first();
         $uniq = Cache::get($this->chat_id . "onChat");
 
         $senario = Cache::get($this->chat_id . 'onChatRobot');
         $step = Cache::get($this->chat_id . 'Senario');
-
+        if($step==0 && ($this->text=="na"||$this->text=="نه"||$this->text=="نمیخوام"||$this->text=="نخیر")){
+            $idk =
+                [
+                    'چی میگی ؟',
+                    "???",
+                    "ها؟",
+                    "wtf?",
+                    'این چیه؟'
+                ] ;
+            sendMessage([
+                'chat_id' => $this->chat_id,
+                'text' =>$idk[rand(0,count($idk)-1)],
+                'reply_markup' => onChatButton()
+            ]);
+            return 0;
+        }
         if ($senario[$step] == "randPhoto") {
             $file_id = Cache::get('mediaReq');
             $file_id = $file_id[rand(0, count($file_id) - 1)];

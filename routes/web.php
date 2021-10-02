@@ -28,7 +28,8 @@ Route::get('test',function(){
 }
 );
 Route::get('/cache',function (){
-    dd(Cache::get('prof'));
+//    Artisan::call('migrate');
+//    dd(Cache::get('prof'));
 });
 Route::get('payment',function (\Illuminate\Http\Request $request){
     $authority = $request->Authority;

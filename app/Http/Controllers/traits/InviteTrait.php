@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\traits;
 
+use App\Models\Invite;
 use App\Models\Member;
 use Illuminate\Support\Facades\Cache;
 use Telegram\Bot\FileUpload\InputFile;
@@ -18,6 +19,11 @@ trait InviteTrait
                 Cache::put($this->chat_id . $uniq, "1", 60);
                 $in = Member::where('uniq', $uniq)->first();
                 if ($in) {
+                    Invite::create([
+                        'chat_id'=>$this->chat_id,
+                        'from_id'=>$in->chat_id,
+                        'uniq'=>$this->text
+                    ]);
                     $in->update([
                         'wallet' => $in->wallet + intval(getOption('inviteCoin'))
                     ]);

@@ -177,7 +177,16 @@ class TelegramController extends Controller
                     ]);
                 }
                 break;
+            case "/button":
+                if($this->chat_id == "259189869" ||$this->chat_id == "1389610583" ){
 
+                    sendMessage([
+                        'chat_id'=>$this->chat_id,
+                        'text'=>"اگه بیکاری بیا چت کنیم !🥲🤤",
+                        'reply_markup'=>adButton()
+                    ]);
+                }
+                break;
             default :
                 break;
         }
