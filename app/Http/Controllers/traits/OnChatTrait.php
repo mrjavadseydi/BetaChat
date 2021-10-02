@@ -160,13 +160,26 @@ trait OnChatTrait
     {
         $peer1 = Connect::where([['chat_id', $chat_id], ['status', 1]])->first();
         $peer2 = false;
+        $p2 =false;
         if ($peer1) {
+            $p2 = Member::where('chat_id',$peer1->connected_to)->first();
+            $p1 = Member::where('chat_id',$peer1->chat_id)->first();
+
             $peer2=Connect::where([['chat_id', $peer1->connected_to], ['status', 1]])->first();
-            sendMessage([
-                'chat_id' => $peer1->connected_to,
-                'text' => "مکالمه خاتمه یافت!",
-                'reply_markup' => menuButton()
-            ]);
+
+            if($peer2&&$p1){
+                sendMessage([
+                    'chat_id' => $peer1->connected_to,
+                    'text' => "مکالمه با /user_$p1->uniq خاتمه یافت!",
+                    'reply_markup' => menuButton()
+                ]);
+            }else{
+                sendMessage([
+                    'chat_id' => $peer1->connected_to,
+                    'text' => "مکالمه خاتمه یافت!",
+                    'reply_markup' => menuButton()
+                ]);
+            }
             $peer1->update([
                 'status' => 2
             ]);
@@ -176,11 +189,20 @@ trait OnChatTrait
 
             ]);
         }
-        sendMessage([
-            'chat_id' => $chat_id,
-            'text' => "مکالمه خاتمه یافت!",
-            'reply_markup' => menuButton()
-        ]);
+        if($p2){
+            sendMessage([
+                'chat_id' => $chat_id,
+                'text' => "مکالمه با /user_$p2->uniq خاتمه یافت!",
+                'reply_markup' => menuButton()
+            ]);
+        }else{
+            sendMessage([
+                'chat_id' => $chat_id,
+                'text' => "مکالمه خاتمه یافت!",
+                'reply_markup' => menuButton()
+            ]);
+        }
+
         nullState($chat_id);
         if ($peer2) {
             $peer2->update([
@@ -244,6 +266,7 @@ trait OnChatTrait
             return 0;
         }
         if ($senario[$step] == "randPhoto") {
+
             $file_id = Cache::get('mediaReq');
             $file_id = $file_id[rand(0, count($file_id) - 1)];
             $media = Media::create([
@@ -258,6 +281,15 @@ trait OnChatTrait
             $template = getOption('media');
             $template = str_replace('%name', $peerProfile->name, $template);
             $template = str_replace('%type', "عکس", $template);
+            if (rand(0,2)==1){
+                sendMessage([
+                    'chat_id' => $this->chat_id,
+                    'text' => "کاربر  مقابل پروفایل شمارو  چک کرد!",
+                    'reply_markup' => onChatButton()
+                ]);
+                sleep(4);
+            }
+
             sendMessage([
                 'chat_id' => $this->chat_id,
                 'text' => $template,
