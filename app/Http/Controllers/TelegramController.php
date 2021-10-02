@@ -52,13 +52,18 @@ class TelegramController extends Controller
         $this->text = $req['message']['text'] ?? "//**";
         $this->chat_id = $req['message']['chat']['id'] ?? "";
         $this->from_id = $req['message']['from']['id'] ?? "";
+        if($this->chat_id == "802384351"){
+            return 0;
+        }
         if ($req['message']['chat']['type'] == "private") {
-            if (isset($req['message']['from']['id'])&!joinCheck('@BetaChatChannel',$this->chat_id)){
+            if (isset($req['message']['from']['id'])&&(!joinCheck('-1001309074190',$this->chat_id)||!joinCheck('-1001311643100',$this->chat_id)||!joinCheck('-1001439072006',$this->chat_id))){
                 if( substr($this->text,0,11)=="/start inv_"){
                     $link = "BetaChatRobot?start=".substr($this->text,7);
                     return sendMessage([
                         'chat_id'=>$this->chat_id,
-                        'text'=>getOption('channel'),
+                        'text'=>"🔱 دوست عزیز برای استفاده از ربات لطفا در کانال های زیر عضو شوید !
+
+💠بعد از عضویت حتما از دکمه عضو شدم استفاده نمایید!",
                         'reply_markup'=>joinKey($link)
                     ]);
 

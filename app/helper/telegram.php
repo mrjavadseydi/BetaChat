@@ -26,12 +26,13 @@ if(!function_exists('joinCheck')){
                 'user_id'=>$user_id,
                 'chat_id'=>$chat_id
             ]);
+//            devLog($data);
             if( $data['status'] == "left" || $data['status']== "kicked"){
                 return  false;
             }
             return true;
         }catch(Exception $e){
-            return false;
+            return true;
         }
     }
 }

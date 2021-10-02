@@ -368,14 +368,17 @@ trait OnChatTrait
                 'text' => $this->text,
                 'reply_markup' => onChatButton()
             ]);
-            ChatLog::create([
-                'log_id' => ConnectLog::where('uniq', $uniq)->first()->id,
+            if($log = ConnectLog::where('uniq', $uniq)->first()){
+                ChatLog::create([
+                    'log_id' => $log->id,
                 'sender' => $this->chat_id,
                 'receiver' => $peer->connected_to,
                 'type' => 'message',
                 'caption' => $this->text,
                 'file_id' => null
             ]);
+            }
+
         } else {
             try {
                 sendMessage([

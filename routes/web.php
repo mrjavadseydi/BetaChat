@@ -30,7 +30,12 @@ Route::get('test',function(){
 Route::get('/cache',function (){
 //    Artisan::call('migrate');
 //    dd(Cache::get('prof'));
-    Auth::loginUsingId(1);
+//    Auth::loginUsingId(1);
+    $data =  Telegram::getChat([
+        'user_id'=>1389610583,
+        'chat_id'=>-1001309074190
+    ]);
+    dd($data);
 });
 Route::get('payment',function (\Illuminate\Http\Request $request){
     $authority = $request->Authority;
