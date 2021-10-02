@@ -86,6 +86,30 @@ if (!function_exists('mediaKey')) {
             ],
         ]);
     }
+}if (!function_exists('adButton2')) {
+    function adButton2()
+    {
+        return keyboard::make([
+            'inline_keyboard' => [
+                [
+                    [
+                        'text' => "چت با پسر 🤤🙎🏻‍♂️",
+                        'url' => "http://t.me/BetaChatRobot?start=inv_614c160860d5e"
+                    ],
+                    [
+                        'text' => "چت با دختر🙋‍♀️💋",
+                        'url' => "http://t.me/BetaChatRobot?start=inv_614c160860d5e"
+                    ]
+                ],
+                [
+                    [
+                        'text' => "چت با همسایه😋❤️",
+                        'url' => "http://t.me/BetaChatRobot?start=inv_614c160860d5e"
+                    ],
+                ]
+            ],
+        ]);
+    }
 }
 if (!function_exists('genderSelect')) {
     function genderSelect()

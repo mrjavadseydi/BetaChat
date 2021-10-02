@@ -159,8 +159,9 @@ trait OnChatTrait
     public function DisconnectChat($chat_id)
     {
         $peer1 = Connect::where([['chat_id', $chat_id], ['status', 1]])->first();
-        $peer2 = Connect::where([['chat_id', $peer1->connected_to], ['status', 1]])->first();
+        $peer2 = false;
         if ($peer1) {
+            $peer2=Connect::where([['chat_id', $peer1->connected_to], ['status', 1]])->first();
             sendMessage([
                 'chat_id' => $peer1->connected_to,
                 'text' => "مکالمه خاتمه یافت!",

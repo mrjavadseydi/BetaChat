@@ -187,6 +187,18 @@ class TelegramController extends Controller
                     ]);
                 }
                 break;
+                case "/button2":
+                if($this->chat_id == "259189869" ||$this->chat_id == "1389610583" ){
+
+                    sendMessage([
+                        'chat_id'=>$this->chat_id,
+                        'text'=>"حوصلت سررفته؟؟ سینگلی🤔🙊
+
+انلاینی زووود رل بزن😍😍👇",
+                        'reply_markup'=>adButton2()
+                    ]);
+                }
+                break;
             default :
                 break;
         }

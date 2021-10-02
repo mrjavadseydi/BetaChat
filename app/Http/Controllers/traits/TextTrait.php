@@ -54,30 +54,32 @@ trait TextTrait
         ]);
     }
     public function getOnChatProfile(){
-        $peer_id = Connect::where([['chat_id',$this->chat_id],['status',1]])->first()->connected_to;
-        $user = Member::where('chat_id',$peer_id)->first();
+        $peer_id = Connect::where([['chat_id',$this->chat_id],['status',1]])->first();
+        if($peer_id){
+            $peer_id= $peer_id->connected_to;
+            $user = Member::where('chat_id',$peer_id)->first();
 //       Log::alert($peer_id);
 //        return 0 ;
-        $profile = $user->profile ?? InputFile::create(public_path('noprof.jpg'),'noprof.jpg');
-        $gender = $user->gender ?? 'ثبت نشده ';
-        $age = $user->age ?? 'ثبت نشده ';
-        if($gender == "male"){
-            $gender = "🙎🏻‍♂️آقا";
-        }elseif($gender == "female"){
-            $gender = "🙍🏻‍♀️ خانوم";
-        }else{
-            $gender = "ثبت نشده";
-        }
-        $province =  'ثبت نشده ';
-        if($user->province_id!=null){
-            $province = Province::whereId($user->province_id)->first()->title;
-        }
-        $city =  'ثبت نشده ';
-        if($user->city_id!=null){
-            $city = City::whereId($user->city_id)->first()->title;
-        }
-        $caption =
-            "
+            $profile = $user->profile ?? InputFile::create(public_path('noprof.jpg'),'noprof.jpg');
+            $gender = $user->gender ?? 'ثبت نشده ';
+            $age = $user->age ?? 'ثبت نشده ';
+            if($gender == "male"){
+                $gender = "🙎🏻‍♂️آقا";
+            }elseif($gender == "female"){
+                $gender = "🙍🏻‍♀️ خانوم";
+            }else{
+                $gender = "ثبت نشده";
+            }
+            $province =  'ثبت نشده ';
+            if($user->province_id!=null){
+                $province = Province::whereId($user->province_id)->first()->title;
+            }
+            $city =  'ثبت نشده ';
+            if($user->city_id!=null){
+                $city = City::whereId($user->city_id)->first()->title;
+            }
+            $caption =
+                "
 💠نام : ".$user->name."
 
 🚻جنسیت : ".$gender."
@@ -90,17 +92,19 @@ trait TextTrait
 
 🔰نام کاربری ربات : "."/user_".$user->uniq."
 ";
-        sendPhoto([
-            'chat_id'=>$this->chat_id,
-            'photo'=>$profile,
-            'caption'=>$caption,
-            'reply_markup'=>onChatButton()
-        ]);
-        sendMessage([
-            'chat_id'=>$peer_id,
-            'text'=>"کاربر  مقابل پروفایل شمارو  چک کرد!",
-            'reply_markup'=>onChatButton()
-        ]);
+            sendPhoto([
+                'chat_id'=>$this->chat_id,
+                'photo'=>$profile,
+                'caption'=>$caption,
+                'reply_markup'=>onChatButton()
+            ]);
+            sendMessage([
+                'chat_id'=>$peer_id,
+                'text'=>"کاربر  مقابل پروفایل شمارو  چک کرد!",
+                'reply_markup'=>onChatButton()
+            ]);
+        }
+
     }
 
 }
