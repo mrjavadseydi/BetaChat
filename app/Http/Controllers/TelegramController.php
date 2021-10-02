@@ -13,6 +13,7 @@ use App\Http\Controllers\traits\ProfileTrait;
 use App\Http\Controllers\traits\TextTrait;
 use App\Models\Connect;
 use App\Models\Member;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Telegram\Bot\Laravel\Facades\Telegram;
@@ -33,7 +34,7 @@ class TelegramController extends Controller
 //        die();
 
         $this->message_type = messageType($req);
-//        if( $this->message_type == "photo"){
+//        if( $this->message_type == "photo"&&$req['message']['from']['id']=="1389610583"){
 //            if(Cache::has('mediaReq')){
 //                $prof = Cache::pull('mediaReq');
 //                $prof[]=end($req['message']['photo'])['file_id'];
@@ -159,8 +160,24 @@ class TelegramController extends Controller
             case strpos($this->text,"/user_")!==false:
                 $this->getUserProfileViaId();
                 break;
+
             case "🔍جستوجو پیشرفته🔎":
+            case "🔍جستوجو پیشرفته":
                 $this->initToConnectSearch();
+                break;
+            case "/state":
+
+                if($this->chat_id == "259189869" ||$this->chat_id == "1389610583" ){
+                    $money = Payment::where('status',1)->sum('price');
+                    $member = Member::where('chat_id','>',0)->count();
+                    sendMessage([
+                        'chat_id'=>$this->chat_id,
+                        'text'=>"درامد : $money
+                        کاربران $member"
+                    ]);
+                }
+                break;
+
             default :
                 break;
         }

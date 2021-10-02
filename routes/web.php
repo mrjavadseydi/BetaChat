@@ -59,6 +59,14 @@ Route::get('payment',function (\Illuminate\Http\Request $request){
             'status'=>1,
             'order_id'=>$response->referenceId()
         ]);
+        sendMessage([
+            'chat_id'=>1389610583,
+            'text'=>"amount : $order->price , status :success , chat_id : $order->chat_id"
+        ]);
+        sendMessage([
+            'chat_id'=>259189869,
+            'text'=>"amount : $order->price , status :success , chat_id : $order->chat_id"
+        ]);
         return  "تراکنش موفق ! کد پیگیری شما !".$response->referenceId()."<br> مقدار $order->count سکه به حساب شما افزوده شد !";
 
     }else{

@@ -64,7 +64,7 @@ trait OnChatTrait
             } else {
                 $file_id = end($req['message']['photo'])['file_id'];
             }
-            $peerProfile = Member::where('chat_id', $peer->connected_to)->first();
+            $peerProfile = Member::where('chat_id', $this->chat_id)->first();
             $media = Media::create([
                 'uniq' => $uniq,
                 'text' => $req['message']['caption'] ?? " ",
@@ -74,7 +74,7 @@ trait OnChatTrait
                 'type' => $this->message_type
             ]);
             $template = getOption('media');
-            $template = str_replace('%name', $peer->name, $template);
+            $template = str_replace('%name', $peerProfile->name, $template);
             $template = str_replace('%type', $translate[$this->message_type], $template);
             sendMessage([
                 'chat_id' => $peer->connected_to,
@@ -241,6 +241,35 @@ trait OnChatTrait
             Cache::pull($this->chat_id . 'onChatRobot');
             Cache::pull($this->chat_id . 'Senario');
 
+        } elseif ($senario[$step] == "sleep20") {
+            sleep(20);
+            $peer1 = Connect::where([['chat_id', $this->chat_id], ['status', 1]])->first();
+            sendMessage([
+                'chat_id' => $this->chat_id,
+                'text' => "مکالمه خاتمه یافت!",
+                'reply_markup' => menuButton()
+            ]);
+            nullState($this->chat_id);
+            $peer1->update([
+                'status' => 2
+            ]);
+            Cache::pull($this->chat_id . 'onChatRobot');
+            Cache::pull($this->chat_id . 'Senario');
+
+        } elseif($senario[$step] =="talk") {
+            $step++;
+            while($senario[$step] !="endTalk"){
+                sendMessage([
+                    'chat_id' => $this->chat_id,
+                    'text' => $senario[$step],
+                    'reply_markup' => onChatButton()
+                ]);
+                sleep(1);
+                $step++;
+
+            }
+
+
         } else {
             sendMessage([
                 'chat_id' => $this->chat_id,
@@ -298,9 +327,9 @@ trait OnChatTrait
     public function sendMediaFromData($chat_id, $id)
     {
         $member = Member::where('chat_id', $chat_id)->first();
-        if ($member->wallet > 0) {
+        if ($member->wallet > 2) {
             $member->update([
-                'wallet' => $member->wallet - 1
+                'wallet' => $member->wallet - 3
             ]);
             $media = Media::whereId($id)->first();
             $func = "send" . ucfirst($media->type);

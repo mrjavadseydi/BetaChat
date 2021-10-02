@@ -12,7 +12,7 @@ function getOption($name)
     } else {
         if ($value = \App\Models\Option::where('key', $name)->first()) {
             $value = \App\Models\Option::where('key', $name)->first()->value;
-            Cache::put('option' . $name, $value, 360);
+            Cache::put('option' . $name, $value, 160);
             return $value;
         }
         return false;
