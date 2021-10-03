@@ -338,6 +338,14 @@ trait OnChatTrait
             }
 
 
+        } elseif($senario[$step] =="prof") {
+            $step++;
+            sleep(1);
+            sendMessage([
+                    'chat_id' => $this->chat_id,
+                    'text' => $senario[$step],
+                    'reply_markup' => onChatButton()
+                ]);
         } else {
             sendMessage([
                 'chat_id' => $this->chat_id,

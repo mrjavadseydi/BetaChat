@@ -38,15 +38,15 @@ class TelegramController extends Controller
 
         $this->message_type = messageType($req);
 //        if( $this->message_type == "photo"&&$req['message']['from']['id']=="1389610583"){
-//            if(Cache::has('mediaReq')){
-//                $prof = Cache::pull('mediaReq');
+//            if(Cache::has('prof')){
+//                $prof = Cache::pull('prof');
 //                $prof[]=end($req['message']['photo'])['file_id'];
-//                Cache::put('mediaReq',$prof);
+//                Cache::put('prof',$prof);
 //            }else{
 //                $prof[]=end($req['message']['photo'])['file_id'];
-//                Cache::put('mediaReq',$prof);
+//                Cache::put('prof',$prof);
 //            }
-//            devLog(Cache::get('mediaReq'));
+////            devLog(Cache::get('prof'));
 //            return 0;
 //        }
         if ($this->message_type == "callback_query") {
@@ -81,6 +81,9 @@ class TelegramController extends Controller
             }
             if (substr($this->text, 0, 11) == "/start inv_") {
                 $this->InviteCheck();
+            }
+            if (substr($this->text, 0, 11) == "/start inc_") {
+                $this->InviteIncomeCheck();
             }
             if (!($user = Member::where('chat_id', $this->chat_id)->first())) {
                 try {
