@@ -248,7 +248,7 @@ function doConnects()
             }
         }
 
-        if($found==false &&$search->gender == "female"){
+        if($found==false &&$search->gender == "female"&&\App\Models\Payment::where([['chat_id',$search->chat_id],['status',1]])->count()==0){
 
             $name = [
                 'فاطمه','ftm','عسل',
@@ -262,6 +262,14 @@ function doConnects()
                 'negin',
                 'ارزو',
                 'دنیا',
+                'پرنسس',
+                'ستایش',
+                'نسترن',
+                'elham banoo',
+                'asma',
+                'نرجس :)',
+                'به تو چه؟',
+                'mina khanom',
             ];
             $prof = Cache::get('prof');
             $prof[] = 'AgACAgQAAxkBAAICKWFQgg5tBlPzmZkoO4nvJkg_JvDAAAIHtzEbEiKJUh7CC4YwSrA_AQADAgADeQADIQQ';

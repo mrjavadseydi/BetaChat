@@ -9,6 +9,13 @@ if (!function_exists('backButton')) {
         return Keyboard::make(['keyboard' => $btn, 'resize_keyboard' => true, 'one_time_keyboard' => true]);
     }
 }
+if (!function_exists('noAction')) {
+    function noAction()
+    {
+        $btn = Keyboard::button([['...']]);
+        return Keyboard::make(['keyboard' => $btn, 'resize_keyboard' => true, 'one_time_keyboard' => true]);
+    }
+}
 if (!function_exists('menuButton')) {
     function menuButton()
     {
@@ -16,7 +23,7 @@ if (!function_exists('menuButton')) {
             [
                 ['🔱 به یه ناشناس وصلم کن'],
                 ['💎پروفایل من💎', "🔍جستوجو پیشرفته",'💰سکه💰'],
-                ['❔راهنما❕', '🆘پشتیبانی🆘'],
+                ['❔راهنما❕', '🆘پشتیبانی🆘','💎کسب درامد'],
                 ['⚜️قوانین⚜️'],
             ]
         );
@@ -36,26 +43,36 @@ if (!function_exists('onChatButton')) {
         return Keyboard::make(['keyboard' => $btn, 'resize_keyboard' => true, 'one_time_keyboard' => true]);
     }
 }
+if (!function_exists('makeMoneyMenu')) {
+    function makeMoneyMenu()
+    {
+        $btn = Keyboard::button(
+            [
+                ['💳 تسویه','💰موجودی💰'],
+                ["💎دریافت لینک اختصاصی💎"],
+                ["📜راهنمای کسب درامد"],
+                ['بازگشت ↪️']
+            ]
+
+        );
+        return Keyboard::make(['keyboard' => $btn, 'resize_keyboard' => true, 'one_time_keyboard' => true]);
+    }
+}
 if (!function_exists('joinKey')) {
     function joinKey($link)
     {
         return keyboard::make([
             'inline_keyboard' => [
+
                 [
                     [
                         'text' => "عضویت در کانال ۱",
-                        'url' => "https://t.me/joinchat/iFFint8lX7c1Zjg0"
-                    ]
-                ],
-                [
-                    [
-                        'text' => "عضویت در کانال ۲",
                         'url' => "https://t.me/joinchat/TtuvxQsxdzllZTNi"
                     ]
                 ],
                 [
                     [
-                        'text' => " عضویت در کانال ۳",
+                        'text' => " عضویت در کانال ۲",
                         'url' => "https://t.me/joinchat/a8s2fkDuJmE2OGVk"
                     ]
                 ],

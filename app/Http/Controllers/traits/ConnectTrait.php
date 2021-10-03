@@ -11,13 +11,11 @@ trait ConnectTrait
 {
     public function initToConnect()
     {
-        $filter = [
-            "gender" => "any",
-            "city" => "any",
-            "province" => "any"
-        ];
-        Cache::put($this->chat_id . "-connect", $filter);
         $connect = getOption('connect');
+        sendMessage([
+            'chat_id'=>$this->chat_id,
+            'text'=>getOption("incomeFromMenu")
+        ]);
         sendMessage([
             'chat_id' => $this->chat_id,
             'text' => $connect,
@@ -33,6 +31,10 @@ trait ConnectTrait
         ];
         Cache::put($this->chat_id . "-connect", $filter);
         $connect = getOption('CustomSearch');
+        sendMessage([
+            'chat_id'=>$this->chat_id,
+            'text'=>getOption("incomeFromMenu")
+        ]);
         sendMessage([
             'chat_id' => $this->chat_id,
             'text' => $connect,
