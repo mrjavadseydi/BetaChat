@@ -226,7 +226,7 @@ trait OnChatTrait
         if ($this->message_type == "message" && ($this->text=="na"||$this->text=="نه"||$this->text=="نمیخوام"||$this->text=="نخیر")) {
             return 0;
         }
-        sleep(rand(7, 12));
+        sleep(rand(5, 8));
 
         if ($this->message_type == "message" && is_numeric($this->text)) {
             $idk =
@@ -340,6 +340,11 @@ trait OnChatTrait
 
         } elseif($senario[$step] =="prof") {
             $step++;
+            sendMessage([
+                'chat_id' => $this->chat_id,
+                'text' => "کاربر  مقابل پروفایل شمارو  چک کرد!",
+                'reply_markup' => onChatButton()
+            ]);
             sleep(1);
             sendMessage([
                     'chat_id' => $this->chat_id,

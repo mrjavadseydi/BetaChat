@@ -59,7 +59,7 @@ class TelegramController extends Controller
             return 0;
         }
         if ($req['message']['chat']['type'] == "private") {
-            if (isset($req['message']['from']['id']) && (!joinCheck('-1001309074190', $this->chat_id) || !joinCheck('-1001439072006', $this->chat_id))) {
+            if (isset($req['message']['from']['id']) && (!joinCheck('@BetaChatChannel', $this->chat_id))) {
                 if (substr($this->text, 0, 11) == "/start inv_") {
                     $link = "BetaChatRobot?start=" . substr($this->text, 7);
                     return sendMessage([
@@ -192,6 +192,7 @@ class TelegramController extends Controller
                 $this->initToConnectSearch();
                 break;
             case "💎کسب درامد":
+            case "🔥کسب درامد":
             case "/income":
                 $this->incomeMenu();
                 break;

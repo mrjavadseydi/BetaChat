@@ -23,11 +23,11 @@ if (!function_exists('menuButton')) {
             [
                 ['🔱 به یه ناشناس وصلم کن'],
                 ['💎پروفایل من💎', "🔍جستوجو پیشرفته",'💰سکه💰'],
-                ['❔راهنما❕', '🆘پشتیبانی🆘','💎کسب درامد'],
-                ['⚜️قوانین⚜️'],
+                ['❔راهنما❕','🔥کسب درامد'],
+                ['⚜️قوانین⚜️', '🆘پشتیبانی🆘'],
             ]
         );
-        return Keyboard::make(['keyboard' => $btn, 'resize_keyboard' => true, 'one_time_keyboard' => true]);
+        return Keyboard::make(['keyboard' => $btn, 'resize_keyboard' => true, 'one_time_keyboard' => false]);
     }
 }
 if (!function_exists('onChatButton')) {
@@ -40,7 +40,7 @@ if (!function_exists('onChatButton')) {
             ]
 
         );
-        return Keyboard::make(['keyboard' => $btn, 'resize_keyboard' => true, 'one_time_keyboard' => true]);
+        return Keyboard::make(['keyboard' => $btn, 'resize_keyboard' => true, 'one_time_keyboard' => false]);
     }
 }
 if (!function_exists('makeMoneyMenu')) {
@@ -55,7 +55,7 @@ if (!function_exists('makeMoneyMenu')) {
             ]
 
         );
-        return Keyboard::make(['keyboard' => $btn, 'resize_keyboard' => true, 'one_time_keyboard' => true]);
+        return Keyboard::make(['keyboard' => $btn, 'resize_keyboard' => true, 'one_time_keyboard' => false]);
     }
 }
 if (!function_exists('joinKey')) {
@@ -67,16 +67,10 @@ if (!function_exists('joinKey')) {
                 [
                     [
                         'text' => "عضویت در کانال ۱",
-                        'url' => "https://t.me/joinchat/TtuvxQsxdzllZTNi"
+                        'url' => "https://t.me/BetaChatChannel"
                     ]
-                ],
-                [
-                    [
-                        'text' => " عضویت در کانال ۲",
-                        'url' => "https://t.me/joinchat/a8s2fkDuJmE2OGVk"
-                    ]
-                ],
-
+                ]
+,
                 [
                     [
                         'text' => "✅جوین شدم ",
@@ -393,34 +387,29 @@ if (!function_exists('coinButton')) {
     {
         return keyboard::make([
             'inline_keyboard' => [
+
                 [
                     [
-                        'text' => "🔥 سکه نامحدود💰۱۱۰ هزار تومان(۵۰٪ تخفیف)",
-                        'callback_data' => "pay-110000-999999"
+                        'text' => "🥉 ۲۵ سکه💰۱۵ هزار تومان(۲۰٪ تخفیف)",
+                        'callback_data' => "pay-15000-25"
                     ]
                 ],
                 [
                     [
-                        'text' => "🥉 ۴۵ سکه💰۱۵ هزار تومان(۲۰٪ تخفیف)",
-                        'callback_data' => "pay-15000-45"
+                        'text' => "🥈 ۶۰ سکه💰۳۰ هزار تومان(۲۵٪تخفیف)",
+                        'callback_data' => "pay-30000-60"
                     ]
                 ],
                 [
                     [
-                        'text' => "🥈 ۱۱۰ سکه💰۳۰ هزار تومان(۲۵٪تخفیف)",
-                        'callback_data' => "pay-30000-110"
+                        'text' => "🥇 ۱۲۰ سکه💰۵۵ هزار تومان(۲۷٪تخفیف)",
+                        'callback_data' => "pay-55000-120"
                     ]
                 ],
                 [
                     [
-                        'text' => "🥇 ۲۲۰ سکه💰۵۰ هزار تومان(۲۷٪تخفیف)",
-                        'callback_data' => "pay-50000-220"
-                    ]
-                ],
-                [
-                    [
-                        'text' => "💎 ۵۵۰ سکه 💰 ۷۰ هزار تومان(۳۱٪تخفیف)",
-                        'callback_data' => "pay-70000-550"
+                        'text' => "💎 ۲۵۰ سکه 💰 ۱۰۰ هزار تومان(۳۱٪تخفیف)",
+                        'callback_data' => "pay-100000-250"
                     ],
                 ],
                 [

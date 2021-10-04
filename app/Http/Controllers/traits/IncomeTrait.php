@@ -168,6 +168,7 @@ username : $username
 
         if (!$user) {
             $uniq = substr($this->text, 11);
+
             if (!Cache::has($this->chat_id . $uniq)) {
                 Cache::put($this->chat_id . $uniq, "1", 60);
                 $in = Member::where('uniq', $uniq)->first();
@@ -179,7 +180,7 @@ username : $username
                         'type'=>2
                     ]);
                     $in->update([
-                        'money' => $in->wallet + 500
+                        'money' => $in->money + 500
                     ]);
                     sendMessage([
                         'chat_id' => $in->chat_id,

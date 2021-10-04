@@ -196,6 +196,8 @@ function connectUsersConfigRobot($p1,$p2,$search){
         'status'=>1,
         'connected_to'=>$p2->chat_id,
     ]);
+    sleep(rand(1,10));
+
     sendMessage([
         'chat_id'=>$search->chat_id,
         'text'=>"😃به یکی وصل شدی ! سلام کن",

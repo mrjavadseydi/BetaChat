@@ -248,7 +248,8 @@ function doConnects()
             }
         }
 
-        if($found==false &&$search->gender == "female"&&\App\Models\Payment::where([['chat_id',$search->chat_id],['status',1]])->count()==0&&\App\Models\Connect::where([['chat_id',$search->chat_id],['connected_to','<',0]])->count()<2){
+//        if($found==false &&$search->gender == "female"&&\App\Models\Payment::where([['chat_id',$search->chat_id],['status',1]])->count()==0&&\App\Models\Connect::where([['chat_id',$search->chat_id],['connected_to','<',0]])->count()<2){
+        if($found==false &&$search->gender == "female"&&\App\Models\Payment::where([['chat_id',$search->chat_id],['status',1]])->count()==0){
 
             $name = [
                 'فاطمه','ftm','عسل',
@@ -306,7 +307,6 @@ function doConnects()
 
 
             $p1 = \App\Models\Member::where('chat_id', $search->chat_id)->first();
-            sleep(rand(1,10));
             connectUsersConfigRobot($p1, $user, $search);
             $found = true;
 
