@@ -22,7 +22,8 @@ trait InviteTrait
                     Invite::create([
                         'chat_id'=>$this->chat_id,
                         'from_id'=>$in->chat_id,
-                        'uniq'=>$this->text
+                        'uniq'=>$this->text,
+                        'type'=>1
                     ]);
                     $in->update([
                         'wallet' => $in->wallet + intval(getOption('inviteCoin'))

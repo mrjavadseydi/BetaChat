@@ -84,187 +84,21 @@ Route::get('payment',function (\Illuminate\Http\Request $request){
 })->name('pay');
 
 Route::get('/message',function (){
-   $member = \App\Models\Member::where([['chat_id','>',0],['id','<',500]])->get();
+   $member = \App\Models\Member::where([['chat_id','>',0],['id','<',100]])->get();
+
    foreach ($member as $m){
        $text = "🔥اخرین مهلت استفاده از بسته استثنایی بتا چت
 💎 ۳۰۰ سکه  فقط ۵۰ هزار تومان 😰
 تخفیف 87% 😨😱
-تنها ۲۸ دقیقه  دیگر باقی مانده";
-       sendMessage([
-           'chat_id'=> $m->chat_id,
-           'text'=>$text,
-           'reply_markup'=>coinButton()
-       ]);
+تنها ۲۸ دقیقه  دیگر باقی مانده
+
+
+";
+
+       \App\Jobs\SendMessageJob::dispatch($m->chat_id,$text,offerCoinButton(),null);
    }
 });
-Route::get('/message1',function (){
-    $member = \App\Models\Member::where([['chat_id','>',0],['id','>',500],['id','<',1000]])->get();
-    foreach ($member as $m){
-        $text = "🔥اخرین مهلت استفاده از بسته استثنایی بتا چت
-💎 ۳۰۰ سکه  فقط ۵۰ هزار تومان 😰
-تخفیف 87% 😨😱
-تنها ۲۸ دقیقه  دیگر باقی مانده";
-        sendMessage([
-            'chat_id'=> $m->chat_id,
-            'text'=>$text,
-            'reply_markup'=>coinButton()
-        ]);
-    }
-});
-Route::get('/message2',function (){
-    $member = \App\Models\Member::where([['chat_id','>',0],['id','>',1000],['id','<',1500]])->get();
-    foreach ($member as $m){
-        $text = "🔥اخرین مهلت استفاده از بسته استثنایی بتا چت
-💎 ۳۰۰ سکه  فقط ۵۰ هزار تومان 😰
-تخفیف 87% 😨😱
-تنها ۲۸ دقیقه  دیگر باقی مانده";
-        sendMessage([
-            'chat_id'=> $m->chat_id,
-            'text'=>$text,
-            'reply_markup'=>coinButton()
-        ]);
-    }
-});
-Route::get('/message3',function (){
-    $member = \App\Models\Member::where([['chat_id','>',0],['id','>',1500],['id','<',2000]])->get();
-    foreach ($member as $m){
-        $text = "🔥اخرین مهلت استفاده از بسته استثنایی بتا چت
-💎 ۳۰۰ سکه  فقط ۵۰ هزار تومان 😰
-تخفیف 87% 😨😱
-تنها ۲۸ دقیقه  دیگر باقی مانده";
-        sendMessage([
-            'chat_id'=> $m->chat_id,
-            'text'=>$text,
-            'reply_markup'=>coinButton()
-        ]);
-    }
-});
-Route::get('/message4',function (){
-    $member = \App\Models\Member::where([['chat_id','>',0],['id','>',2000],['id','<',2500]])->get();
-    foreach ($member as $m){
-        $text = "🔥اخرین مهلت استفاده از بسته استثنایی بتا چت
-💎 ۳۰۰ سکه  فقط ۵۰ هزار تومان 😰
-تخفیف 87% 😨😱
-تنها ۲۸ دقیقه  دیگر باقی مانده";
-        sendMessage([
-            'chat_id'=> $m->chat_id,
-            'text'=>$text,
-            'reply_markup'=>coinButton()
-        ]);
-    }
-});
-Route::get('/message5',function (){
-    $member = \App\Models\Member::where([['chat_id','>',0],['id','>',2500],['id','<',3000]])->get();
-    foreach ($member as $m){
-        $text = "🔥اخرین مهلت استفاده از بسته استثنایی بتا چت
-💎 ۳۰۰ سکه  فقط ۵۰ هزار تومان 😰
-تخفیف 87% 😨😱
-تنها ۲۸ دقیقه  دیگر باقی مانده";
-        sendMessage([
-            'chat_id'=> $m->chat_id,
-            'text'=>$text,
-            'reply_markup'=>coinButton()
-        ]);
-    }
-});
-Route::get('/message6',function (){
-    $member = \App\Models\Member::where([['chat_id','>',0],['id','>',3000],['id','<',3500]])->get();
-    foreach ($member as $m){
-        $text = "🔥اخرین مهلت استفاده از بسته استثنایی بتا چت
-💎 ۳۰۰ سکه  فقط ۵۰ هزار تومان 😰
-تخفیف 87% 😨😱
-تنها ۲۸ دقیقه  دیگر باقی مانده";
-        sendMessage([
-            'chat_id'=> $m->chat_id,
-            'text'=>$text,
-            'reply_markup'=>coinButton()
-        ]);
-    }
-});
-Route::get('/message7',function (){
-    $member = \App\Models\Member::where([['chat_id','>',0],['id','>',3500],['id','<',4000]])->get();
-    foreach ($member as $m){
-        $text = "🔥اخرین مهلت استفاده از بسته استثنایی بتا چت
-💎 ۳۰۰ سکه  فقط ۵۰ هزار تومان 😰
-تخفیف 87% 😨😱
-تنها ۲۸ دقیقه  دیگر باقی مانده";
-        sendMessage([
-            'chat_id'=> $m->chat_id,
-            'text'=>$text,
-            'reply_markup'=>coinButton()
-        ]);
-    }
-});
-Route::get('/message8',function (){
-    $member = \App\Models\Member::where([['chat_id','>',0],['id','>',4000],['id','<',4500]])->get();
-    foreach ($member as $m){
-        $text = "🔥اخرین مهلت استفاده از بسته استثنایی بتا چت
-💎 ۳۰۰ سکه  فقط ۵۰ هزار تومان 😰
-تخفیف 87% 😨😱
-تنها ۲۸ دقیقه  دیگر باقی مانده";
-        sendMessage([
-            'chat_id'=> $m->chat_id,
-            'text'=>$text,
-            'reply_markup'=>coinButton()
-        ]);
-    }
-});
-Route::get('/message9',function (){
-    $member = \App\Models\Member::where([['chat_id','>',0],['id','>',4500],['id','<',5000]])->get();
-    foreach ($member as $m){
-        $text = "🔥اخرین مهلت استفاده از بسته استثنایی بتا چت
-💎 ۳۰۰ سکه  فقط ۵۰ هزار تومان 😰
-تخفیف 87% 😨😱
-تنها ۲۸ دقیقه  دیگر باقی مانده";
-        sendMessage([
-            'chat_id'=> $m->chat_id,
-            'text'=>$text,
-            'reply_markup'=>coinButton()
-        ]);
-    }
-});
-Route::get('/message10',function (){
-    $member = \App\Models\Member::where([['chat_id','>',0],['id','>',5000],['id','<',5500]])->get();
-    foreach ($member as $m){
-        $text = "🔥اخرین مهلت استفاده از بسته استثنایی بتا چت
-💎 ۳۰۰ سکه  فقط ۵۰ هزار تومان 😰
-تخفیف 87% 😨😱
-تنها ۲۸ دقیقه  دیگر باقی مانده";
-        sendMessage([
-            'chat_id'=> $m->chat_id,
-            'text'=>$text,
-            'reply_markup'=>coinButton()
-        ]);
-    }
-});
-Route::get('/message11',function (){
-    $member = \App\Models\Member::where([['chat_id','>',0],['id','>',5500],['id','<',6000]])->get();
-    foreach ($member as $m){
-        $text = "🔥اخرین مهلت استفاده از بسته استثنایی بتا چت
-💎 ۳۰۰ سکه  فقط ۵۰ هزار تومان 😰
-تخفیف 87% 😨😱
-تنها ۲۸ دقیقه  دیگر باقی مانده";
-        sendMessage([
-            'chat_id'=> $m->chat_id,
-            'text'=>$text,
-            'reply_markup'=>coinButton()
-        ]);
-    }
-});
-Route::get('/message12',function (){
-    $member = \App\Models\Member::where([['chat_id','>',0],['id','>',6000],['id','<',6500]])->get();
-    foreach ($member as $m){
-        $text = "🔥اخرین مهلت استفاده از بسته استثنایی بتا چت
-💎 ۳۰۰ سکه  فقط ۵۰ هزار تومان 😰
-تخفیف 87% 😨😱
-تنها ۲۸ دقیقه  دیگر باقی مانده";
-        sendMessage([
-            'chat_id'=> $m->chat_id,
-            'text'=>$text,
-            'reply_markup'=>coinButton()
-        ]);
-    }
-});
+
 Route::get('/mm',function (){
 //    dd(Cache::get('last'));
     if(Cache::has('last')){
@@ -276,14 +110,14 @@ Route::get('/mm',function (){
     $lastID = \App\Models\Member::orderBy('id','desc')->first();
     Cache::put('last',$lastID->id);
     foreach ($member as $m){
-        $text = "🔥تخفیف استثنایی محدود !
-۳۰۰ سکه تنها  به  قیمت  ۵۰ هزار تومان !
-🛑اخرین مهلت
-";
+        $text = "💥بسته ویژه کاربران جدید 😨
+🔥۵۰ سکه  فقط ۲۰ هزار تومان 😱
+😳مدت محدود !
+حتی در هنگام چت هم میتوانید سکه خریداری کنید!😰";
         sendMessage([
             'chat_id'=> $m->chat_id,
             'text'=>$text,
-            'reply_markup'=>coinButton()
+            'reply_markup'=>offerCoinButton()
         ]);
     }
     dd("count :".count($member));
@@ -291,24 +125,5 @@ Route::get('/mm',function (){
 
 Route::get('/rep',function (){
 
-    $medias = Media::where([['id','>',10],['sender','>',0],['sender','!=',"1389610583"]])->get();
-    devLog(count($medias));
-    foreach ($medias as $media){
-        $content= [];
-        $func = "send" . ucfirst($media->type);
-        if ($media->text != " ") {
-            $content = [
-                'chat_id' => "@betachatasdasd",
-                $media->type => $media->file_id,
-                'caption' => $media->text
-            ];
-        } else {
-            $content = [
-                'chat_id' => "@betachatasdasd",
-                $media->type => $media->file_id,
-            ];
-        }
-        call_user_func_array($func, [$content]);
-    }
-
+    Artisan::call('queue:work');
 });

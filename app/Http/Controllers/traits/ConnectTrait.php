@@ -14,7 +14,8 @@ trait ConnectTrait
         $connect = getOption('connect');
         sendMessage([
             'chat_id'=>$this->chat_id,
-            'text'=>getOption("incomeFromMenu")
+            'text'=>getOption("incomeFromMenu"),
+            'parse_mode'=>'Markdown'
         ]);
         sendMessage([
             'chat_id' => $this->chat_id,
@@ -33,7 +34,8 @@ trait ConnectTrait
         $connect = getOption('CustomSearch');
         sendMessage([
             'chat_id'=>$this->chat_id,
-            'text'=>getOption("incomeFromMenu")
+            'text'=>getOption("incomeFromMenu"),
+            'parse_mode'=>'Markdown'
         ]);
         sendMessage([
             'chat_id' => $this->chat_id,

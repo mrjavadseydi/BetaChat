@@ -422,6 +422,22 @@ if (!function_exists('coinButton')) {
         ]);
     }
 }
+if (!function_exists('offerCoinButton')) {
+    function offerCoinButton()
+    {
+        return keyboard::make([
+            'inline_keyboard' => [
+
+                [
+                    [
+                        'text' => "💥 ۵۰ سکه💰۲۰ هزار تومان",
+                        'callback_data' => "pay-20000-50"
+                    ]
+                ]
+            ],
+        ]);
+    }
+}
 if (!function_exists('provinceButton')) {
     function provinceButton()
     {
