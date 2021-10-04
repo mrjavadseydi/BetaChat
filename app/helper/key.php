@@ -314,8 +314,12 @@ if (!function_exists('profileConnect')) {
             'inline_keyboard' => [
                 [
                     [
-                        'text' => "✉️دعوت به چت",
+                        'text' => "❇️دعوت به چت",
                         'callback_data' => "RequestSendConnect-$id"
+                    ],
+                    [
+                        'text' => "📩ارسال پیام دایرکت",
+                        'callback_data' => "sendDirect-$id"
                     ],
                 ]
             ],
@@ -432,6 +436,22 @@ if (!function_exists('offerCoinButton')) {
                     [
                         'text' => "💥 ۵۰ سکه💰۲۰ هزار تومان",
                         'callback_data' => "pay-20000-50"
+                    ]
+                ]
+            ],
+        ]);
+    }
+}
+if (!function_exists('acceptDirect')) {
+    function acceptDirect($id)
+    {
+        return keyboard::make([
+            'inline_keyboard' => [
+
+                [
+                    [
+                        'text' => "✅ نمایش بده",
+                        'callback_data' => "direct-$id"
                     ]
                 ]
             ],

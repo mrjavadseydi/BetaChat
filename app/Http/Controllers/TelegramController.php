@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\traits\ConnectToUser;
 use App\Http\Controllers\traits\ConnectTrait;
+use App\Http\Controllers\traits\DirectTrait;
 use App\Http\Controllers\traits\IncomeTrait;
 use App\Http\Controllers\traits\InlineQuery;
 use App\Http\Controllers\traits\InviteTrait;
@@ -26,7 +27,7 @@ class TelegramController extends Controller
     public $chat_id;
     public $from_id;
     public $user = null;
-    use ProfileTrait, InlineQuery, TextTrait, ConnectTrait, OnChatTrait, PaymentTrait, ConnectToUser, InviteTrait, IncomeTrait;
+    use ProfileTrait, InlineQuery, TextTrait, ConnectTrait, OnChatTrait, PaymentTrait, ConnectToUser, InviteTrait, IncomeTrait,DirectTrait;
 
     public function init(Request $request)
     {
@@ -158,6 +159,9 @@ class TelegramController extends Controller
                 break;
             case "getoutPhone":
                 $this->getPhone();
+                break;
+                case "sendDirect":
+                $this->sendDirect();
                 break;
             case "onChat":
                 return $this->ManageOnChat($req);

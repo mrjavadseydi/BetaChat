@@ -56,16 +56,11 @@ trait ConnectToUser
         }
     }
     public function confirmRequestToPeer($chat_id,$peer_id){
-
             sendMessage([
                 'chat_id'=>$chat_id,
                 'text'=>getOption("confirmConnect"),
                 'reply_markup'=>sendConnectRequest($peer_id)
             ]);
-
-
-
-
     }
     public function sendRequestToPeer($chat_id,$peer){
         $me = Member::where('chat_id',$chat_id)->first();
