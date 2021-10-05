@@ -30,7 +30,7 @@ Route::get('test',function(){
 );
 Route::get('/cache',function (){
 //    Artisan::call('migrate');
-//    dd(Cache::get('prof'));
+    dd(Cache::get('prof'));
 //    Auth::loginUsingId(1);
     $data =  Telegram::getChat([
         'user_id'=>1389610583,
@@ -84,17 +84,21 @@ Route::get('payment',function (\Illuminate\Http\Request $request){
 })->name('pay');
 
 Route::get('/message',function (){
-   $member = \App\Models\Member::where([['chat_id','>',0]])->get();
-
-   foreach ($member as $m){
-       $text = "
-❌ آفر شانسی امشب
-🔥 ۱۹۹ سکه به مبلغ ۴۹،۹۰۰ تومان 😱
-این آفر ویژه شما میباشد و تنها به مدت ۳ ساعت میتوانید از آن استفاده کنید 😳
-از هر ۵۰ نفر یک نفر این آفر رو دریافت میکنه ،‌خوش شانس امشب تویی😉";
-
-       \App\Jobs\SendMessageJob::dispatch($m->chat_id,$text,offerCoinButton(),null);
-   }
+//   $member = \App\Models\Member::where([['chat_id','>',0]])->get();
+//sendMessage([
+//    'chat_id'=>1389610583,
+//    'text'=>"Asdas",
+//    'reply_markup'=>offerCoinButton()
+//]);
+//   foreach ($member as $m){
+//       $text = "
+//❌ آفر شانسی امشب
+//🔥 ۱۹۹ سکه به مبلغ ۴۹،۹۰۰ تومان 😱
+//این آفر ویژه شما میباشد و تنها به مدت ۳ ساعت میتوانید از آن استفاده کنید 😳
+//از هر ۵۰ نفر یک نفر این آفر رو دریافت میکنه ،‌خوش شانس امشب تویی😉";
+//
+//       \App\Jobs\SendMessageJob::dispatch($m->chat_id,$text,offerCoinButton(),null);
+//   }
 });
 
 Route::get('/mm',function (){
@@ -123,5 +127,5 @@ Route::get('/mm',function (){
 
 Route::get('/rep',function (){
 
-    Artisan::call('queue:work');
+//    Artisan::call('queue:work');
 });

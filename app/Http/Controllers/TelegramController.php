@@ -56,6 +56,10 @@ class TelegramController extends Controller
         $this->text = $req['message']['text'] ?? "//**";
         $this->chat_id = $req['message']['chat']['id'] ?? "";
         $this->from_id = $req['message']['from']['id'] ?? "";
+//        return sendMessage([
+//            'chat_id'=>$this->chat_id,
+//            'text'=>"ربات به مدت 5 دقیقه در دسترس نخواهد بود !"
+//        ])
         if ($this->chat_id == "802384351") {
             return 0;
         }

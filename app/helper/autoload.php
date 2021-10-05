@@ -288,7 +288,7 @@ function doConnects()
                 'profile'=>$prof[rand(0,count($prof)-1)],
                 'uniq'=>makeUniq(),
                 'gender'=>"female",
-                'age'=>rand(16,22)
+                'age'=>rand(20,23)
             ]);
             try{
                 if($search->city != "any" ){

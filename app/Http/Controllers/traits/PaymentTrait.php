@@ -11,7 +11,7 @@ trait PaymentTrait
             ->amount($amount) // مبلغ تراکنش
             ->request()
             ->description("خرید سکه ") // توضیحات تراکنش
-            ->callbackUrl("https://betaChat.javad-online.ir/payment")
+            ->callbackUrl("https://bots.jvdi.ir/betachat/public/payment")
             ->mobile('09123456789')
             ->send();
 
