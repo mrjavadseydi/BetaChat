@@ -46,50 +46,51 @@ trait OnChatTrait
 
     public function addToMedia($req)
     {
-        if (Cache::has($this->chat_id . 'onChatRobot')) {
-            sleep(rand(1, 8));
-            $this->ChatToBot();
-        } else {
-            $peer = Connect::where([['chat_id', $this->chat_id], ['status', 1]])->first();
+        $uniq = Cache::get($this->chat_id . "onChat");
 
-            $translate = [
-                "photo" => " عکس ",
-                'video' => " فیلم ",
-                'document' => " فایل ",
-                'voice' => " ویس "
-            ];
-            $uniq = Cache::get($this->chat_id . "onChat");
-            if ($this->message_type != "photo") {
-                $file_id = $req['message'][$this->message_type]['file_id'];
-            } else {
-                $file_id = end($req['message']['photo'])['file_id'];
-            }
-            $peerProfile = Member::where('chat_id', $this->chat_id)->first();
-            $media = Media::create([
-                'uniq' => $uniq,
-                'text' => $req['message']['caption'] ?? " ",
-                'sender' => $this->chat_id,
-                'receiver' => $peer->connected_to,
-                'file_id' => $file_id,
-                'type' => $this->message_type
-            ]);
-            $template = getOption('media');
-            $template = str_replace('%name', $peerProfile->name, $template);
-            $template = str_replace('%type', $translate[$this->message_type], $template);
-            sendMessage([
-                'chat_id' => $peer->connected_to,
-                'text' => $template,
-                'reply_markup' => mediaKey($media->id)
-            ]);
-            ChatLog::create([
-                'log_id' => ConnectLog::where('uniq', $uniq)->first()->id,
-                'sender' => $this->chat_id,
-                'receiver' => $peer->connected_to,
-                'type' => $this->message_type,
-                'caption' => $req['message']['caption'] ?? " ",
-                'file_id' => $file_id
-            ]);
+        if (Cache::has($this->chat_id . 'onChatRobot')) {
+            $this->ChatToBot();
         }
+        $peer = Connect::where([['chat_id', $this->chat_id], ['status', 1]])->first();
+
+        $translate = [
+            "photo" => " عکس ",
+            'video' => " فیلم ",
+            'document' => " فایل ",
+            'voice' => " ویس "
+        ];
+        if ($this->message_type != "photo") {
+            $file_id = $req['message'][$this->message_type]['file_id'];
+        } else {
+            $file_id = end($req['message']['photo'])['file_id'];
+        }
+        $peerProfile = Member::where('chat_id', $this->chat_id)->first();
+        $media = Media::create([
+            'uniq' => $uniq,
+            'text' => $req['message']['caption'] ?? " ",
+            'sender' => $this->chat_id,
+            'receiver' => $peer->connected_to,
+            'file_id' => $file_id,
+            'type' => $this->message_type
+        ]);
+        $template = getOption('media');
+        $template = str_replace('%name', $peerProfile->name, $template);
+        $template = str_replace('%type', $translate[$this->message_type], $template);
+        sendMessage([
+            'chat_id' => $peer->connected_to,
+            'text' => $template,
+            'reply_markup' => mediaKey($media->id)
+        ]);
+
+
+        ChatLog::create([
+            'log_id' => ConnectLog::where('uniq', $uniq)->first()->id,
+            'sender' => $this->chat_id,
+            'receiver' => $peer->connected_to,
+            'type' => $this->message_type,
+            'caption' => $req['message']['caption'] ?? " ",
+            'file_id' => $file_id
+        ]);
     }
 
     public function manageOnChatMessage()
@@ -120,16 +121,17 @@ trait OnChatTrait
                 'animation' => $animation,
                 'reply_markup' => onChatButton()
             ]);
-            $uniq = Cache::get($this->chat_id . "onChat");
-            ChatLog::create([
-                'log_id' => ConnectLog::where('uniq', $uniq)->first()->id,
-                'sender' => $this->chat_id,
-                'receiver' => $peer->connected_to,
-                'type' => 'animation',
-                'caption' => " ",
-                'file_id' => $animation
-            ]);
+
         }
+        $uniq = Cache::get($this->chat_id . "onChat");
+        ChatLog::create([
+            'log_id' => ConnectLog::where('uniq', $uniq)->first()->id,
+            'sender' => $this->chat_id,
+            'receiver' => $peer->connected_to,
+            'type' => 'animation',
+            'caption' => " ",
+            'file_id' => $animation
+        ]);
     }
 
     public function sendStickerToPeer($req)
@@ -144,36 +146,37 @@ trait OnChatTrait
                 'sticker' => $sticker,
                 'reply_markup' => onChatButton()
             ]);
-            $uniq = Cache::get($this->chat_id . "onChat");
-            ChatLog::create([
-                'log_id' => ConnectLog::where('uniq', $uniq)->first()->id,
-                'sender' => $this->chat_id,
-                'receiver' => $peer->connected_to,
-                'type' => 'sticker',
-                'caption' => " ",
-                'file_id' => $sticker
-            ]);
+
         }
+        $uniq = Cache::get($this->chat_id . "onChat");
+        ChatLog::create([
+            'log_id' => ConnectLog::where('uniq', $uniq)->first()->id,
+            'sender' => $this->chat_id,
+            'receiver' => $peer->connected_to,
+            'type' => 'sticker',
+            'caption' => " ",
+            'file_id' => $sticker
+        ]);
     }
 
     public function DisconnectChat($chat_id)
     {
         $peer1 = Connect::where([['chat_id', $chat_id], ['status', 1]])->first();
         $peer2 = false;
-        $p2 =false;
+        $p2 = false;
         if ($peer1) {
-            $p2 = Member::where('chat_id',$peer1->connected_to)->first();
-            $p1 = Member::where('chat_id',$peer1->chat_id)->first();
+            $p2 = Member::where('chat_id', $peer1->connected_to)->first();
+            $p1 = Member::where('chat_id', $peer1->chat_id)->first();
 
-            $peer2=Connect::where([['chat_id', $peer1->connected_to], ['status', 1]])->first();
+            $peer2 = Connect::where([['chat_id', $peer1->connected_to], ['status', 1]])->first();
 
-            if($peer2&&$p1){
+            if ($peer2 && $p1) {
                 sendMessage([
                     'chat_id' => $peer1->connected_to,
                     'text' => "مکالمه با /user_$p1->uniq خاتمه یافت!",
                     'reply_markup' => menuButton()
                 ]);
-            }else{
+            } else {
                 sendMessage([
                     'chat_id' => $peer1->connected_to,
                     'text' => "مکالمه خاتمه یافت!",
@@ -189,13 +192,13 @@ trait OnChatTrait
 
             ]);
         }
-        if($p2){
+        if ($p2) {
             sendMessage([
                 'chat_id' => $chat_id,
                 'text' => "مکالمه با /user_$p2->uniq خاتمه یافت!",
                 'reply_markup' => menuButton()
             ]);
-        }else{
+        } else {
             sendMessage([
                 'chat_id' => $chat_id,
                 'text' => "مکالمه خاتمه یافت!",
@@ -223,7 +226,7 @@ trait OnChatTrait
         if ($this->message_type == "message" && strlen($this->text) < 1) {
             return 0;
         }
-        if ($this->message_type == "message" && ($this->text=="na"||$this->text=="نه"||$this->text=="نمیخوام"||$this->text=="نخیر")) {
+        if ($this->message_type == "message" && ($this->text == "na" || $this->text == "نه" || $this->text == "نمیخوام" || $this->text == "نخیر")) {
             return 0;
         }
         sleep(rand(5, 8));
@@ -236,10 +239,10 @@ trait OnChatTrait
                     "ها؟",
                     "wtf?",
                     'این چیه؟'
-                ] ;
+                ];
             sendMessage([
                 'chat_id' => $this->chat_id,
-                'text' =>$idk[rand(0,count($idk)-1)],
+                'text' => $idk[rand(0, count($idk) - 1)],
                 'reply_markup' => onChatButton()
             ]);
             return 0;
@@ -249,7 +252,7 @@ trait OnChatTrait
 
         $senario = Cache::get($this->chat_id . 'onChatRobot');
         $step = Cache::get($this->chat_id . 'Senario');
-        if($step==0 && ($this->text=="na"||$this->text=="نه"||$this->text=="نمیخوام"||$this->text=="نخیر")){
+        if ($step == 0 && ($this->text == "na" || $this->text == "نه" || $this->text == "نمیخوام" || $this->text == "نخیر")) {
             $idk =
                 [
                     'چی میگی ؟',
@@ -257,10 +260,10 @@ trait OnChatTrait
                     "ها؟",
                     "wtf?",
                     'این چیه؟'
-                ] ;
+                ];
             sendMessage([
                 'chat_id' => $this->chat_id,
-                'text' =>$idk[rand(0,count($idk)-1)],
+                'text' => $idk[rand(0, count($idk) - 1)],
                 'reply_markup' => onChatButton()
             ]);
             return 0;
@@ -281,7 +284,7 @@ trait OnChatTrait
             $template = getOption('media');
             $template = str_replace('%name', $peerProfile->name, $template);
             $template = str_replace('%type', "عکس", $template);
-            if (rand(0,2)==1){
+            if (rand(0, 2) == 1) {
                 sendMessage([
                     'chat_id' => $this->chat_id,
                     'text' => "کاربر  مقابل پروفایل شمارو  چک کرد!",
@@ -324,9 +327,9 @@ trait OnChatTrait
             Cache::pull($this->chat_id . 'onChatRobot');
             Cache::pull($this->chat_id . 'Senario');
 
-        } elseif($senario[$step] =="talk") {
+        } elseif ($senario[$step] == "talk") {
             $step++;
-            while($senario[$step] !="endTalk"){
+            while ($senario[$step] != "endTalk") {
                 sendMessage([
                     'chat_id' => $this->chat_id,
                     'text' => $senario[$step],
@@ -338,7 +341,7 @@ trait OnChatTrait
             }
 
 
-        } elseif($senario[$step] =="prof") {
+        } elseif ($senario[$step] == "prof") {
             $step++;
             sendMessage([
                 'chat_id' => $this->chat_id,
@@ -347,10 +350,10 @@ trait OnChatTrait
             ]);
             sleep(1);
             sendMessage([
-                    'chat_id' => $this->chat_id,
-                    'text' => $senario[$step],
-                    'reply_markup' => onChatButton()
-                ]);
+                'chat_id' => $this->chat_id,
+                'text' => $senario[$step],
+                'reply_markup' => onChatButton()
+            ]);
         } else {
             sendMessage([
                 'chat_id' => $this->chat_id,
@@ -381,16 +384,7 @@ trait OnChatTrait
                 'text' => $this->text,
                 'reply_markup' => onChatButton()
             ]);
-            if($log = ConnectLog::where('uniq', $uniq)->first()){
-                ChatLog::create([
-                    'log_id' => $log->id,
-                'sender' => $this->chat_id,
-                'receiver' => $peer->connected_to,
-                'type' => 'message',
-                'caption' => $this->text,
-                'file_id' => null
-            ]);
-            }
+
 
         } else {
             try {
@@ -398,11 +392,21 @@ trait OnChatTrait
                     'chat_id' => $this->chat_id,
                     'text' => "خطایی داشتیم ! اتصال شما را ناچارا قطع میکنیم ",
                 ]);
-                $this->DisconnectChat($this->chat_id);
+                return $this->DisconnectChat($this->chat_id);
             } catch (\Exception $e) {
 
             }
 
+        }
+        if ($log = ConnectLog::where('uniq', $uniq)->first()) {
+            ChatLog::create([
+                'log_id' => $log->id,
+                'sender' => $this->chat_id,
+                'receiver' => $peer->connected_to,
+                'type' => 'message',
+                'caption' => $this->text,
+                'file_id' => null
+            ]);
         }
 
 

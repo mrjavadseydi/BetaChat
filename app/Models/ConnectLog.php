@@ -9,5 +9,7 @@ class ConnectLog extends Model
 {
     use HasFactory;
     protected $guarded = [];
-
+    public function onBot(){
+        return ($this->user_1<0||$this->user_2);
+    }
 }

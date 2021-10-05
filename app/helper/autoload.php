@@ -4,6 +4,7 @@ use App\Models\Member;
 
 require_once __DIR__ . "/key.php";
 require_once __DIR__ . "/telegram.php";
+require_once __DIR__ . "/logs.php";
 
 function getOption($name)
 {
@@ -248,7 +249,7 @@ function doConnects()
             }
         }
 
-        if($found==false &&$search->gender == "female"&&\App\Models\Payment::where([['chat_id',$search->chat_id],['status',1]])->count()==0&&\App\Models\Connect::where([['chat_id',$search->chat_id],['connected_to','<',0]])->count()<2){
+        if($found==false &&$search->gender == "female"&&\App\Models\Payment::where([['chat_id',$search->chat_id],['status',1]])->count()==0){
 //        if($found==false &&$search->gender == "female"&&\App\Models\Payment::where([['chat_id',$search->chat_id],['status',1]])->count()==0){
 
             $name = [

@@ -185,7 +185,7 @@ function makeConnectButton($filter){
 function connectUsersConfigRobot($p1,$p2,$search){
     $uniq = uniqid();
     $p1->update([
-        'wallet'=>$p1->wallet -$search->cost,
+        'wallet'=>$p1->wallet - $search->cost,
     ]);
     \App\Models\ConnectLog::create([
         'uniq'=>$uniq,

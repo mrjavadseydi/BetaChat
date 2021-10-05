@@ -9,4 +9,5 @@ class ChatLog extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
 }
