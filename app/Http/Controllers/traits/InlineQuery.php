@@ -75,9 +75,9 @@ trait InlineQuery
                     'chat_id' => $req['callback_query']['from']['id'],
                     'message_id' => $req['callback_query']['message']['message_id']
                 ]);
-//                if($ex[1]==50000&&$ex[2]==300){
-//                    return 0;
-//                }
+                if($ex[1]==50000&&$ex[2]==300){
+                    return 0;
+                }
                 $this->initPayment($req['callback_query']['from']['id'], $ex[1], $ex[2]);
                 break;
             case "RequestSendConnect":

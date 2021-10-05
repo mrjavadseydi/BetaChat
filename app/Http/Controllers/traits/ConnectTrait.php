@@ -12,11 +12,11 @@ trait ConnectTrait
     public function initToConnect()
     {
         $connect = getOption('connect');
-        sendMessage([
-            'chat_id'=>$this->chat_id,
-            'text'=>getOption("incomeFromMenu"),
-            'parse_mode'=>'Markdown'
-        ]);
+//        sendMessage([
+//            'chat_id'=>$this->chat_id,
+//            'text'=>getOption("incomeFromMenu"),
+//            'parse_mode'=>'Markdown'
+//        ]);
         sendMessage([
             'chat_id' => $this->chat_id,
             'text' => $connect,
@@ -32,11 +32,11 @@ trait ConnectTrait
         ];
         Cache::put($this->chat_id . "-connect", $filter);
         $connect = getOption('CustomSearch');
-        sendMessage([
-            'chat_id'=>$this->chat_id,
-            'text'=>getOption("incomeFromMenu"),
-            'parse_mode'=>'Markdown'
-        ]);
+//        sendMessage([
+//            'chat_id'=>$this->chat_id,
+//            'text'=>getOption("incomeFromMenu"),
+//            'parse_mode'=>'Markdown'
+//        ]);
         sendMessage([
             'chat_id' => $this->chat_id,
             'text' => $connect,
