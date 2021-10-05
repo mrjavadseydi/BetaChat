@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Direct;
 use App\Models\Media;
 use Illuminate\Support\Facades\Route;
 
@@ -84,21 +85,36 @@ Route::get('payment',function (\Illuminate\Http\Request $request){
 })->name('pay');
 
 Route::get('/message',function (){
-//   $member = \App\Models\Member::where([['chat_id','>',0]])->get();
-//sendMessage([
+   $members = \App\Models\Member::where([['chat_id','>',0]])->get();
+//   $fakes  = \App\Models\Member::where('chat_id','<',0)->get();
+//   $max = count($fakes)-1;
+//    \App\Jobs\SendMessageJob::dispatch(1389610583,str_replace('%user','/user_',getOption('newDirect')),acceptDirect(5),null);
+
+//    foreach ($members as $member){
+//       $direct = Direct::create([
+//           'sender'=>$fakes[rand(0,$max)]->chat_id,
+//           'receiver'=>$member->chat_id,
+//           'text'=>"سلام ، بیکارم
+//🙄حوصله داری بیا چت کنیم"
+//       ]);
+//       \App\Jobs\SendMessageJob::dispatch($member->chat_id,str_replace('%user','/user_'.$member->uniq,getOption('newDirect')),acceptDirect($direct->id),null);
+//   }
+   //sendMessage([
 //    'chat_id'=>1389610583,
 //    'text'=>"Asdas",
 //    'reply_markup'=>offerCoinButton()
 //]);
-//   foreach ($member as $m){
-//       $text = "
-//❌ آفر شانسی امشب
-//🔥 ۱۹۹ سکه به مبلغ ۴۹،۹۰۰ تومان 😱
-//این آفر ویژه شما میباشد و تنها به مدت ۳ ساعت میتوانید از آن استفاده کنید 😳
-//از هر ۵۰ نفر یک نفر این آفر رو دریافت میکنه ،‌خوش شانس امشب تویی😉";
-//
-//       \App\Jobs\SendMessageJob::dispatch($m->chat_id,$text,offerCoinButton(),null);
-//   }
+   foreach ($members as $m){
+       $text = "
+💫 %name عزیز
+💎 افر ایجاد شده برای شما
+🔥 ۱۹۹ سکه به مبلغ ۴۹،۹۰۰ تومان 😱
+این آفر ویژه شما میباشد و تنها به مدت ۳ ساعت میتوانید از آن استفاده کنید 😳
+توی ۱ ساعت گذشته ۵۷۳ دختر و ۶۱۲  پسر توی ربت چت کردن ، توهم میتونی ازین افراد باشی😎🌟
+";
+
+       \App\Jobs\SendMessageJob::dispatch($m->chat_id,str_replace('%name',$m->name,$text),coinButton(),null);
+   }
 });
 
 Route::get('/mm',function (){

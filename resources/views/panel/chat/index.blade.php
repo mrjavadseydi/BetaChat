@@ -22,6 +22,7 @@
                             <th>نام کاربری دوم</th>
                             <th>جنسیت کاربر دوم</th>
                             <th>زمان ایجاد</th>
+                            <th>تعداد</th>
                             <th>عملیات</th>
                         </tr>
                         </thead>
@@ -43,6 +44,9 @@
 {{--                                <td>{{getUser($chat->user_2)->money}}</td>--}}
                                 <td>
                                     {{$chat->created_at}}
+                                </td>
+                                <td>
+                                    {{count(getChat($chat->id))}}
                                 </td>
                                 <td>
 

@@ -134,6 +134,8 @@ if(!function_exists('messageType')) {
             return 'sticker';
         } elseif (isset($arr['message']['video'])) {
             return 'video';
+        }  elseif (isset($arr['message']['location'])) {
+            return 'location';
         } elseif (isset($arr['message']['video_note'])) {
             return 'VideoNote';
         } elseif (isset($arr['message']['voice'])) {
