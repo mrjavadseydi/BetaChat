@@ -12,6 +12,7 @@ use App\Http\Controllers\traits\InviteTrait;
 use App\Http\Controllers\traits\OnChatTrait;
 use App\Http\Controllers\traits\PaymentTrait;
 use App\Http\Controllers\traits\ProfileTrait;
+use App\Http\Controllers\traits\SearchTrait;
 use App\Http\Controllers\traits\TextTrait;
 use App\Models\Connect;
 use App\Models\Member;
@@ -27,14 +28,14 @@ class TelegramController extends Controller
     public $chat_id;
     public $from_id;
     public $user = null;
-    use ProfileTrait, InlineQuery, TextTrait, ConnectTrait, OnChatTrait, PaymentTrait, ConnectToUser, InviteTrait, IncomeTrait,DirectTrait;
+    use ProfileTrait, InlineQuery, TextTrait, ConnectTrait, OnChatTrait, PaymentTrait, ConnectToUser, InviteTrait, IncomeTrait,DirectTrait,SearchTrait;
 
     public function init(Request $request)
     {
 
         $req = $request->toArray();
 //        devLog($req);
-        Cache::put('newReq', $req);
+//        Cache::put('newReq', $req);
 //        die();
 
         $this->message_type = messageType($req);
