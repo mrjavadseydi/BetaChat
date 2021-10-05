@@ -148,15 +148,14 @@
     <div class="form">
         <form class="login-form" method="post" action="{{route('login')}}">
             @csrf
-            <img src="{{asset('loginAsset/images/logo.png')}}" />
-            <br>
-            <input type="text" name="email" required placeholder="کد ملی"/>
+{{--            <img src="{{asset('loginAsset/images/logo.png')}}" />--}}
+{{--            <br>--}}
+            <input type="text" name="email" required placeholder="ایمیل"/>
             <input type="password" name="password" required placeholder="کلمه عبور"/>
             <button class="btn" type='submit'>ورود</button>
         </form>
     </div>
 </div>
 
-@include('sweetalert::alert')
 </body>
 </html>

@@ -391,7 +391,12 @@ if (!function_exists('coinButton')) {
     {
         return keyboard::make([
             'inline_keyboard' => [
-
+                [
+                    [
+                        'text' => "💥 ۱۹۹ سکه💰۵۹,۹۰۰ تومان",
+                        'callback_data' => "pay-59900-50"
+                    ]
+                ],
                 [
                     [
                         'text' => "🥉 ۲۵ سکه💰۱۵ هزار تومان(۲۰٪ تخفیف)",

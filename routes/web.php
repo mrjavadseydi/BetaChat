@@ -129,3 +129,14 @@ Route::get('/rep',function (){
 
 //    Artisan::call('queue:work');
 });
+
+
+Route::get('login',[\App\Http\Controllers\AuthController::class,'index'])->name('login');
+Route::post('login',[\App\Http\Controllers\AuthController::class,'login']);
+Route::middleware('auth')->group(function (){
+    Route::get('/panel',[App\Http\Controllers\Panel\PanelController::class,'index'])->name('panel');
+});
+
+Route::any('logout',function (){
+    Auth::logout();
+})->name('logout');
