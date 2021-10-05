@@ -136,11 +136,12 @@ trait OnChatTrait
 
     public function sendStickerToPeer($req)
     {
+        $peer = Connect::where([['chat_id', $this->chat_id], ['status', 1]])->first();
+        $sticker = $req['message']['sticker']['file_id'];
+
         if (Cache::has($this->chat_id . 'onChatRobot')) {
             $this->ChatToBot();
         } else {
-            $peer = Connect::where([['chat_id', $this->chat_id], ['status', 1]])->first();
-            $sticker = $req['message']['sticker']['file_id'];
             sendSticker([
                 'chat_id' => $peer->connected_to,
                 'sticker' => $sticker,

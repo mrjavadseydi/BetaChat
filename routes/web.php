@@ -135,6 +135,7 @@ Route::get('login',[\App\Http\Controllers\AuthController::class,'index'])->name(
 Route::post('login',[\App\Http\Controllers\AuthController::class,'login']);
 Route::middleware('auth')->group(function (){
     Route::get('/panel',[App\Http\Controllers\Panel\PanelController::class,'index'])->name('panel');
+    Route::resource('chat',\App\Http\Controllers\Panel\ChatController::class);
 });
 
 Route::any('logout',function (){

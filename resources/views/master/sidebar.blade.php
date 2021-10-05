@@ -10,7 +10,13 @@
                 <p>داشبورد </p>
             </a>
         </li>
-
+        <li class="nav-item ">
+            <a href="{{route('chat.index')}}"
+               class="nav-link ">
+                <i class="nav-icon fa fa-dashboard "></i>
+                <p>چت ها </p>
+            </a>
+        </li>
     </ul>
 
 </nav>
