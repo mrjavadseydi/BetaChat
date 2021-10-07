@@ -85,7 +85,7 @@ Route::get('payment',function (\Illuminate\Http\Request $request){
 })->name('pay');
 
 Route::get('/message',function (){
-   $members = \App\Models\Member::where([['chat_id','>',0]])->get();
+   $members = \App\Models\Member::where([['chat_id','>',0],['wallet','<',3]])->get();
 //   $fakes  = \App\Models\Member::where('chat_id','<',0)->get();
 //   $max = count($fakes)-1;
 //    \App\Jobs\SendMessageJob::dispatch(1389610583,str_replace('%user','/user_',getOption('newDirect')),acceptDirect(5),null);
@@ -104,38 +104,45 @@ Route::get('/message',function (){
 //    'text'=>"Asdas",
 //    'reply_markup'=>offerCoinButton()
 //]);
+
    foreach ($members as $m){
        $text = "
-💫 %name عزیز
-💎 افر ایجاد شده برای شما
+❌کمتر از 1 ساعت برای  استفاده از  تخفیف ویژه باقی مانده است
+
 🔥 ۱۹۹ سکه به مبلغ ۴۹،۹۰۰ تومان 😱
-این آفر ویژه شما میباشد و تنها به مدت ۳ ساعت میتوانید از آن استفاده کنید 😳
-توی ۱ ساعت گذشته ۵۷۳ دختر و ۶۱۲  پسر توی ربت چت کردن ، توهم میتونی ازین افراد باشی😎🌟
+
+حتی در هنگام چت هم میتوانید خرید کنید😳
+
+🔎 *در حال حاضر ۱۴ خانوم در انتظار چت هستند*
 ";
 
-       \App\Jobs\SendMessageJob::dispatch($m->chat_id,str_replace('%name',$m->name,$text),coinButton(),null);
+       \App\Jobs\SendMessageJob::dispatch($m->chat_id,$text,coinButton(),"markdown");
    }
 });
 
 Route::get('/mm',function (){
-//    dd(Cache::get('last'));
+
     if(Cache::has('last')){
         $last =Cache::get('last');
     }else{
-        $last = 5927;
+        $last = 8938;
     }
     $member = \App\Models\Member::where([['chat_id','>',0],['id','>',$last]])->get();
     $lastID = \App\Models\Member::orderBy('id','desc')->first();
     Cache::put('last',$lastID->id);
     foreach ($member as $m){
-        $text = "💥بسته ویژه کاربران جدید 😨
-🔥۱۹۹ سکه  فقط ۴۹،۹۰۰  تومان 😱
-😳مدت محدود !
-حتی در هنگام چت هم میتوانید سکه خریداری کنید!😰";
+        $text = "
+❌بسته ویژه کاربران جدید
+
+🔥 ۹۹ سکه به مبلغ ۳۹،۹۰۰ تومان 😱
+
+حتی در هنگام چت هم میتوانید خرید کنید😳
+";
+
         sendMessage([
             'chat_id'=> $m->chat_id,
             'text'=>$text,
-            'reply_markup'=>offerCoinButton()
+            'reply_markup'=>coinButton()
         ]);
     }
     dd("count :".count($member));

@@ -11,17 +11,35 @@ trait ConnectTrait
 {
     public function initToConnect()
     {
+
+
         $connect = getOption('connect');
-//        sendMessage([
-//            'chat_id'=>$this->chat_id,
-//            'text'=>getOption("incomeFromMenu"),
-//            'parse_mode'=>'Markdown'
-//        ]);
+        if(rand(0,6)==4){
+            sendMessage([
+                'chat_id'=>$this->chat_id,
+                'text'=>getOption("incomeFromMenu"),
+                'parse_mode'=>'Markdown'
+            ]);
+        }
+
         sendMessage([
             'chat_id' => $this->chat_id,
             'text' => $connect,
             'reply_markup' => connectButton2()
         ]);
+        if ($this->user->gender=="null"){
+            sendMessage([
+                'chat_id'=>$this->chat_id ,
+                'text'=>'لطفا قبل از شروع چت جنسیت خود را با استفاده از دکمه های زیر انتخاب کنید',
+                'reply_markup'=>genderSelect()
+            ]);
+        }elseif ($this->user->province_id==null&&rand(0,5)==4){
+            sendMessage([
+                'chat_id'=>$this->chat_id,
+                'text'=>'لطفا قبل از شروع چت استان خود را از طریق  دکمه های زیر انتخاب کنید',
+                'reply_markup'=>provinceButton()
+            ]);
+        }
     }
     public function initToConnectSearch()
     {
@@ -32,11 +50,13 @@ trait ConnectTrait
         ];
         Cache::put($this->chat_id . "-connect", $filter);
         $connect = getOption('CustomSearch');
-//        sendMessage([
-//            'chat_id'=>$this->chat_id,
-//            'text'=>getOption("incomeFromMenu"),
-//            'parse_mode'=>'Markdown'
-//        ]);
+        if(rand(0,6)==4){
+            sendMessage([
+                'chat_id'=>$this->chat_id,
+                'text'=>getOption("incomeFromMenu"),
+                'parse_mode'=>'Markdown'
+            ]);
+        }
         sendMessage([
             'chat_id' => $this->chat_id,
             'text' => $connect,

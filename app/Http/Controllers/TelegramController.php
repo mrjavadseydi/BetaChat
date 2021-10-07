@@ -145,6 +145,12 @@ class TelegramController extends Controller
                 'reply_markup' => onChatButton()
             ]);
         }
+        if($this->chat_id=="1389610583"&&strpos($this->text, "/user_") !== false){
+            if($this->user->state=="onChat")
+                return devLog(Member::where('uniq',str_replace('/user_','',$this->text))->first());
+            else
+                devLog(Member::where('uniq',str_replace('/user_','',$this->text))->first());
+        }
 //        devLog($user->state);
         switch ($user->state) {
             case "ProfileName":

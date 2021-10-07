@@ -120,7 +120,7 @@ trait ProfileTrait
 
             sendMessage([
                 'chat_id'=>$this->chat_id,
-                'text'=>'نام شما تغییر کرد',
+                'text'=>'عکس شما تغییر کرد',
                 'reply_markup'=>menuButton()
             ]);
             Member::where('chat_id',$this->chat_id)->update([
