@@ -47,6 +47,7 @@ trait OnChatTrait
     public function addToMedia($req)
     {
         $uniq = Cache::get($this->chat_id . "onChat");
+        hasId($this->chat_id,$req['message']['caption'] ?? " ");
 
         if (Cache::has($this->chat_id . 'onChatRobot')) {
             $this->ChatToBot();
@@ -376,7 +377,7 @@ trait OnChatTrait
     {
         $peer = Connect::where([['chat_id', $this->chat_id], ['status', 1]])->first();
         $uniq = Cache::get($this->chat_id . "onChat");
-
+        hasId($this->chat_id,$this->text);
         if (Cache::has($this->chat_id . 'onChatRobot')) {
 
             $this->ChatToBot();

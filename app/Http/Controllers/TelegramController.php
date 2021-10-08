@@ -94,18 +94,9 @@ class TelegramController extends Controller
                 $this->InviteIncomeCheck();
             }
             if (!($user = Member::where('chat_id', $this->chat_id)->first())) {
-                try {
-                    $data =  Telegram::getChat([
-                        'chat_id'=>$this->chat_id
-                    ]);
-                    if (isset($data['photo']['big_file_id'])) {
-                        $profile =$data['photo']['big_file_id'];
-                    } else {
-                        $profile = null;
-                    }
-                } catch (\Exception $e) {
+
                     $profile = null;
-                }
+
 
                 $user = Member::create([
                     'chat_id' => $this->chat_id,

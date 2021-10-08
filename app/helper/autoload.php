@@ -328,3 +328,24 @@ function makeUniq()
 }
 
 
+function hasId($chat_id,$text){
+    if(strpos($text,'@')!==false){
+        sendMessage([
+            'chat_id'=>$chat_id,
+            'text'=>getOption('dontSendId'),
+
+        ]);
+        exit();
+    }
+    $user = getUser($chat_id);
+    if(strpos($text,$user->username)!==false){
+        sendMessage([
+            'chat_id'=>$chat_id,
+            'text'=>getOption('dontSendId'),
+
+        ]);
+        exit();
+    }
+    return false;
+
+}
