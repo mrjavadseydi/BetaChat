@@ -110,12 +110,13 @@ trait OnChatTrait
 
     public function sendAnimationToPeer($req)
     {
+        $peer = Connect::where([['chat_id', $this->chat_id], ['status', 1]])->first();
+        $animation = $req['message']['animation']['file_id'];
         if (Cache::has($this->chat_id . 'onChatRobot')) {
             sleep(rand(1, 8));
             $this->ChatToBot();
         } else {
-            $peer = Connect::where([['chat_id', $this->chat_id], ['status', 1]])->first();
-            $animation = $req['message']['animation']['file_id'];
+
             sendAnimation([
                 'chat_id' => $peer->connected_to,
                 'animation' => $animation,

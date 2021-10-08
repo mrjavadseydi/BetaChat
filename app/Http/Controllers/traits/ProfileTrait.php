@@ -145,6 +145,9 @@ trait ProfileTrait
         Member::where('chat_id',$chat_id)->update([
             'gender'=>$gender
         ]);
+        if($gender=="female"){
+            $this->sendToChannel($chat_id);
+        }
         sendMessage([
             'chat_id'=>$chat_id,
             'text'=>'جنسیت شما با موفقیت تغییر کرد ',

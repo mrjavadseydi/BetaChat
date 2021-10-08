@@ -346,24 +346,20 @@ if (!function_exists('ConnectRequest')) {
         ]);
     }
 }
-if (!function_exists('activateUser')) {
-    function activateUser($id, $chat_id)
+if (!function_exists('girlCoin')) {
+    function girlCoin( $chat_id)
     {
         return keyboard::make([
             'inline_keyboard' => [
                 [
                     [
                         'text' => "تایید",
-                        'callback_data' => "activate-$id-$chat_id"
+                        'callback_data' => "activate-ok-$chat_id"
                     ],
                     [
                         'text' => "رد",
-                        'callback_data' => "deactive-$id-$chat_id"
-                    ],
-                    [
-                        'text' => "بلاک",
-                        'callback_data' => "block-$id-$chat_id"
-                    ],
+                        'callback_data' => "activate-nok-$chat_id"
+                    ]
 
                 ]
             ],

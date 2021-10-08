@@ -31,12 +31,17 @@ Route::get('test',function(){
 );
 Route::get('/cache',function (){
 //    Artisan::call('migrate');
-    dd(Cache::get('prof'));
+//    dd(Cache::get('prof'));
 //    Auth::loginUsingId(1);
     $data =  Telegram::getChat([
-        'user_id'=>1389610583,
-        'chat_id'=>-1001309074190
+        'chat_id'=>1389610583
     ]);
+    $text = "";
+    foreach ($data as$key=> $d){
+        if($key!="photo")
+            $text.="$key : $d \n";
+    }
+    devLog($text);
     dd($data);
 });
 Route::get('payment',function (\Illuminate\Http\Request $request){

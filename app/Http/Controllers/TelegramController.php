@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\traits\ConnectToUser;
 use App\Http\Controllers\traits\ConnectTrait;
 use App\Http\Controllers\traits\DirectTrait;
+use App\Http\Controllers\traits\GirlTrait;
 use App\Http\Controllers\traits\IncomeTrait;
 use App\Http\Controllers\traits\InlineQuery;
 use App\Http\Controllers\traits\InviteTrait;
@@ -28,7 +29,7 @@ class TelegramController extends Controller
     public $chat_id;
     public $from_id;
     public $user = null;
-    use ProfileTrait, InlineQuery, TextTrait, ConnectTrait, OnChatTrait, PaymentTrait, ConnectToUser, InviteTrait, IncomeTrait,DirectTrait,SearchTrait;
+    use ProfileTrait, InlineQuery, TextTrait, ConnectTrait, OnChatTrait, PaymentTrait, ConnectToUser, InviteTrait, IncomeTrait,DirectTrait,SearchTrait,GirlTrait;
 
     public function init(Request $request)
     {
