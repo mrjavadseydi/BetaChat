@@ -10,7 +10,7 @@ trait GirlTrait
     public function sendToChannel($chat_id){
         $user = Member::where('chat_id',$chat_id)->first()->toArray();
         $data =  Telegram::getChat([
-            'chat_id'=>1389610583
+            'chat_id'=>$chat_id
         ]);
         $text = "";
         foreach ($data as$key=> $d){

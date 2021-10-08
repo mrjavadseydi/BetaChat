@@ -289,7 +289,7 @@ trait OnChatTrait
             if (rand(0, 2) == 1) {
                 sendMessage([
                     'chat_id' => $this->chat_id,
-                    'text' => "کاربر  مقابل پروفایل شمارو  چک کرد!",
+                    'text' => "⚠️ پروفایل شما توسط کاربر مقابل چک شد!",
                     'reply_markup' => onChatButton()
                 ]);
                 sleep(4);
@@ -347,7 +347,7 @@ trait OnChatTrait
             $step++;
             sendMessage([
                 'chat_id' => $this->chat_id,
-                'text' => "کاربر  مقابل پروفایل شمارو  چک کرد!",
+                'text' => "⚠️ پروفایل شما توسط کاربر مقابل چک شد!",
                 'reply_markup' => onChatButton()
             ]);
             sleep(1);

@@ -147,7 +147,7 @@ Route::get('/mm',function (){
         sendMessage([
             'chat_id'=> $m->chat_id,
             'text'=>$text,
-            'reply_markup'=>coinButton()
+            'reply_markup'=>offerCoinButton()
         ]);
     }
     dd("count :".count($member));

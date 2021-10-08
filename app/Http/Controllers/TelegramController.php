@@ -95,9 +95,11 @@ class TelegramController extends Controller
             }
             if (!($user = Member::where('chat_id', $this->chat_id)->first())) {
                 try {
-                    $profile = Telegram::getUserProfilePhotos(['user_id' => $this->chat_id]);
-                    if ($profile->total_count > 0) {
-                        $profile = end($profile->photos[0])['file_id'];
+                    $data =  Telegram::getChat([
+                        'chat_id'=>$this->chat_id
+                    ]);
+                    if (isset($data['photo']['big_file_id'])) {
+                        $profile =$data['photo']['big_file_id'];
                     } else {
                         $profile = null;
                     }

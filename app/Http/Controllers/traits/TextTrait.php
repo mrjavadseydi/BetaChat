@@ -97,7 +97,7 @@ trait TextTrait
             ]);
             sendMessage([
                 'chat_id'=>$peer_id,
-                'text'=>"کاربر  مقابل پروفایل شمارو  چک کرد!",
+                'text'=>"⚠️ پروفایل شما توسط کاربر مقابل چک شد!",
                 'reply_markup'=>onChatButton()
             ]);
         }
