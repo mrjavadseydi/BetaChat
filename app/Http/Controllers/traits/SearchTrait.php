@@ -32,10 +32,11 @@ trait SearchTrait
                 $x2 = ceil($latitude);
                 $y1 = floor($longitude);
                 $y2 = ceil($longitude);
+                $unique_members = Member::where('caht_id', '>', 0);
                 return [
-                    'nearby' => Member::whereBetween('latitude', [$x1, $x2])->whereBetween('longitude', [$y1, $y2])->get(),
-                    'fellowCitizen' => Member::where('city_id', '=', $city_id)->get(),
-                    'fellowProvincial' => Member::where('province_id', '=', $province_id)->get()
+                    'nearby' => $unique_members->whereBetween('latitude', [$x1, $x2])->whereBetween('longitude', [$y1, $y2])->get(),
+                    'fellowCitizen' => $unique_members->where('city_id', '=', $city_id)->get(),
+                    'fellowProvincial' => $unique_members->where('province_id', '=', $province_id)->get()
                 ];
             } else {
                 sendMessage([
