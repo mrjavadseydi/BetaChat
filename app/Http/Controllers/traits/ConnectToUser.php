@@ -35,17 +35,14 @@ trait ConnectToUser
             }
             $caption =
                 "
-💠نام : ".$peer->name."
+👤پروفایل کاربر: "."/user_".$peer->uniq."
 
-🚻جنسیت : ".$gender."
+🔘نام : ".$peer->name."
+🔘جنسیت : ".$gender."
+🔘سن : ".$age."
+🔘استان : ".$province. "
+🔘شهر : ".$city. "
 
-🌀سن : ".$age."
-
-🔅استان : ".$province. "
-
-🌐شهر : ".$city. "
-
-🔰نام کاربری ربات : "."/user_".$peer->uniq."
 ";
             $up = sendPhoto([
                 'chat_id'=>$this->chat_id,

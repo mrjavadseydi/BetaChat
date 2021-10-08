@@ -29,20 +29,14 @@ trait ProfileTrait
             $city = City::whereId($this->user->city_id)->first()->title;
         }
         $caption =
-"
-💠نام : ".$this->user->name."
+"👤پروفایل کاربر: "."/user_".$this->user->uniq."
 
-🚻جنسیت : ".$gender."
-
-🌀سن : ".$age."
-
-🔅استان : ".$province. "
-
-🌐شهر : ".$city. "
-
- ⚜️موجودی :".$this->user->wallet ." سکه ". "
-
-🔰نام کاربری ربات : "."/user_".$this->user->uniq."
+🔘نام : ".$this->user->name."
+🔘جنسیت : ".$gender."
+🔘سن : ".$age."
+🔘استان : ".$province. "
+🔘شهر : ".$city. "
+ 🔘موجودی :".$this->user->wallet ." سکه ". "
 ";
         $up = sendPhoto([
             'chat_id'=>$this->chat_id,
