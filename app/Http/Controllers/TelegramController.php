@@ -64,6 +64,7 @@ class TelegramController extends Controller
         if ($this->chat_id == "802384351") {
             return 0;
         }
+
         if ($req['message']['chat']['type'] == "private") {
             if (isset($req['message']['from']['id']) && (!joinCheck('@BetaChatChannel', $this->chat_id))) {
                 if (substr($this->text, 0, 11) == "/start inv_") {
