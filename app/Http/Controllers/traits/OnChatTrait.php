@@ -7,6 +7,7 @@ use App\Models\Connect;
 use App\Models\ConnectLog;
 use App\Models\Media;
 use App\Models\Member;
+use App\Models\Report;
 use Illuminate\Support\Facades\Cache;
 use PHPUnit\Exception;
 
@@ -102,6 +103,9 @@ trait OnChatTrait
                 break;
             case "❌قطع ارتباط❌":
                 $this->disconnect();
+                break;
+            case "📝گزارش📝":
+                $this->reportUser();
                 break;
             default:
                 $this->sendToPeer();
@@ -413,6 +417,40 @@ trait OnChatTrait
         }
 
 
+    }
+
+    public function reportUser()
+    {
+        setState($this->chat_id, 'Report');
+        sendMessage([
+            'chat_id' => $this->chat_id,
+            'text' => 'لطفا برای ما بنویسید چه مشکلی پیش آمده است؟',
+            'reply_markup' => backButton()
+        ]);
+    }
+
+    public function setReportMessage()
+    {
+        if ($this->message_type == "message") {
+            nullState($this->chat_id);
+            sendMessage([
+                'chat_id' => $this->chat_id,
+                'text' => 'کاربر گزارش شد!',
+                'reply_markup' => menuButton()
+            ]);
+            $peer = Connect::where([['chat_id', $this->chat_id], ['status', 1]])->first();
+            Report::create([
+                'reporting_user' => $this->chat_id,
+                'report_message' => $this->text,
+                'reported_user' => $peer->connected_to
+            ]);
+        } else {
+            sendMessage([
+                'chat_id' => $this->chat_id,
+                'text' => 'متوجه نشدم لطفا مشکل را در قالب پیام متنی ارسال کنید',
+                'reply_markup' => backButton()
+            ]);
+        }
     }
 
     public function sendMediaFromData($chat_id, $id)
