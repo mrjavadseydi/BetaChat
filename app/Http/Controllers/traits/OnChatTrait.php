@@ -66,32 +66,36 @@ trait OnChatTrait
             $file_id = end($req['message']['photo'])['file_id'];
         }
         $peerProfile = Member::where('chat_id', $this->chat_id)->first();
-        $media = Media::create([
-            'uniq' => $uniq,
-            'text' => $req['message']['caption'] ?? " ",
-            'sender' => $this->chat_id,
-            'receiver' => $peer->connected_to,
-            'file_id' => $file_id,
-            'type' => $this->message_type
-        ]);
-        $template = getOption('media');
-        $template = str_replace('%name', $peerProfile->name, $template);
-        $template = str_replace('%type', $translate[$this->message_type], $template);
-        sendMessage([
-            'chat_id' => $peer->connected_to,
-            'text' => $template,
-            'reply_markup' => mediaKey($media->id)
-        ]);
+        if($peer){
+            $media = Media::create([
+                'uniq' => $uniq,
+                'text' => $req['message']['caption'] ?? " ",
+                'sender' => $this->chat_id,
+                'receiver' => $peer->connected_to,
+                'file_id' => $file_id,
+                'type' => $this->message_type
+            ]);
+            $template = getOption('media');
+            $template = str_replace('%name', $peerProfile->name, $template);
+            $template = str_replace('%type', $translate[$this->message_type], $template);
+            sendMessage([
+                'chat_id' => $peer->connected_to,
+                'text' => $template,
+                'reply_markup' => mediaKey($media->id)
+            ]);
+
+            ChatLog::create([
+                'log_id' => ConnectLog::where('uniq', $uniq)->first()->id,
+                'sender' => $this->chat_id,
+                'receiver' => $peer->connected_to,
+                'type' => $this->message_type,
+                'caption' => $req['message']['caption'] ?? " ",
+                'file_id' => $file_id
+            ]);
+        }
 
 
-        ChatLog::create([
-            'log_id' => ConnectLog::where('uniq', $uniq)->first()->id,
-            'sender' => $this->chat_id,
-            'receiver' => $peer->connected_to,
-            'type' => $this->message_type,
-            'caption' => $req['message']['caption'] ?? " ",
-            'file_id' => $file_id
-        ]);
+
     }
 
     public function manageOnChatMessage()

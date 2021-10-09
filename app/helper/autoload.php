@@ -13,7 +13,7 @@ function getOption($name)
     } else {
         if ($value = \App\Models\Option::where('key', $name)->first()) {
             $value = \App\Models\Option::where('key', $name)->first()->value;
-            Cache::put('option' . $name, $value, 160);
+            Cache::put('option' . $name, $value, 360);
             return $value;
         }
         return false;
@@ -329,7 +329,9 @@ function makeUniq()
 
 
 function hasId($chat_id,$text){
-    if(strpos($text,'@')!==false){
+
+    $text = strval($text);
+    if(!empty($text)&&is_string($text)&&$text!=" "&&strlen($text)>5&&strpos($text,'@')!==false){
         sendMessage([
             'chat_id'=>$chat_id,
             'text'=>getOption('dontSendId'),
@@ -338,7 +340,7 @@ function hasId($chat_id,$text){
         exit();
     }
     $user = getUser($chat_id);
-    if(strpos($text,$user->username)!==false){
+    if(!empty($user->username)&&!is_null($user->username)&&!empty($text)&&is_string($text)&&$text!=" "&&strlen($text)>5&&strpos($text,$user->username)!==false){
         sendMessage([
             'chat_id'=>$chat_id,
             'text'=>getOption('dontSendId'),
