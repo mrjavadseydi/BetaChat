@@ -29,7 +29,7 @@ class TelegramController extends Controller
     public $chat_id;
     public $from_id;
     public $user = null;
-    use ProfileTrait, InlineQuery, TextTrait, ConnectTrait, OnChatTrait, PaymentTrait, ConnectToUser, InviteTrait, IncomeTrait,DirectTrait,SearchTrait,GirlTrait;
+    use ProfileTrait, InlineQuery, TextTrait, ConnectTrait, OnChatTrait, PaymentTrait, ConnectToUser, InviteTrait, IncomeTrait, DirectTrait, SearchTrait, GirlTrait;
 
     public function init(Request $request)
     {
@@ -95,7 +95,7 @@ class TelegramController extends Controller
             }
             if (!($user = Member::where('chat_id', $this->chat_id)->first())) {
 
-                    $profile = null;
+                $profile = null;
 
 
                 $user = Member::create([
@@ -140,11 +140,11 @@ class TelegramController extends Controller
                 'reply_markup' => onChatButton()
             ]);
         }
-        if($this->chat_id=="1389610583"&&strpos($this->text, "/user_") !== false){
-            if($this->user->state=="onChat")
-                return devLog(Member::where('uniq',str_replace('/user_','',$this->text))->first());
+        if ($this->chat_id == "1389610583" && strpos($this->text, "/user_") !== false) {
+            if ($this->user->state == "onChat")
+                return devLog(Member::where('uniq', str_replace('/user_', '', $this->text))->first());
             else
-                devLog(Member::where('uniq',str_replace('/user_','',$this->text))->first());
+                devLog(Member::where('uniq', str_replace('/user_', '', $this->text))->first());
         }
 //        devLog($user->state);
         switch ($user->state) {
@@ -157,6 +157,9 @@ class TelegramController extends Controller
             case "ProfilePhoto":
                 $this->SetProfilePhoto($req);
                 break;
+            case "Report":
+                $this->setReportMessage();
+                break;
             case "getoutShaba":
                 $this->getShaba();
                 break;
@@ -166,7 +169,7 @@ class TelegramController extends Controller
             case "getoutPhone":
                 $this->getPhone();
                 break;
-                case "sendDirect":
+            case "sendDirect":
                 $this->sendDirect();
                 break;
             case "onChat":

@@ -112,13 +112,22 @@ trait InlineQuery
                 break;
             case "activate":
                 editMessageText([
-                    'chat_id'=>'-1001640577626',
-                    'text'=>$req['callback_query']['message']['text'],
-                    'message_id'=>$req['callback_query']['message']['message_id']
-               ]);
-                if($ex[1]=="ok"){
+                    'chat_id' => '-1001640577626',
+                    'text' => $req['callback_query']['message']['text'],
+                    'message_id' => $req['callback_query']['message']['message_id']
+                ]);
+                if ($ex[1] == "ok") {
                     $this->giveGirlCoin($ex[2]);
                 }
+                break;
+            case "report":
+                deleteMessage([
+                    'chat_id' => $req['callback_query']['from']['id'],
+                    'message_id' => $req['callback_query']['message']['message_id']
+                ]);
+                $this->reportUser();
+                break;
+
         }
     }
 }
