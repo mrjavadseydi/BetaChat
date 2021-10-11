@@ -99,6 +99,36 @@ trait ProfileTrait
             ]);
         }
     }
+    public  function Location($chat_id){
+        setState($chat_id,'setLocation');
+        sendMessage([
+            'chat_id'=>$chat_id,
+            'text'=>' لطفا لوکیشن خود را با استفاده از دکمه های زیر ارسال کنید',
+            'reply_markup'=>sendLocation()
+        ]);
+    }
+    public  function setLocation($req){
+        if($this->message_type=="location"){
+            nullState($this->chat_id);
+            sendMessage([
+                'chat_id'=>$this->chat_id,
+                'text'=>'لوکیشن شما تغییر کرد',
+                'reply_markup'=>menuButton()
+            ]);
+            $lat = $req['message']['location']['latitude'];
+            $lon = $req['message']['location']['longitude'];
+            Member::where('chat_id',$this->chat_id)->update([
+                'latitude'=>$lat,
+                'longitude'=>$lon
+            ]);
+        }else{
+            sendMessage([
+                'chat_id'=>$this->chat_id,
+                'text'=>'متوجه نشدم لطفا لوکیشن خود را با استفاده از دکمه های زیر ارسال کنید',
+                'reply_markup'=>sendLocation()
+            ]);
+        }
+    }
     public  function ProfilePhoto($chat_id){
         setState($chat_id,'ProfilePhoto');
         sendMessage([

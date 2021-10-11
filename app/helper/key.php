@@ -22,8 +22,8 @@ if (!function_exists('menuButton')) {
         $btn = Keyboard::button(
             [
                 ['🔱 به یه ناشناس وصلم کن'],
-                ['💎پروفایل من💎', "🔍جستوجو پیشرفته"],
-                ['❔راهنما❕','🔥کسب درامد','💰سکه💰'],
+                ['💎پروفایل من💎',"📍اطرافیان من", "🔍جستوجو پیشرفته"],
+                ['❔راهنما❕', '🔥کسب درامد', '💰سکه💰'],
                 ['⚜️قوانین⚜️', '🆘پشتیبانی🆘'],
             ]
         );
@@ -43,12 +43,35 @@ if (!function_exists('onChatButton')) {
         return Keyboard::make(['keyboard' => $btn, 'resize_keyboard' => true, 'one_time_keyboard' => false]);
     }
 }
+if (!function_exists('sendLocation')) {
+    function sendLocation()
+    {
+        $btn = Keyboard::button(
+            [
+                [
+                    [
+                        'text' => 'ارسال موقعیت مکانی',
+                        'request_location' => True
+                    ]
+                ],
+                [
+
+                    [
+                        'text' => 'بازگشت ↪️'
+                    ],
+                ]
+            ]
+
+        );
+        return Keyboard::make(['keyboard' => $btn, 'resize_keyboard' => true, 'one_time_keyboard' => false]);
+    }
+}
 if (!function_exists('makeMoneyMenu')) {
     function makeMoneyMenu()
     {
         $btn = Keyboard::button(
             [
-                ['💳 تسویه','💰موجودی💰'],
+                ['💳 تسویه', '💰موجودی💰'],
                 ["💎دریافت لینک اختصاصی💎"],
                 ["📜راهنمای کسب درامد"],
                 ['بازگشت ↪️']
@@ -70,7 +93,7 @@ if (!function_exists('joinKey')) {
                         'url' => "https://t.me/BetaChatChannel"
                     ]
                 ]
-,
+                ,
                 [
                     [
                         'text' => "✅جوین شدم ",
@@ -96,7 +119,8 @@ if (!function_exists('mediaKey')) {
             ],
         ]);
     }
-}if (!function_exists('adButton')) {
+}
+if (!function_exists('adButton')) {
     function adButton()
     {
         return keyboard::make([
@@ -110,7 +134,8 @@ if (!function_exists('mediaKey')) {
             ],
         ]);
     }
-}if (!function_exists('adButton2')) {
+}
+if (!function_exists('adButton2')) {
     function adButton2()
     {
         return keyboard::make([
@@ -183,6 +208,10 @@ if (!function_exists('changeProfile')) {
                     [
                         'text' => "♻️تغییر سن",
                         'callback_data' => "profile-age"
+                    ],
+                    [
+                        'text' => "♻️تغییر یا ثبت لوکیشن",
+                        'callback_data' => "profile-location"
                     ]
                 ]
             ],
@@ -324,8 +353,8 @@ if (!function_exists('profileConnect')) {
                 ],
                 [
                     [
-                        'text'=>"⚠️گزارش این کاربر",
-                        'callback_data'=>"report-$id"
+                        'text' => "⚠️گزارش این کاربر",
+                        'callback_data' => "report-$id"
                     ]
                 ]
             ],
@@ -353,7 +382,7 @@ if (!function_exists('ConnectRequest')) {
     }
 }
 if (!function_exists('girlCoin')) {
-    function girlCoin( $chat_id)
+    function girlCoin($chat_id)
     {
         return keyboard::make([
             'inline_keyboard' => [

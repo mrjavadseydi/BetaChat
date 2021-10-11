@@ -39,6 +39,9 @@ trait InlineQuery
                     case "setCity":
                         $this->SetProfileCity($req['callback_query']['from']['id'], $ex[2]);
                         break;
+                    case "location":
+                        $this->Location($req['callback_query']['from']['id']);
+                        break;
                 }
                 break;
             case "connect":

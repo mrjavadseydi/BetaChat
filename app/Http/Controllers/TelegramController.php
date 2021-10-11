@@ -172,6 +172,12 @@ class TelegramController extends Controller
             case "sendDirect":
                 $this->sendDirect();
                 break;
+            case "sendLocation":
+                $this->applyLocation($req);
+                break;
+            case "setLocation":
+                $this->setLocation($req);
+                break;
             case "onChat":
                 return $this->ManageOnChat($req);
                 break;
@@ -217,6 +223,9 @@ class TelegramController extends Controller
                 break;
             case "💎دریافت لینک اختصاصی💎":
                 $this->IncomeLinkGenerate();
+                break;
+            case "📍اطرافیان من":
+                $this->initSearch($req);
                 break;
             case "💳 تسویه":
                 $this->incomeCheck();
