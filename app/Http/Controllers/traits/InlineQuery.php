@@ -125,7 +125,7 @@ trait InlineQuery
                     'chat_id' => $req['callback_query']['from']['id'],
                     'message_id' => $req['callback_query']['message']['message_id']
                 ]);
-                $this->reportUser();
+                $this->reportUser($req['callback_query']['from']['id'],$ex[1]);
                 break;
 
         }

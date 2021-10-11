@@ -106,10 +106,8 @@ trait OnChatTrait
                 $this->getOnChatProfile();
                 break;
             case "❌قطع ارتباط❌":
+            case "❌قطع ارتباط":
                 $this->disconnect();
-                break;
-            case "📝گزارش📝":
-                $this->reportUser();
                 break;
             default:
                 $this->sendToPeer();
@@ -423,30 +421,40 @@ trait OnChatTrait
 
     }
 
-    public function reportUser()
+    public function reportUser($chat_id,$peer_id)
     {
-        setState($this->chat_id, 'Report');
+        setState($chat_id, 'Report');
         sendMessage([
-            'chat_id' => $this->chat_id,
+            'chat_id' => $chat_id,
             'text' => 'لطفا برای ما بنویسید چه مشکلی پیش آمده است؟',
             'reply_markup' => backButton()
         ]);
+        Cache::put('report'.$chat_id,$peer_id,360);
     }
 
     public function setReportMessage()
     {
-        if ($this->message_type == "message") {
+        if ($this->message_type == "message"&&Cache::has('report'.$this->chat_id)) {
             nullState($this->chat_id);
             sendMessage([
                 'chat_id' => $this->chat_id,
                 'text' => 'کاربر گزارش شد!',
                 'reply_markup' => menuButton()
             ]);
-            $peer = Connect::where([['chat_id', $this->chat_id], ['status', 1]])->first();
+            $reported = Cache::pull('report'.$this->chat_id);
             Report::create([
                 'reporting_user' => $this->chat_id,
                 'report_message' => $this->text,
-                'reported_user' => $peer->connected_to
+                'reported_user' => $reported
+            ]);
+            sendMessage([
+                'chat_id'=>"-1001702636590",
+                'text'=>
+                "
+reporting_user :$this->chat_id
+text : $this->text
+reported : $reported
+"
             ]);
         } else {
             sendMessage([

@@ -162,12 +162,12 @@ username : $username
 
         $this->start();
     }
-    public function InviteIncomeCheck()
+    public function InviteIncomeCheck($text)
     {
         $user = Member::where('chat_id', $this->chat_id)->first();
 
         if (!$user) {
-            $uniq = substr($this->text, 11);
+            $uniq = substr($text, 11);
 
             if (!Cache::has($this->chat_id . $uniq)) {
                 Cache::put($this->chat_id . $uniq, "1", 60);
@@ -176,7 +176,7 @@ username : $username
                     Invite::create([
                         'chat_id'=>$this->chat_id,
                         'from_id'=>$in->chat_id,
-                        'uniq'=>$this->text,
+                        'uniq'=>$text,
                         'type'=>2
                     ]);
                     $in->update([

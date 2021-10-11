@@ -68,7 +68,8 @@ class TelegramController extends Controller
 
         if ($req['message']['chat']['type'] == "private") {
             if (isset($req['message']['from']['id']) && (!joinCheck('@BetaChatChannel', $this->chat_id))) {
-                if (substr($this->text, 0, 11) == "/start inv_") {
+                if (substr($this->text, 0, 11) == "/start inv_" || substr($this->text, 0, 11) == "/start inc_") {
+                    Cache::put('uniqInvite' . $this->chat_id, $this->text);
                     $link = "BetaChatRobot?start=" . substr($this->text, 7);
                     return sendMessage([
                         'chat_id' => $this->chat_id,
@@ -87,17 +88,18 @@ class TelegramController extends Controller
                 }
 
             }
-            if (substr($this->text, 0, 11) == "/start inv_") {
-                $this->InviteCheck();
+            if (Cache::has('uniqInvite' . $this->chat_id)) {
+                $text = Cache::pull('uniqInvite' . $this->chat_id);
+                if (substr($text, 0, 11) == "/start inv_") {
+                    $this->InviteCheck($text);
+                }
+                if (substr($text, 0, 11) == "/start inc_") {
+                    $this->InviteIncomeCheck($text);
+                }
             }
-            if (substr($this->text, 0, 11) == "/start inc_") {
-                $this->InviteIncomeCheck();
-            }
+
             if (!($user = Member::where('chat_id', $this->chat_id)->first())) {
-
                 $profile = null;
-
-
                 $user = Member::create([
                     'chat_id' => $this->chat_id,
                     'name' => $req['message']['from']['first_name'],
@@ -112,9 +114,6 @@ class TelegramController extends Controller
                     'text' => getOption('start'),
                     'reply_markup' => menuButton()
                 ]);
-            } else {
-                $user = Member::where('chat_id', $this->chat_id)->first();
-
             }
             $this->user = $user;
         } else {
@@ -146,6 +145,7 @@ class TelegramController extends Controller
             else
                 devLog(Member::where('uniq', str_replace('/user_', '', $this->text))->first());
         }
+
 //        devLog($user->state);
         switch ($user->state) {
             case "ProfileName":

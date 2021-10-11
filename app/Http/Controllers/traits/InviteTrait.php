@@ -9,12 +9,12 @@ use Telegram\Bot\FileUpload\InputFile;
 
 trait InviteTrait
 {
-    public function InviteCheck()
+    public function InviteCheck($text)
     {
         $user = Member::where('chat_id', $this->chat_id)->first();
 
         if (!$user) {
-            $uniq = substr($this->text, 11);
+            $uniq = substr($text, 11);
             if (!Cache::has($this->chat_id . $uniq)) {
                 Cache::put($this->chat_id . $uniq, "1", 60);
                 $in = Member::where('uniq', $uniq)->first();
@@ -22,7 +22,7 @@ trait InviteTrait
                     Invite::create([
                         'chat_id'=>$this->chat_id,
                         'from_id'=>$in->chat_id,
-                        'uniq'=>$this->text,
+                        'uniq'=>$text,
                         'type'=>1
                     ]);
                     $in->update([
