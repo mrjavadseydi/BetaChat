@@ -35,14 +35,14 @@ trait SearchTrait
             $lat = $req['message']['location']['latitude'];
             $lon = $req['message']['location']['longitude'];
             sendMessage([
-                'chat_id'=>$this->chat_id,
-                'text'=>"💎 ۲ سکه هدیه ارسال لوکیشن به شما تعلق گرفت"
+                'chat_id' => $this->chat_id,
+                'text' => "💎 ۲ سکه هدیه ارسال لوکیشن به شما تعلق گرفت"
             ]);
             $this->user->update([
-                'wallet'=>$this->user->wallet +2
+                'wallet' => $this->user->wallet + 2
             ]);
-            return $this->prepareSearch($lat,$lon);
-        }else{
+            return $this->prepareSearch($lat, $lon);
+        } else {
             sendMessage([
                 'chat_id' => $this->chat_id,
                 'text' => getOption('sendLocation'),
@@ -59,10 +59,25 @@ trait SearchTrait
         ])->get('https://map.ir/reverse', [
             'lat' => $latitude,
             'lon' => $longitude
-        ]),true);
-        $province_id = Province::where('title', $response['province'])->first()->id;
-        $city_id = City::where('title', $response['county'])->first()->id;
+        ]), true);
+        if (isset($response['province'])) {
+            $province_id = Province::where('title', $response['province'])->first();
+            if ($province_id)
+                $province_id = $province_id->id;
+            else
+                $province_id = $this->user->province_id;
 
+            $city_id = City::where('title', $response['county'])->first();
+            if ($city_id)
+                $city_id = $city_id->id;
+            else
+                $city_id = $this->user->city_id;
+        } else {
+            $province_id = $this->user->province_id;
+
+            $city_id = $this->user->city_id;
+
+        }
         $this->user->update([
             'latitude' => $latitude,
             'longitude' => $longitude
@@ -73,9 +88,9 @@ trait SearchTrait
         $y2 = ceil($longitude);
 
         return [
-            'nearby' => Member::query()->whereBetween('latitude', [$x1, $x2])->whereBetween('longitude', [$y1, $y2])->where('chat_id','!=',$this->chat_id)->inRandomOrder()->limit(4)->get(),
-            'fellowCitizen' => Member::query()->where('city_id', $city_id)->where('chat_id','!=',$this->chat_id)->inRandomOrder()->limit(4)->get(),
-            'fellowProvincial' => Member::query()->where('province_id',  $province_id)->where('chat_id','!=',$this->chat_id)->inRandomOrder()->limit(4)->get()
+            'nearby' => Member::query()->whereBetween('latitude', [$x1, $x2])->whereBetween('longitude', [$y1, $y2])->where('chat_id', '!=', $this->chat_id)->inRandomOrder()->limit(4)->get(),
+            'fellowCitizen' => Member::query()->where('city_id', $city_id)->where('chat_id', '!=', $this->chat_id)->inRandomOrder()->limit(4)->get(),
+            'fellowProvincial' => Member::query()->where('province_id', $province_id)->where('chat_id', '!=', $this->chat_id)->inRandomOrder()->limit(4)->get()
         ];
     }
 
@@ -87,46 +102,46 @@ trait SearchTrait
             $name = $nearby->name;
             $age = $nearby->age ?? "🔢ثبت نشده ";
             $uniq = "/user_" . $nearby->uniq;
-            if($nearby->gender =="male"){
+            if ($nearby->gender == "male") {
                 $gender = "🙎🏻‍♂️آقا";
-            }elseif($nearby->gender =="female"){
-                $gender =  '🙍🏻‍♀️خانوم';
-            }else{
-                $gender ='🤷‍♂️ثبت نشده🤷🏻‍♀️';
+            } elseif ($nearby->gender == "female") {
+                $gender = '🙍🏻‍♀️خانوم';
+            } else {
+                $gender = '🤷‍♂️ثبت نشده🤷🏻‍♀️';
             }
-            $gender = $gender[$nearby->gender];
+
             $text .= "نام : $name \n جنسیت : $gender \n سن : $age \n آیدی ربات : $uniq \n ➰〰️➰〰️➰〰 \n️";
         }
-        $text .= "📍کاربران هم استانی شما \n";
+        $text .= "📍کاربران هم استانی شما \n\n";
         foreach ($members['fellowProvincial'] as $nearby) {
             $name = $nearby->name;
             $age = $nearby->age ?? "🔢ثبت نشده ";
             $uniq = "/user_" . $nearby->uniq;
-            if($nearby->gender =="male"){
+            if ($nearby->gender == "male") {
                 $gender = "🙎🏻‍♂️آقا";
-            }elseif($nearby->gender =="female"){
-                $gender =  '🙍🏻‍♀️خانوم';
-            }else{
-                $gender ='🤷‍♂️ثبت نشده🤷🏻‍♀️';
+            } elseif ($nearby->gender == "female") {
+                $gender = '🙍🏻‍♀️خانوم';
+            } else {
+                $gender = '🤷‍♂️ثبت نشده🤷🏻‍♀️';
             }
             $text .= "نام : $name \n جنسیت : $gender \n سن : $age \n آیدی ربات : $uniq \n ➰〰️➰〰️➰〰 \n️";
         }
-        $text .= "📍کاربران هم شهری شما \n";
+        $text .= "📍کاربران هم شهری شما \n\n";
         foreach ($members['fellowCitizen'] as $nearby) {
             $name = $nearby->name;
             $age = $nearby->age ?? "🔢ثبت نشده ";
             $uniq = "/user_" . $nearby->uniq;
-            if($nearby->gender =="male"){
+            if ($nearby->gender == "male") {
                 $gender = "🙎🏻‍♂️آقا";
-            }elseif($nearby->gender =="female"){
-                $gender =  '🙍🏻‍♀️خانوم';
-            }else{
-                $gender ='🤷‍♂️ثبت نشده🤷🏻‍♀️';
+            } elseif ($nearby->gender == "female") {
+                $gender = '🙍🏻‍♀️خانوم';
+            } else {
+                $gender = '🤷‍♂️ثبت نشده🤷🏻‍♀️';
             }
             $text .= "نام : $name \n جنسیت : $gender \n سن : $age \n آیدی ربات : $uniq \n ➰〰️➰〰️➰〰 \n️";
         }
         $text .= "برای پیدا کردن کاربران بیشتر میتوانید مجددا جستجو کنید !";
-        $text .="\n برای تغییر لوکیشن از منو پروفایل من اقدام کنید ";
+        $text .= "\n برای تغییر لوکیشن از منو پروفایل من اقدام کنید ";
 
         nullState($this->chat_id);
         sendMessage([

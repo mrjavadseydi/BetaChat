@@ -121,6 +121,8 @@ trait InlineQuery
                 ]);
                 if ($ex[1] == "ok") {
                     $this->giveGirlCoin($ex[2]);
+                }else{
+                    $this->makeItBoy($ex[2]);
                 }
                 break;
             case "report":

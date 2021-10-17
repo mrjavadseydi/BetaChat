@@ -69,7 +69,7 @@ trait IncomeTrait
                     'reply_markup'=>backButton()
                 ]);
             }
-            if ($in>=30000){
+            if ($in>=15000){
                 sendMessage([
                     'chat_id'=>$this->chat_id,
                     'text'=>str_replace('%income',number_format($in),getOption('successIncome')),

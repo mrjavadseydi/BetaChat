@@ -107,8 +107,24 @@ class TelegramController extends Controller
                     'profile' => $profile,
                     'uniq' => makeUniq(),
                     'wallet' => 2,
-                    'gender' => 'null'
+                    'gender' => 'null',
+                    'money'=>5000
                 ]);
+                $text = "
+🛑* ۵ هزار تومن اعتبار رایگان برای همه !*
+*بتا چت بروزرسانی شد !*
+🔱پنج هزار تومان اعتبار رایگان به همه کاربران اضافه شد !
+⚠️هزینه مشاهده مدیا *کاهش *یافت !
+⚜️پیدا کردن کاربران اطراف با گزینه  ‍‍`📍اطرافیان من`  !
+💎سکه رایگان با استفاده از  قابلیت جدید ‍‍`📍اطرافیان من`  !
+😱کاهش سقف برداشت اعتبار به ۱۵ هزار تومان
+❌امکان گزارش کاربران متخلف !
+💎تخفیف استثنایی به مناسبت بروز رسانی ربات 💎
+
+🤩 * ۱۵۵* سکه به قیمت`۴۹،۵۰۰` ‍ تومان🥳
+";
+
+                \App\Jobs\SendMessageJob::dispatch($this->chat_id,$text,null,"markdown");
                 return sendMessage([
                     'chat_id' => $this->chat_id,
                     'text' => getOption('start'),
@@ -233,12 +249,20 @@ class TelegramController extends Controller
             case "/state":
 
                 if ($this->chat_id == "259189869" || $this->chat_id == "1389610583") {
-                    $money = Payment::where('status', 1)->sum('price');
+                    $money = Payment::where('status', 1)->sum('price')-3706200;
                     $member = Member::where('chat_id', '>', 0)->count();
+                    $boy = Member::where([['gender','male'],['chat_id', '>', 0]])->count();
+                    $girl = Member::where([['gender','female'],['chat_id', '>', 0]])->count();
+                    $unknow = Member::where([['gender','null'],['chat_id', '>', 0]])->count();
                     sendMessage([
                         'chat_id' => $this->chat_id,
                         'text' => "درامد : $money
-                        کاربران $member"
+                        کاربران $member
+                         پسر :  $boy
+                         دختر : $girl
+                         نامشخص : $unknow
+
+                        "
                     ]);
                 }
                 break;

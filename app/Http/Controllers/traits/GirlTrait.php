@@ -36,4 +36,11 @@ trait GirlTrait
             'wallet'=>$user->wallet+25
         ]);
     }
+    public function makeItBoy($chat_id){
+        $user = Member::where('chat_id',$chat_id)->first();
+
+        $user->update([
+            'gender'=>"male"
+        ]);
+    }
 }
