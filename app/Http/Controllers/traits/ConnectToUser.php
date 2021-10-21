@@ -80,7 +80,7 @@ trait ConnectToUser
             sendMessage([
                 'chat_id'=>$chat_id,
                 'text'=>getOption('nocoin'),
-                'reply_markup'=>coinButton()
+                'reply_markup'=>noCoinButton()
             ]);
         }
 
@@ -96,7 +96,7 @@ trait ConnectToUser
             return sendMessage([
                 'chat_id'=>$chat_id,
                 'text'=>getOption('nocoin'),
-                'reply_markup'=>coinButton()
+                'reply_markup'=>noCoinButton()
             ]);
         }
         $peer = Member::where('chat_id',$peer_id)->first();

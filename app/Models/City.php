@@ -10,4 +10,5 @@ class City extends Model
     use HasFactory;
     protected $guarded = [];
 
+
 }

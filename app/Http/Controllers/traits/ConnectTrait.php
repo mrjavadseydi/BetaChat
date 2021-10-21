@@ -162,7 +162,7 @@ trait ConnectTrait
             sendMessage([
                 'chat_id' => $chat_id,
                 'text' => getOption('nocoin'),
-                'reply_markup' => coinButton()
+                'reply_markup' => noCoinButton()
             ]);
         }
         doConnects();
@@ -251,7 +251,7 @@ trait ConnectTrait
             sendMessage([
                 'chat_id' => $chat_id,
                 'text' => getOption('nocoin'),
-                'reply_markup' => coinButton()
+                'reply_markup' => noCoinButton()
             ]);
         }
         doConnects();

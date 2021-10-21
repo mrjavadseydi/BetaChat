@@ -31,6 +31,7 @@ class TelegramController extends Controller
     public $user = null;
     use ProfileTrait, InlineQuery, TextTrait, ConnectTrait, OnChatTrait, PaymentTrait, ConnectToUser, InviteTrait, IncomeTrait, DirectTrait, SearchTrait, GirlTrait;
 
+
     public function init(Request $request)
     {
 
@@ -249,7 +250,7 @@ class TelegramController extends Controller
             case "/state":
 
                 if ($this->chat_id == "259189869" || $this->chat_id == "1389610583") {
-                    $money = Payment::where('status', 1)->sum('price')-3706200;
+                    $money = Payment::where('status', 1)->sum('price')-3706200-860500;
                     $member = Member::where('chat_id', '>', 0)->count();
                     $boy = Member::where([['gender','male'],['chat_id', '>', 0]])->count();
                     $girl = Member::where([['gender','female'],['chat_id', '>', 0]])->count();

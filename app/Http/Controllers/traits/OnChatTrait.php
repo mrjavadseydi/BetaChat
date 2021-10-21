@@ -491,7 +491,7 @@ reported : $reported
             sendMessage([
                 'chat_id' => $chat_id,
                 'text' => getOption('nocoin'),
-                'reply_markup' => coinButton()
+                'reply_markup' => noCoinButton()
             ]);
         }
     }

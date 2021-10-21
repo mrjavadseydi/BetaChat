@@ -23,7 +23,7 @@ trait DirectTrait
             sendMessage([
                 'chat_id'=>$chat_id,
                 'text'=>getOption('nocoin')."\n برای ارسال دایرکت به دو سکه نیاز داری !",
-                'reply_markup'=>coinButton()
+                'reply_markup'=>noCoinButton()
             ]);
         }
     }
@@ -69,7 +69,7 @@ trait DirectTrait
             sendMessage([
                 'chat_id'=>$this->chat_id,
                 'text'=>getOption('nocoin')."\n برای ارسال دایرکت به دو سکه نیاز داری !",
-                'reply_markup'=>coinButton()
+                'reply_markup'=>noCoinButton()
             ]);
         }
     }
@@ -98,7 +98,7 @@ trait DirectTrait
             sendMessage([
                 'chat_id'=>$chat_id,
                 'text'=>getOption('nocoin')."\n برای مشاهده دایرکت به دو سکه نیاز داری !",
-                'reply_markup'=>coinButton()
+                'reply_markup'=>noCoinButton()
             ]);
 
         }
