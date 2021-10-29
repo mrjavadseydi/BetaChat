@@ -47,26 +47,40 @@ trait IncomeTrait
             'reply_markup'=>backButton()
         ]);
         setState($this->chat_id,'checkIncome');
-        if ($this->user->money>=30000){
+        if ($this->user->money>=15000){
             $invites = Invite::where([['from_id',$this->chat_id],['type',2]])->get();
             $in = 0;
             $chat_ids = "";
+            $profile_chat_ids = '';
             $hasNotJoin = false;
+            $notCompletedProfile = false;
             foreach ($invites as $invite) {
                 if(!joinCheck('@BetaChatChannel',$invite->chat_id)){
                     $chat_ids .= " $invite->chat_id ,";
                     $hasNotJoin = true;
                 }else{
-                    $in+=500;
+                    $inv = Member::where('chat_id',$invite->chat_id)->first();
+                    if($inv->gender!=null && $inv->wallet!=null && $inv->age !=null &&$inv->latitude!=null){
+                        $in+=500;
+
+                    }else{
+                        $in+=125;
+                        $notCompletedProfile = true;
+                        $profile_chat_ids .= " $invite->chat_id ,";
+                    }
                 }
             }
-            if($hasNotJoin){
+            if($hasNotJoin||$notCompletedProfile){
                 sendMessage([
                     'chat_id'=>$this->chat_id,
-                    'text'=>" کاربران با چت ایدی $chat_ids  در کانال ما جوین نیستند  (@BetaChatChannel)
+                    'text'=>"
+                    کاربران با چت ایدی $chat_ids  در کانال ما جوین نیستند  (@BetaChatChannel)
 این کاربر برای شما محاسبه نخواهد شد !
+〰️〰️〰️〰️
+کاربران با چت آیدی  $profile_chat_ids  پروفایل خود را تکمیل نکرده اند !
+برای هر کاربر تنها ۱۰۰ تومان محاسبه خواهد شد !
                          ",
-                    'reply_markup'=>backButton()
+                    'reply_markup'=>noAction()
                 ]);
             }
             if ($in>=15000){
@@ -184,7 +198,7 @@ username : $username
                     ]);
                     sendMessage([
                         'chat_id' => $in->chat_id,
-                        'text' => "💰 مبلغ ۵۰۰ تومان به حساب شما افزوده شد "
+                        'text' => " "
                     ]);
                 }
             }

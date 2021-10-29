@@ -33,6 +33,7 @@ Route::get('/cache',function (){
 //    Artisan::call('migrate');
 //    dd(Cache::get('prof'));
 //    Auth::loginUsingId(1);
+dd();
     $data =  Telegram::getChat([
         'chat_id'=>1389610583
     ]);
@@ -90,36 +91,41 @@ Route::get('payment',function (\Illuminate\Http\Request $request){
 })->name('pay');
 
 Route::get('/message',function (){
+    return "fuck you!";
    $members = \App\Models\Member::where([['chat_id','>',0]])->get();
-//   $fakes  = \App\Models\Member::where('chat_id','<',0)->get();
-//   $max = count($fakes)-1;
+   $fakes  = \App\Models\Member::where('chat_id','<',0)->get();
+   $max = count($fakes)-1;
 //    \App\Jobs\SendMessageJob::dispatch(1389610583,str_replace('%user','/user_',getOption('newDirect')),acceptDirect(5),null);
 
-//    foreach ($members as $member){
-//       $direct = Direct::create([
-//           'sender'=>$fakes[rand(0,$max)]->chat_id,
-//           'receiver'=>$member->chat_id,
-//           'text'=>"سلام ، بیکارم
-//🙄حوصله داری بیا چت کنیم"
-//       ]);
-//       \App\Jobs\SendMessageJob::dispatch($member->chat_id,str_replace('%user','/user_'.$member->uniq,getOption('newDirect')),acceptDirect($direct->id),null);
-//   }
+    foreach ($members as $member){
+        $tempFake =$fakes[rand(0,$max)];
+       $direct = Direct::create([
+           'sender'=>$tempFake->chat_id,
+           'receiver'=>$member->chat_id,
+           'text'=>"سلام ، بیکارم
+🙄حوصله داری بیا چت کنیم"
+       ]);
+       \App\Jobs\SendMessageJob::dispatch($member->chat_id,str_replace('%user','/user_'.$tempFake->uniq,getOption('newDirect')),acceptDirect($direct->id),null);
+   }
    //sendMessage([
 //    'chat_id'=>1389610583,
 //    'text'=>"Asdas",
 //    'reply_markup'=>offerCoinButton()
 //]);
-    $text = "
-😱🔥اخرین مهلت تخفیف استثنایی بتا چت ! عجله کن
-🤩 * ۱۵۵* سکه به قیمت`۴۹،۵۰۰` ‍ تومان🥳
-";
-   foreach ($members as $m){
-       \App\Jobs\SendMessageJob::dispatch($m->chat_id,$text,coinButton(),"markdown");
-   }
+//    $text = "
+//💠 %name عزیز
+//توی ۳ ساعت گذشته ‍‍۶۵۲ *پسر* و ۵۱۲ *دختر* داخل ربات گفتگو کردند ‼️😨
+//*توهم میتونی یکی از این افراد باشی ❕*
+//🔥 برای شروع میتونی بسته ویژه امشب رو خریداری کنی، * ۲۹۹ سکه به مبلغ ۵۱ هزار تومان*`(۸۸٪ تخفیف😱)`
+//*این بسته محدوده ⚠️*
+//";
+//   foreach ($members as $m){
+//       \App\Jobs\SendMessageJob::dispatch($m->chat_id,str_replace('%name',$m->name,$text),coinButton(),"markdown");
+//   }
 });
 
 Route::get('/mm',function (){
-
+dd();
     if(Cache::has('last')){
         $last =Cache::get('last');
     }else{

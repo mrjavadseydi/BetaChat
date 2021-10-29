@@ -331,7 +331,23 @@ function makeUniq()
 function hasId($chat_id,$text){
 
     $text = strval($text);
-    if(!empty($text)&&is_string($text)&&$text!=" "&&strlen($text)>5&&strpos($text,'@')!==false){
+    if(!empty($text)&&is_string($text)&&$text!=" "&&strlen($text)>0&&strpos($text,'@')!==false){
+        sendMessage([
+            'chat_id'=>$chat_id,
+            'text'=>getOption('dontSendId'),
+
+        ]);
+        exit();
+    }
+    if(!empty($text)&&is_string($text)&&$text!=" "&&strpos(strtoupper($text),strtoupper('t.me'))!==false){
+        sendMessage([
+            'chat_id'=>$chat_id,
+            'text'=>getOption('dontSendId'),
+
+        ]);
+        exit();
+    }
+    if(!empty($text)&&is_string($text)&&$text!=" "&&strpos(strtoupper($text),strtoupper('http'))!==false){
         sendMessage([
             'chat_id'=>$chat_id,
             'text'=>getOption('dontSendId'),
@@ -340,7 +356,7 @@ function hasId($chat_id,$text){
         exit();
     }
     $user = getUser($chat_id);
-    if(!empty($user->username)&&!is_null($user->username)&&!empty($text)&&is_string($text)&&$text!=" "&&strlen($text)>5&&strpos($text,$user->username)!==false){
+    if(!empty($user->username)&&!is_null($user->username)&&!empty($text)&&is_string($text)&&$text!=" "&&strlen($text)>5&&strpos(strtoupper($text),strtoupper($user->username))!==false){
         sendMessage([
             'chat_id'=>$chat_id,
             'text'=>getOption('dontSendId'),

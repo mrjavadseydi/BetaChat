@@ -74,6 +74,9 @@ trait InlineQuery
                 $this->sendMediaFromData($req['callback_query']['from']['id'], $ex[1]);
                 break;
             case "pay":
+                if($ex[1]=="49500"){
+                    die();
+                }
                 deleteMessage([
                     'chat_id' => $req['callback_query']['from']['id'],
                     'message_id' => $req['callback_query']['message']['message_id']
@@ -81,6 +84,9 @@ trait InlineQuery
                 $this->initPayment($req['callback_query']['from']['id'], $ex[1], $ex[2]);
                 break;
             case "paych":
+                if($ex[1]=="49500"){
+                    die();
+                }
                 $this->initPayment($req['callback_query']['from']['id'], $ex[1], $ex[2]);
                 break;
             case "RequestSendConnect":
